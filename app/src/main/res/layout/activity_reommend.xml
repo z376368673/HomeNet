@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.benkie.hjw.view.HeadView
+        android:id="@+id/headView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:minHeight="300dp"
+        android:minWidth="300dp"
+        android:src="@mipmap/iv_recomment" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/color_0a787f"
+        android:paddingBottom="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:lineSpacingExtra="5dp"
+            android:padding="10dp"
+            android:text="平台是做什么的，能达到什么目的，平台是做什么的，能达到什么目的平台是做什么的，能达到什么目的平台是做什么的，能达到什么目的平台是做什么的，能达到什么目的平台是做什么的，能达到什么目的平台是做什么的，能达到什么目的平台是做什么的，能达到什么目的平台是做什么的，能达到什么目的平台是做什么的，"
+            android:textColor="@color/white"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

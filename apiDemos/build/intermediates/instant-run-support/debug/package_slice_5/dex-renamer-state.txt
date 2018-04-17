@@ -1,0 +1,4 @@
+#Tue Feb 27 16:03:50 CST 2018
+base.0=E\:\\Work_shenzhen\\HomeNet\\apiDemos\\build\\intermediates\\transforms\\dexMerger\\debug\\5
+path.0=classes.dex
+renamed.0=classes.dex

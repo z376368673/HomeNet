@@ -1,0 +1,146 @@
+package com.benkie.hjw.ui;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.support.annotation.Nullable;
+import android.text.TextUtils;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.benkie.hjw.R;
+import com.benkie.hjw.bean.HomeProductBean;
+import com.benkie.hjw.db.DataHpler;
+import com.benkie.hjw.db.ProductSqliteOpenHelper;
+import com.benkie.hjw.net.Http;
+import com.benkie.hjw.utils.ToastUtil;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import butterknife.ButterKnife;
+import cn.jpush.android.api.JPushInterface;
+import retrofit2.Call;
+
+public class WelcomeActivity extends BaseActivity {
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_welcome);
+        ButterKnife.bind(this);
+        getUserInfo();
+    }
+
+    private void toNext() {
+        if (DataHpler.getFirstShow("firstIn")) {
+            Intent intent = new Intent(this, Welcome2Activity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
+    }
+
+    private void getUserInfo() {
+        /** 倒计时三秒 **/
+        CountDownTimer timer = new CountDownTimer(2000, 1000) {
+
+            @Override
+            public void onTick(long millisUntilFinished) {
+                // (millisUntilFinished / 1000) + "秒后可重发";
+            }
+
+            @Override
+            public void onFinish() {
+                toNext();
+            }
+        }.start();
+        upDataProduct();
+        upDataUserInfo();
+
+    }
+
+    /**
+     * 更新用户信息
+     */
+    private void upDataUserInfo(){
+        if (DataHpler.islogin()) {
+            Call call = Http.links.getUserInfo(DataHpler.getToken());
+            Http.http.call(mActivity, call, false, new Http.JsonCallback() {
+                @Override
+                public void onResult(String json, String error) {
+                    JSONObject jsObj = JSON.parseObject(json);
+                    int msg = jsObj.getIntValue("msg");
+                    if (msg == 1) {
+                        DataHpler.setUserInfo(json);
+                        setTagAndAlias();
+                    } else {
+                        // onFail("获取会员信息失败");
+                    }
+                }
+
+                @Override
+                public void onFail(String error) {
+                    ToastUtil.showInfo(mActivity, error);
+                }
+            });
+        }
+    }
+
+    /**
+     * JPush设置标签与别名
+     */
+    private void setTagAndAlias() {
+        /**
+         *这里设置了别名，在这里获取的用户登录的信息
+         *并且此时已经获取了用户的userId,然后就可以用用户的userId来设置别名了
+         **/
+        //false状态为未设置标签与别名成功
+        //if (UserUtils.getTagAlias(getHoldingActivity()) == false) {
+        Set<String> tags = new HashSet<String>();
+        //这里可以设置你要推送的人，一般是用户uid 不为空在设置进去 可同时添加多个
+        tags.add(DataHpler.getUserInfo().getMobile());//设置tag
+        //上下文、别名【Sting行】、标签【Set型】、回调
+        JPushInterface.setTags(this,0,tags);
+        JPushInterface.setAlias(this,0,DataHpler.getUserInfo().getMobile());
+        // }
+    }
+
+    /**
+     * 获取所有得完成项目，更新本地数据库
+     */
+    private void upDataProduct() {
+        Call call = Http.links.searchAllItemList(0,"","","2000-01-01","2100-01-01",0,String.valueOf(System.currentTimeMillis()));
+        Http.http.call(mActivity,call, false, new Http.JsonCallback() {
+            @Override
+            public void onResult(String json, String error) {
+                JSONObject jsObj = JSON.parseObject(json);
+                int msg = jsObj.getIntValue("msg");
+                if (msg == 1) {
+                    final List<HomeProductBean> beanList = JSON.parseArray(jsObj.getString("data"), HomeProductBean.class);
+                    if (beanList != null){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ProductSqliteOpenHelper.getNewHelpe(WelcomeActivity.this).setProducts(beanList);
+                            }
+                        }).start();
+                    }else  onFail("暂无数据");
+                }else {
+                    onFail("获取数据失败");
+                }
+            }
+
+            @Override
+            public void onFail(String error) {
+                ToastUtil.showInfo(mActivity, error);
+            }
+        });
+    }
+
+}

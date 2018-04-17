@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_dialog_bg"
+        android:gravity="center"
+        android:padding="20dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="项目名称"
+                android:textColor="@color/gold_ee"
+                android:textSize="15sp" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="项目展示费用："
+                android:textColor="@color/black_33"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_money"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0 元"
+                android:textColor="@color/gold_ee"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_showDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="/半年"
+                android:textColor="@color/black_33"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="项目展示期限："
+                android:textColor="@color/black_66"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" "
+                android:textColor="@color/black_33"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="本次交易不支持退款："
+                android:textColor="@color/black_33"
+                android:drawableLeft="@mipmap/ic_complain"
+                android:drawablePadding="5dp"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="续费费用："
+                android:textColor="@color/black_99"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_xufeu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20"
+                android:textColor="@color/black_99"
+                android:textSize="15sp" />
+            <TextView
+                android:id="@+id/tv_xufeuDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="元 /半年"
+                android:textColor="@color/black_99"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_bt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:background="@drawable/shape_button_bg_color_main"
+            android:paddingTop="13dp"
+            android:paddingBottom="13dp"
+            android:paddingRight="11dp"
+            android:paddingLeft="11dp"
+            android:text="微信支付"/>
+    </LinearLayout>
+</LinearLayout>

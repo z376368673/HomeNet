@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:padding="12dp"
+    android:orientation="horizontal"
+    >
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_33"
+            android:textStyle="bold"
+            android:textSize="15sp"
+            android:text="地址信息"/>
+        <TextView
+            android:id="@+id/tv_address_all"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black_99"
+            android:layout_marginTop="6dp"
+            android:textSize="13sp"
+            android:maxLines="1"
+            android:text="详细得地址信息详细得地址信息详细得地址信息"/>
+    </LinearLayout>
+    <CheckBox
+        android:id="@+id/iv_isChecked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginLeft="10dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:visibility="invisible"
+        android:button="@drawable/selector_radio"
+        android:focusableInTouchMode="false"/>
+</LinearLayout>

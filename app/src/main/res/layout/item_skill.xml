@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_img"
+        android:layout_width="match_parent"
+        android:layout_height="135dp"
+        android:adjustViewBounds="true"
+        android:maxHeight="300dp"
+        android:minHeight="135dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/iv_loading" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/black_33"
+            android:text="Name"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:textSize="15sp"
+             />
+
+        <TextView
+            android:id="@+id/tv_isCertificate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/tv_name"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="5dp"
+            android:maxLines="1"
+            android:visibility="invisible"
+            android:text="资格证"
+            android:textColor="@color/gold_ee"
+            android:textSize="13sp" />
+    </LinearLayout>
+</LinearLayout>
