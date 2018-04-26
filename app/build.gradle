@@ -16,13 +16,13 @@ android {
         debug {
             keyAlias 'myAppKey'
             keyPassword 'benkiekey'
-            storeFile file('E:/Work_shenzhen/HomeNet/appKeystore.jks')
+            storeFile file('appKeystore.jks')
             storePassword 'benkiekeystore'
         }
         release {
             keyAlias 'myAppKey'
             keyPassword 'benkiekey'
-            storeFile file('E:/Work_shenzhen/HomeNet/appKeystore.jks')
+            storeFile file('appKeystore.jks')
             storePassword 'benkiekeystore'
         }
     }
