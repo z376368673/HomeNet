@@ -154,7 +154,8 @@ public class MainActivity extends BaseActivity implements OnTabItemSelectedListe
                         Constants.address = aMapLocation1.getAddress();
                         Constants.Longitude = aMapLocation1.getLongitude();
                         Constants.Latitude = aMapLocation1.getLatitude();
-                        Constants.city = aMapLocation1.getCity();
+                        String city = aMapLocation1.getCity();
+                        Constants.city = city.contains("市")? city.substring(0,city.length()-1) : city;
                         Constants.province = aMapLocation1.getProvince();
                         locationUtils.stopLocation();
                     }

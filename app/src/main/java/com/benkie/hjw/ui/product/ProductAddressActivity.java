@@ -7,7 +7,9 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.HideReturnsTransformationMethod;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -137,6 +139,7 @@ public class ProductAddressActivity extends BaseActivity implements View.OnClick
                 .setOnPickListener(new OnPickListener() {
                     @Override
                     public void onPick(int position, City data) {
+                        if (data==null)return;
                         isModify = true;
                         city = data.getName();
                         tv_city.setText(city);

@@ -99,6 +99,7 @@ class LoginActivity : BaseActivity() {
                 if (msg.equals("1")){
                     DataHpler.setUserInfo(json)
                     var name = DataHpler.getUserInfo().name;
+                    if(name.length>4)
                     name = name.substring(name.length-4);
                     DataHpler.getUserInfo().name= name
                     setTagAndAlias()

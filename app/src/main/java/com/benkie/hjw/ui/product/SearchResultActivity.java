@@ -158,6 +158,7 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
                 .setOnPickListener(new OnPickListener() {
                     @Override
                     public void onPick(int position, City data) {
+                        if (data==null)return;
                         city = data.getName();
                         ct_1.setTitle(city);
                         if (city.equals("全国"))

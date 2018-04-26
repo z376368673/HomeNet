@@ -218,6 +218,7 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
                 .setOnPickListener(new OnPickListener() {
                     @Override
                     public void onPick(int position, City data) {
+                        if (data==null)return;
                         city = data.getName();
                         ct_1.setTitle(city);
                         if (city.equals("全国"))
