@@ -49,9 +49,11 @@ class AboutOurActivity : BaseActivity() {
                     val phone = obj.getString("phone")
                     val qq = obj.getString("qq")
                     val explain = obj.getString("explain")
-                    tv_content.setText(explain)
-                    tv_phone.setText("客服电话：" + phone)
-                    tv_qq.setText("客服电话：" + qq)
+                    if (!explain.isNullOrEmpty()){
+                        tv_content.setText(explain)
+                        //tv_phone.setText("客服电话：" + phone)
+                        //tv_qq.setText("QQ：" + qq)
+                    }
                 }
             }
 

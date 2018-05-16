@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 
 import com.alibaba.fastjson.JSON;
@@ -14,6 +16,7 @@ import com.benkie.hjw.adapter.ChannelAdapter;
 import com.benkie.hjw.bean.Category;
 import com.benkie.hjw.bean.Channel;
 import com.benkie.hjw.db.DataHpler;
+import com.benkie.hjw.dialog.BaseDialog;
 import com.benkie.hjw.listener.ItemDragHelperCallBack;
 import com.benkie.hjw.listener.OnChannelDragListener;
 import com.benkie.hjw.listener.OnChannelListener;
@@ -45,6 +48,7 @@ public class CategoryActivity extends BaseActivity implements OnChannelDragListe
     private ChannelAdapter mAdapter;
     private ItemTouchHelper mHelper;
     private OnChannelListener mOnChannelListener;
+    private List<Channel> likeList;
 
     public void setOnChannelListener(OnChannelListener onChannelListener) {
         mOnChannelListener = onChannelListener;
@@ -55,32 +59,119 @@ public class CategoryActivity extends BaseActivity implements OnChannelDragListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         headView = (HeadView) findViewById(R.id.headView);
-        headView.setBtBack(this);
+        //headView.setBtBack(this);
+        headView.setBtBackListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
         headView.setTitle("全部分类");
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        getAllData();
+        //getAllData();
+        getMyLikes();
+    }
+
+    private void saveLikes() {
+        if (mAdapter != null) {
+            List<Channel> channels = mAdapter.getMyChannel();
+//            String json = JSON.toJSONString(channels);
+//            DataHpler.setLikeType(json);
+            saveMyLikes(channels);
+        }
+    }
+
+    /**
+     * 获取我喜欢的分类
+     */
+    private void saveMyLikes(List<Channel> channels) {
+        if (channels != null) {
+            String str = "";
+            for (int i = 0; i < channels.size(); i++) {
+                str += channels.get(i).getId() + ",";
+            }
+            if (str.length() > 1) {
+                str = str.substring(0, str.length() - 1);
+            }
+            if (TextUtils.isEmpty(str))
+                str = "0";
+            Log.e("saveMyLikes", str);
+            Call call = Http.links.updateCategory(DataHpler.getUserInfo().getUserid(), str);
+            Http.http.call(mActivity, call, true, new Http.JsonCallback() {
+                @Override
+                public void onResult(String json, String error) {
+                    JSONObject jsObj = JSON.parseObject(json);
+                    int msg = jsObj.getIntValue("msg");
+                    if (msg == 1) {
+                        Intent intent = new Intent();
+                        intent.setAction("com.benkie.public");
+                        intent.putExtra("errCode", String.valueOf(2));
+                        sendBroadcast(intent);
+                        onFail("保存成功");
+                        finish();
+                    } else {
+                        onFail(jsObj.getString("errorInfo"));
+                    }
+                }
+
+                @Override
+                public void onFail(String error) {
+                    ToastUtil.showInfo(mActivity, error);
+                }
+            });
+        }
+    }
+
+    /**
+     * 获取我喜欢的分类
+     */
+    private void getMyLikes() {
+        Call call = Http.links.userItemCategory(DataHpler.getUserInfo().getUserid());
+        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
+            @Override
+            public void onResult(String json, String error) {
+                JSONObject jsObj = JSON.parseObject(json);
+                int msg = jsObj.getIntValue("msg");
+                if (msg == 1) {
+                    List<Category> likeCat = JSON.parseArray(jsObj.getString("data"), Category.class);
+                    List<Category> otherCat = JSON.parseArray(jsObj.getString("more"), Category.class);
+                    processLogic(dataToChnnel(likeCat), dataToChnnel(otherCat));
+                } else {
+                    onFail("获取数据失败");
+                }
+            }
+
+            @Override
+            public void onFail(String error) {
+                ToastUtil.showInfo(mActivity, error);
+            }
+        });
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        saveLikes();
-        Intent intent = new Intent();
-        intent.setAction("com.benkie.public");
-        intent.putExtra("errCode", String.valueOf(2));
-        sendBroadcast(intent);
+    public void onBackPressed() {
+
+        BaseDialog.dialogStyle2(mActivity, "你确认保存此修改吗？", "保存", "放弃", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int tag = (int) view.getTag();
+                if (tag == 1) {
+                    saveLikes();
+                } else {
+                    finish();
+                }
+            }
+        });
     }
 
-    private  void saveLikes(){
-        if (mAdapter != null) {
-            List<Channel> channels = mAdapter.getMyChannel();
-            String json = JSON.toJSONString(channels);
-            DataHpler.setLikeType(json);
-        }
-    }
-    private void getAllData() {
+    /**
+     * 获取全部分类
+     *
+     * @param likeList
+     */
+    private void getAllData(final List<Channel> likeList) {
         Call call = Http.links.allProductType();
-        Http.http.call(mActivity,call, true, new Http.JsonCallback() {
+        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
             @Override
             public void onResult(String json, String error) {
                 JSONObject jsObj = JSON.parseObject(json);
@@ -88,8 +179,7 @@ public class CategoryActivity extends BaseActivity implements OnChannelDragListe
                 if (msg == 1) {
                     List<Category> otherList = JSON.parseArray(jsObj.getString("data"), Category.class);
                     List<Channel> channelList = dataToChnnel(otherList);
-                    List<Channel> likeList = JSON.parseArray(DataHpler.getLikeType(), Channel.class);
-                    if (likeList == null) likeList = new ArrayList<>();
+                    //List<Channel> likeList = JSON.parseArray(DataHpler.getLikeType(), Channel.class);
                     removeData(channelList, likeList);
                     processLogic(likeList, channelList);
                 } else {
@@ -183,7 +273,6 @@ public class CategoryActivity extends BaseActivity implements OnChannelDragListe
 //                ToastUtil.showInfo(mActivity, channel);
 //                setResult(RESULT_OK, new Intent().putExtra(TEXT, channel));
 //                finish();
-
 
 
             }

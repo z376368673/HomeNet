@@ -147,7 +147,7 @@ public class ServiceActivity extends BaseActivity {
             upAdapter(tclist, i);
         }
     };
-
+    
     private void upAdapter(List<? extends PopBean> list, int p) {
         myAdadpter.selected(p);
         myAdadpter2.clear();
@@ -163,13 +163,19 @@ public class ServiceActivity extends BaseActivity {
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
             TypeBean.Tclass tclass = (TypeBean.Tclass) adapterView.getAdapter().getItem(i);
             if (tclass == null) return;
-            if (!hashMap.containsKey(tclass.getName())){
-                hashMap.put(tclass.getName(),tclass);
-                isModify = true;
-                addTclass(tclass);
-            }else {
-                ToastUtil.showInfo(mActivity,"您已经添加过了");
+            if (hashMap.size()>=3){
+                ToastUtil.showInfo(mActivity,"每张图片最多只能添加三个分类");
+                return;
             }
+            if (hashMap.containsKey(tclass.getName())){
+                ToastUtil.showInfo(mActivity,"您已经添加过了");
+                return;
+            }
+
+            hashMap.put(tclass.getName(),tclass);
+            isModify = true;
+            addTclass(tclass);
+
         }
     };
 

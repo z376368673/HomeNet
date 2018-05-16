@@ -163,13 +163,13 @@ public class Product_PayActivity extends BaseActivity {
                     typeName = jsObj.getString("typeName");
                     String publishMoney = jsObj.getString("publishMoney");
                     int year = jsObj.getIntValue("year");
-                    String unit = " /" + Tools.getYMD(year);
+                    String unit = " 元/" + Tools.getYMD(year);
                     String publishExplain = jsObj.getString("publishExplain");
                     tv_explain.setText(publishExplain);
                     tv_range.setText(typeName);
                     tv_unit.setText(unit);
                     tv_date.setText(data);
-                    tv_money.setText(publishMoney + " 元");
+                    tv_money.setText(publishMoney + "");
                 } else if (msg == 2) {
                     onFail("该类型不能发布");
                 } else {

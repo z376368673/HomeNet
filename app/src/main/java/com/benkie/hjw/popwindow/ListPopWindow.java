@@ -10,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -52,7 +53,7 @@ public class ListPopWindow extends BasePopWindow implements AdapterView.OnItemCl
         // 刷新状态
         this.update();
         // 实例化一个ColorDrawable颜色为半透明
-        ColorDrawable dw = new ColorDrawable(33333333);
+        ColorDrawable dw = new ColorDrawable(0xEE333333);
         // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
         this.setBackgroundDrawable(dw);
         //this.setBackgroundDrawable(null);
@@ -116,6 +117,13 @@ public class ListPopWindow extends BasePopWindow implements AdapterView.OnItemCl
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
+                LinearLayout linearLayout = new LinearLayout(parent.getContext());
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                linearLayout.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+                View view = new View(parent.getContext());
+                view.setBackgroundColor(context.getResources().getColor(R.color.white_f0));
+                view.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT,3));
+                linearLayout.addView(view);
                 TextView textView = new TextView(parent.getContext());
                 textView.setTextColor(context.getResources().getColor(R.color.black_66));
                 textView.setPadding(35, 20, 35, 20);
@@ -123,10 +131,12 @@ public class ListPopWindow extends BasePopWindow implements AdapterView.OnItemCl
                 textView.setGravity(gravity);
                 textView.setBackgroundResource(R.color.white);
                 textView.setLayoutParams(new AbsListView.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-                convertView = textView;
+                linearLayout.addView(textView);
+                convertView = linearLayout;
+                convertView.setTag(textView);
             }
             PopBean item = getItem(position);
-            TextView textView = (TextView) convertView;
+            TextView textView = (TextView) convertView.getTag();
             textView.setText(item.getName());
             return convertView;
         }

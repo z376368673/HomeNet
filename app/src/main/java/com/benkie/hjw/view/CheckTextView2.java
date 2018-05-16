@@ -21,11 +21,11 @@ import com.benkie.hjw.R;
 
 public class CheckTextView2 extends LinearLayout implements Checkable{
 
-    TextView name;
+    private TextView name;
     private CheckBox mCheckBox;
-    int checkedColor_n ;
-    int checkedColor_p;
-
+    private int checkedColor_n ;
+    private int checkedColor_p;
+    private boolean isSetColor = false;
 
     public CheckTextView2(Context context) {
         this(context, null);
@@ -64,10 +64,14 @@ public class CheckTextView2 extends LinearLayout implements Checkable{
     @Override
     public void setChecked(boolean checked) {
         mCheckBox.setChecked(checked);
-        if (mCheckBox.isChecked())
+        if (mCheckBox.isChecked()){
             name.setTextColor(checkedColor_p);
-        else
+        }else if(isSetColor){
+            name.setTextColor(checkedColor_p);
+        }else {
             name.setTextColor(checkedColor_n);
+        }
+
     }
 
     @Override
@@ -82,6 +86,9 @@ public class CheckTextView2 extends LinearLayout implements Checkable{
 
     public void setTitle(String title) {
         name.setText(title);
+    }
+    public void setTitleColor(boolean b) {
+        isSetColor = b;
     }
 
     @Override

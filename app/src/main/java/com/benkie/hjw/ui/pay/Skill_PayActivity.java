@@ -56,7 +56,7 @@ public class Skill_PayActivity extends BaseActivity {
     TextView tv_explain;//分享集赞支付
     int status = 0;//0.未发布，1.会员，2.集赞中
     int gatherNumber = 0;//已集赞数量
-    int skillPraise = 0;
+    int skillPraise = 0; //总需数量
     int type = 0; //续费或者开通的标识
     int isSkillPraise = 0;//是否可以集赞 1关闭
 
@@ -183,9 +183,9 @@ public class Skill_PayActivity extends BaseActivity {
                     //备注
                     tv_explain.setText(String.format(getResources().getString(R.string.skill_explain), skillPraise));
 
-                    tv_unit.setText(" / " + Tools.getYMD(year));
+                    tv_unit.setText(" 元 /" + Tools.getYMD(year));
                     tv_date.setText(date);
-                    tv_money.setText("￥" + publishMoney + "元");
+                    tv_money.setText("￥" + publishMoney);
 
                     if (status == 0) {
                         tv_share.setVisibility(View.VISIBLE);
@@ -193,6 +193,7 @@ public class Skill_PayActivity extends BaseActivity {
                     } else if (status == 1) {
                         tv_share.setVisibility(View.GONE);
                         wx_pay.setVisibility(View.VISIBLE);
+                        tv_explain.setVisibility(View.GONE);
                     } else {
                         tv_share.setText(String.format("已集赞 %d/%d 个,继续分享给好友", gatherNumber, skillPraise));
                         tv_share.setBackgroundResource(R.drawable.shape_button_bg_color_gary);
@@ -201,6 +202,7 @@ public class Skill_PayActivity extends BaseActivity {
                     }
                     if (isSkillPraise==1){
                         tv_share.setVisibility(View.GONE);
+                        tv_explain.setVisibility(View.GONE);
                     }
                 }
             }

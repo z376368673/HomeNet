@@ -513,12 +513,10 @@ public class ProductDetailsActivity extends BaseActivity implements ViewPager.On
             TextView tv2 = (TextView) view.findViewById(R.id.text2);
             Tools.loadImg(mActivity, iv, picture.getPicture());
             tv1.setText((position + 1) + " / " + list.size());
-            if (picture.getType() == 1) {
-                tv2.setText("效果图");
-            } else if (picture.getType() == 2) {
+            if (picture.getType() == 2) {
                 tv2.setText("实景图");
             } else {
-                tv2.setText("产品图");
+                tv2.setText("效果图");
             }
             iv.setOnClickListener(new View.OnClickListener() {
                 @Override

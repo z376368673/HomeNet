@@ -86,10 +86,11 @@ public class ProductPAdapter extends ArrayAdapter<HomeProductBean> {
                 tv_type.setText(getServiceString(services));
             } else {
                 iv_img.setImageResource(R.mipmap.iv_up_img_p);
+                tv_type.setText("");
             }
             tv_name.setText(item.getName());
 
-            if (item.getMdate() <= 15) {
+            if (item.getMdate() <= 1) {
                 tv_xufei.setVisibility(View.VISIBLE);
                 tv_date.setText("展示剩余天数：" + item.getMdate() + " 天");
             } else if (item.getMdate() <= 0) {

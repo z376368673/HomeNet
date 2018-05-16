@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -51,6 +52,8 @@ public class UpskillImgActivity extends BaseActivity implements AdapterView.OnIt
 
     @BindView(R.id.headView)
     HeadView headView;
+    @BindView(R.id.tv_tip)
+    TextView tv_tip;
     @BindView(R.id.gridview)
     GridView gridview;
     GridViewImgAdapter adapter;
@@ -87,8 +90,10 @@ public class UpskillImgActivity extends BaseActivity implements AdapterView.OnIt
             picture.setId(-1);
             adapter.add(picture);
             adapter.setEdit(true);
+            tv_tip.setVisibility(View.VISIBLE);
         } else {
             adapter.setEdit(false);
+            tv_tip.setVisibility(View.GONE);
         }
         gridview.setAdapter(adapter);
         gridview.setOnItemClickListener(this);
@@ -208,7 +213,6 @@ public class UpskillImgActivity extends BaseActivity implements AdapterView.OnIt
         if (requestCode == REQUEST_CODE_CHOOSE && resultCode == RESULT_OK) {
             isModify = true;
             imgs = Matisse.obtainResult(data);
-            imgPathList = new ArrayList<>();
             BitmapUtlis bitmapUtlis = new BitmapUtlis();
             for (int i = 0; i < imgs.size(); i++) {
 

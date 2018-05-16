@@ -53,6 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/black_33"
+                    android:minLines="10"
                     android:textSize="15sp" />
 
                 <TextView

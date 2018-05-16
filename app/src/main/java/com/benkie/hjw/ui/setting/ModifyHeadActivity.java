@@ -156,7 +156,7 @@ public class ModifyHeadActivity extends BaseActivity {
             imgPath = Tools.getRealFilePath(this, imgs.get(0));
             imgPath = new BitmapUtlis().compressImageByPath(imgPath);
             Log.e("onActivityResult","imgPath = " +imgPath);
-            ToastUtil.showInfo(this,imgPath);
+            //ToastUtil.showInfo(this,imgPath);
             Glide.with(mActivity)
                     .load(new File(imgPath))
                     .into(iv_head);

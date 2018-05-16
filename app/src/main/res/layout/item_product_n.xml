@@ -39,7 +39,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:lines="1"
-            android:text="外墙/卫生间/厨房/卫生间/厨房/卫生间/厨房/卫生间/厨房/卫生间"
+            android:text=""
             android:textColor="@color/black_99"
             android:textSize="13sp" />
 

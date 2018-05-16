@@ -435,6 +435,31 @@ public interface Links {
     @POST("/yetdwell/item/itemType.do")
     Call<ResponseBody> allProductType();
 
+    @POST("/yetdwell/item/searchItemType.do")
+    Call<ResponseBody> searchItemType(@Query("name") String name,
+                                      @Query("city") String city);
+    /**
+     * 我喜欢的项目分类
+     *
+     * @return
+     */
+    @POST("/yetdwell/item/userItemCategory.do")
+    Call<ResponseBody> userItemCategory(@Query("userInfoId") int userInfoId);
+
+    /**
+     * 更新我喜欢的项目分类
+     *
+     * @return
+     */
+    @POST("/yetdwell/item/updateCategory.do")
+    Call<ResponseBody> updateCategory(@Query("userInfoId") int userInfoId,
+                                      @Query("itemTypeStr") String itemTypeStr);
+
+    /**
+     * 添加我喜欢的项目分类
+     *
+     * @return
+     */
     @POST("/yetdwell/item/addItemType.do")
     Call<ResponseBody> addItemType();
 

@@ -222,12 +222,11 @@ public class SkillInfoActivity extends BaseActivity implements View.OnClickListe
         }
         int des_len =   2;
         boolean[] itemChecks = {
-                CheckUtil.isText(address,2),
-                CheckUtil.isText(describes,des_len)
+                CheckUtil.isText(address,2)
+                //,CheckUtil.isText(describes,des_len)
         };
         String[] itemTips = {
-                "您还没选择地址呢",
-                "我的实力不能为空，并且不少于"+des_len+"字"
+                "您还没选择地址呢"//,"我的实力不能为空，并且不少于"+des_len+"字"
         };
         int i = CheckUtil.checkAll(itemChecks);
         if (i < itemChecks.length) {

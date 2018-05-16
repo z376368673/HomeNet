@@ -75,8 +75,22 @@ public class ProjectNFragment extends BaseFragment implements PullToRefreshBase.
 
     public void addProject() {
         Intent intent = new Intent(getContext(), AddProjectActivity.class);
-        getActivity().startActivityFromFragment(this, intent, 1000);
+        getActivity().startActivityFromFragment(ProjectNFragment.this, intent, 1000);
+
+//        BaseDialog.showMag(mActivity, "添加项目说明",
+//                "完结项目适合施工方展示完工后的项目，通过发布完成后的项目，" +
+//                        "可以让更多需求方看到，即能扩展业务，又能欣赏更多同行的优秀作品，" +
+//                        "可在未发布里建立自己的暂存项目，记录我做过的项目作品，" +
+//                        "未发布跟已发布的项目都可以分享给好友。", "我知道了", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        Intent intent = new Intent(getContext(), AddProjectActivity.class);
+//                        getActivity().startActivityFromFragment(ProjectNFragment.this, intent, 1000);
+//                    }
+//                });
+
     }
+
 
     @Override
     public void onClick(View view) {
@@ -104,17 +118,29 @@ public class ProjectNFragment extends BaseFragment implements PullToRefreshBase.
                     ToastUtil.showInfo(getActivity(),"你还未添加项目图片");
                     return;
                 }
-                BaseDialog.dialogStyle1(getActivity(), "发布后项目信息将不可更改!", "发布", "取消", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent intent = new Intent(getActivity(), Product_PayActivity.class);
-                        Bundle bundle = new Bundle();
-                        bundle.putInt("TYPE",0);
-                        bundle.putSerializable("Bean", bean);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }
-                });
+                BaseDialog.showMag(mActivity, "发布提示",
+                        "* 发布后项目信息将不可更改，发布前，请核对清楚!" +
+                                "\n\n* 发布侵权,违法等信息需发布者自行承担责任", "我知道了", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                Intent intent = new Intent(getActivity(), Product_PayActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putInt("TYPE",0);
+                                bundle.putSerializable("Bean", bean);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        });
+
+//                BaseDialog.dialogStyle1(getActivity(), "* 发布后项目信息将不可更改，发布前，请核对清楚!" +
+//                        "\n\n* 发布侵权，违法等信息需发布者自行承担责任", "我知道了", "取消", new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//
+//
+//
+//                    }
+//                });
             }
 
             @Override

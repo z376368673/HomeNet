@@ -59,7 +59,7 @@
             android:drawableLeft="@mipmap/ic_dialog_add"
             android:drawablePadding="8dp"
             android:padding="20dp"
-            android:text="添加项目图片"
+            android:text="添加图片"
             android:textColor="@color/black_33"
             android:textSize="15dp" />
 

@@ -25,7 +25,7 @@
             android:textColor="@color/white"
             android:padding="8dp"
             android:clickable="true"
-            android:text="请输入搜索得信息"/>
+            android:text="请输入项目名称"/>
         <TextView
             android:id="@+id/iv_feiji"
             android:layout_width="wrap_content"

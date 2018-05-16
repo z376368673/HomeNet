@@ -152,10 +152,10 @@ public class ProjectPFragment extends BaseFragment implements PullToRefreshBase.
                         });
                         break;
                     case 2://推荐发布
-                        if (homeProductBean.getTag() == 1) {
-                            ToastUtil.showInfo(getActivity(), "已在推荐中展示");
-                            return;
-                        }
+//                        if (homeProductBean.getTag() == 1) {
+//                            ToastUtil.showInfo(getActivity(), "已在推荐中展示");
+//                            return;
+//                        }
                         Intent intent = new Intent(getActivity(), ProductRecommendPayActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("Bean", homeProductBean);

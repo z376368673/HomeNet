@@ -52,6 +52,7 @@ import com.zaaach.citypicker.model.LocatedCity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -105,7 +106,7 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
         ButterKnife.bind(this, view);
         initBroadcastReceiver();
         initView();
-        getCategoryList();
+        getMyLikes();
 
         return view;
     }
@@ -221,8 +222,13 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
                         if (data==null)return;
                         city = data.getName();
                         ct_1.setTitle(city);
-                        if (city.equals("全国"))
+                        if (city.equals("全国")){
                             city = "";
+                            ct_1.setTitleColor(false);
+                        }else {
+                            ct_1.setTitleColor(true);
+                        }
+                        ct_1.setChecked(false);
                         pageIndex=1;
                         getAllData();
                     }
@@ -256,7 +262,11 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
                     List<HomeProductBean> beanList = JSON.parseArray(jsObj.getString("data"), HomeProductBean.class);
                     if (beanList != null && beanList.size() > 0) {
                         setProductData(beanList);
-                    } else onFail("没有更多数据了");
+                    } else {
+                        beanList = new ArrayList<>();
+                        setProductData(beanList);
+                        onFail("没有更多数据了");
+                    }
                 } else {
                     onFail("获取数据失败");
                 }
@@ -303,6 +313,11 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
                             public void onPopWindowCheckedListener(PopBean popBean) {
                                 ct_3.setTitle(popBean.getName());
                                 serviceId = popBean.getId();
+                                if (serviceId==0){
+                                    ct_3.setTitleColor(false);
+                                }else {
+                                    ct_3.setTitleColor(true);
+                                }
                                 pageIndex=1;
                                 getAllData();
                             }
@@ -331,17 +346,16 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
     private void showChoiceDate() {
         ListPopWindow popWindow = new ListPopWindow(mActivity);
         List<PopBean> popBeanList = new ArrayList<>();
-        popBeanList.add(new Category(0, "全部"));
-        int startYear = 2000;
+        int startYear = 2010;
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
-        while (startYear < year) {
-            int star = startYear;
-            int end = startYear + 3;
-            if (end >= year) end = year;
-            popBeanList.add(new Category(6, star + "-" + end + " 年"));
-            startYear = end + 1;
+        while (startYear <=year) {
+            if (startYear >= year) startYear = year;
+            popBeanList.add(new Category(6, startYear + " 年"));
+            startYear++;
         }
+        Collections.reverse(popBeanList);
+        popBeanList.add(0,new Category(0, "全部"));
         popWindow.setData(popBeanList);
         popWindow.showPopupWindow(ct_2);
         popWindow.setPopWindowCheckedListener(new ListPopWindow.PopWindowCheckedListener() {
@@ -351,16 +365,13 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
                 ct_2.setTitle(data);
                 if (data.contains(" ")) {
                     data = data.substring(0, data.indexOf(" "));
-                    if (data.contains("-")) {
-                        starData = data.substring(0, data.indexOf("-")) + "-01-01";
-                        endData = data.substring(data.indexOf("-") + 1, data.length()) + "-01-01";
-                    } else {
-                        starData = "";
-                        endData = "";
-                    }
+                    starData = data + "-01-01";
+                    endData = data + "-12-31";
+                    ct_2.setTitleColor(true);
                 } else {
                     starData = "";
                     endData = "";
+                    ct_2.setTitleColor(false);
                 }
                 pageIndex=1;
                 getAllData();
@@ -428,15 +439,16 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
         getActivity().startActivity(intent);
     }
 
-    public void getCategoryList() {
+    public void setCategoryData(List<Category> categoryLists) {
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(new Category(0, "推荐"));
-        List<Channel> channels = JSON.parseArray(DataHpler.getLikeType(), Channel.class);
-        if (channels != null)
-            for (int i = 0; i < channels.size(); i++) {
-                Channel channel = channels.get(i);
-                categoryList.add(new Category(channel.getId(), channel.getTitle()));
-            }
+//        List<Channel> channels = JSON.parseArray(DataHpler.getLikeType(), Channel.class);
+//        if (channels != null)
+//            for (int i = 0; i < channels.size(); i++) {
+//                Channel channel = channels.get(i);
+//                categoryList.add(new Category(channel.getId(), channel.getTitle()));
+//            }
+        categoryList.addAll(categoryLists);
         categoryList.add(new Category(-1, "   "));
         categoryAdapter.clear();
         categoryAdapter.addAll(categoryList);
@@ -452,10 +464,35 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != Activity.RESULT_OK) return;
         if (requestCode == 1002 && data != null) {
-            getCategoryList();
+            getMyLikes();
         }
-
     }
+    /**
+     * 获取我喜欢的分类
+     */
+    private void getMyLikes(){
+        Call call = Http.links.userItemCategory(DataHpler.getUserInfo().getUserid());
+        Http.http.call(mActivity,call, true, new Http.JsonCallback() {
+            @Override
+            public void onResult(String json, String error) {
+                JSONObject jsObj = JSON.parseObject(json);
+                int msg = jsObj.getIntValue("msg");
+                if (msg == 1) {
+                    List<Category> otherList = JSON.parseArray(jsObj.getString("data"), Category.class);
+                    setCategoryData(otherList);
+                } else {
+                    onFail("获取数据失败");
+                }
+            }
+
+            @Override
+            public void onFail(String error) {
+                ToastUtil.showInfo(mActivity, error);
+            }
+        });
+    }
+
+
 
     /**
      * 初始化广播
@@ -473,10 +510,9 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
                 Log.e("hBroadcastReceiver", "errCode = " + code);
                 if (code != null && code.equals("1")) {
                     //当发布项目之后，可能添加了新的服务类型和项目类型，因此要重新获取更新信息
-                    getAllServiceList();
                     getAllData();
                 } else if (code != null && code.equals("2")) {
-                    getCategoryList();
+                    getMyLikes();
                 }
             }
         };

@@ -15,6 +15,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -151,6 +152,7 @@ public class BaseDialog {
      */
     public static void showMag(final Context context, String title, String info, String confirm, final View.OnClickListener onClickListener) {
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_show_msg, null, false);
+        ImageView iv_close = (ImageView) view.findViewById(R.id.iv_close);
         TextView dialog_title = (TextView) view.findViewById(R.id.dialog_title);
         TextView dialog_content = (TextView) view.findViewById(R.id.dialog_content);
         TextView tv_bt = (TextView) view.findViewById(R.id.tv_bt);
@@ -169,6 +171,12 @@ public class BaseDialog {
             public void onClick(View v) {
                 dialog.dismiss();
                 onClickListener.onClick(v);
+            }
+        });
+        iv_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
             }
         });
     }

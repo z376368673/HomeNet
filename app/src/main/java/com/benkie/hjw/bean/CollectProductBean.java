@@ -12,6 +12,7 @@ public class CollectProductBean implements Serializable {
     private String name;//"私人别墅",
     private String serveName;//二级服务标签,
     private String city;// 所在城市
+    private String address;// 详细地址
     private String picture;//http://www.3huanju.com:8080/yetdwell/res/upload/1521469277748.jpg
 
     public int getUid() {
@@ -52,6 +53,14 @@ public class CollectProductBean implements Serializable {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPicture() {

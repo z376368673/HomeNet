@@ -77,7 +77,8 @@ public class SearchActivity extends BaseActivity implements TextWatcher {
 
     private void initView() {
         tv_search.setOnClickListener(this);
-        ed_search.addTextChangedListener(this);
+        //取消智能提示
+        //ed_search.addTextChangedListener(this);
         iv_back.setOnClickListener(this);
         iv_delect.setOnClickListener(this);
     }
@@ -212,7 +213,15 @@ public class SearchActivity extends BaseActivity implements TextWatcher {
                 HomeProductBean productBean = (HomeProductBean) object;
                 //toDetails(productBean);
                 String key = productBean.getName();
-                search(key);
+                if (key.length() > 1) {
+                    //一个字不保存
+                    HistorySqliteOpenHelper.getNewHelpe(mActivity).setData(key);
+                }
+                Intent intent = new Intent(mActivity, SearchResultActivity.class);
+                intent.putExtra("KEY", key);
+                intent.putExtra("CITY", productBean.getCity());
+                intent.putExtra("DATE", productBean.getFinishDate());
+                startActivity(intent);
             }
         });
     }

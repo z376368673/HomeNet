@@ -24,7 +24,7 @@ import cn.jpush.android.api.JPushInterface;
 import retrofit2.Call;
 
 public class WelcomeActivity extends BaseActivity {
-
+    boolean isFenghao =false;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +48,7 @@ public class WelcomeActivity extends BaseActivity {
 
     private void getUserInfo() {
         /** 倒计时三秒 **/
-        CountDownTimer timer = new CountDownTimer(2000, 1000) {
+        CountDownTimer timer = new CountDownTimer(2500, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
@@ -57,6 +57,7 @@ public class WelcomeActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
+                if (!isFenghao)
                 toNext();
             }
         }.start();
@@ -79,7 +80,11 @@ public class WelcomeActivity extends BaseActivity {
                     if (msg == 1) {
                         DataHpler.setUserInfo(json);
                         setTagAndAlias();
-                    } else {
+                    } else if (msg == 2){
+                        isFenghao = true;
+                        DataHpler.exit();
+                        BaseActivity.toLogin(mActivity);
+                        finish();
                         // onFail("获取会员信息失败");
                     }
                 }

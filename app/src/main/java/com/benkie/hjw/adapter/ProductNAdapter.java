@@ -69,6 +69,7 @@ public class ProductNAdapter extends ArrayAdapter<HomeProductBean> {
                 tv_type.setText(getServiceString(services));
             } else {
                 iv_img.setImageResource(R.mipmap.iv_up_img_p);
+                tv_type.setText("");
             }
             tv_name.setText(item.getName());
             tv_address.setText(item.getCity().replace("市",""));

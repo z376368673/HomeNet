@@ -64,7 +64,7 @@ public abstract class CollectionProductAdapter extends ArrayAdapter<CollectProdu
             Tools.loadImg(context, iv_img, picture);
             tv_type.setText(item.getServeName());
             tv_name.setText(item.getName());
-            tv_address.setText(item.getCity());
+            tv_address.setText(item.getCity()+item.getAddress());
             tv_del.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

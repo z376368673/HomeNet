@@ -211,6 +211,7 @@
         <activity android:name=".ui.pay.Product_PayActivity" />
         <activity android:name=".ui.pay.Skill_PayActivity" />
         <activity android:name=".ui.pay.ProductRecommendPayActivity" />
+        <activity android:name=".ui.AgreementActivity" />
 
     </application>
     <uses-permission android:name="android.permission.CALL_PHONE" />

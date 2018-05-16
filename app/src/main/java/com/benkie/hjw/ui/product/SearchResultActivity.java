@@ -88,11 +88,12 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
         initView();
         getAllType();
         getAllData();
-
     }
 
     private void initView() {
         name = getIntent().getStringExtra("KEY");
+//        city = getIntent().getStringExtra("CITY");
+//        starData = getIntent().getStringExtra("DATE");
         ed_search.setText(name);
         ed_search.setOnClickListener(this);
         iv_back.setOnClickListener(this);
@@ -161,8 +162,13 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
                         if (data==null)return;
                         city = data.getName();
                         ct_1.setTitle(city);
-                        if (city.equals("全国"))
+                        if (city.equals("全国")){
+                            ct_1.setTitleColor(false);
                             city="";
+                        }else {
+                            ct_1.setTitleColor(true);
+                        }
+                        ct_1.setChecked(false);
                         getAllData();
                     }
 
@@ -209,9 +215,9 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
         intent.putExtras(bundle);
         startActivity(intent);
     }
-
+    //获取类别
     private void getAllType() {
-        Call call = Http.links.allProductType();
+        Call call = Http.links.searchItemType(name,city);
         Http.http.call(mActivity,call, true, new Http.JsonCallback() {
             @Override
             public void onResult(String json, String error) {
@@ -227,6 +233,11 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
                         @Override
                         public void onPopWindowCheckedListener(PopBean popBean) {
                             ct_2.setTitle(popBean.getName());
+                            if (popBean.getId()==0){
+                                ct_2.setTitleColor(false);
+                            }else {
+                                ct_2.setTitleColor(true);
+                            }
                             categoryId = popBean.getId();
                             getAllData();
                         }
@@ -282,6 +293,11 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
                             public void onPopWindowCheckedListener(PopBean popBean) {
                                 ct_3.setTitle(popBean.getName());
                                 serviceId = popBean.getId();
+                                if (serviceId==0){
+                                    ct_3.setTitleColor(false);
+                                }else {
+                                    ct_3.setTitleColor(true);
+                                }
                                 getAllData();
                             }
                         });

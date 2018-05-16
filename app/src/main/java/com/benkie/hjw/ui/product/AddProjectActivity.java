@@ -113,9 +113,9 @@ public class AddProjectActivity extends BaseActivity {
         } else if (tv_date == v) {
             DatePicker datePicker = new DatePicker(mActivity, DatePicker.YEAR_MONTH);
             Calendar cal = Calendar.getInstance();
-            int mYear = cal.get(Calendar.YEAR);
-            final int mMonth = cal.get(Calendar.MONTH);
-            datePicker.setRange(2000, mYear);//年份范围
+            final int mYear = cal.get(Calendar.YEAR);
+            final int mMonth = cal.get(Calendar.MONTH)+1;
+            datePicker.setRange(2010, mYear);//年份范围
             datePicker.setOnDatePickListener(new DatePicker.OnYearMonthPickListener() {
                 @Override
                 public void onDatePicked(String year, String month) {
@@ -123,8 +123,8 @@ public class AddProjectActivity extends BaseActivity {
                     try {
                         if (!TextUtils.isEmpty(month)) {
                             int month1 = Integer.parseInt(month);
-                            if (month1 > mMonth) {
-                                ToastUtil.showInfo(mActivity, "时间选择错误");
+                            if (year.equals(mYear+"")&&month1 > mMonth) {
+                                ToastUtil.showInfo(mActivity, "不能超过当前时间");
                             } else {
                                 tv_date.setText(year + "-" + month);
                             }

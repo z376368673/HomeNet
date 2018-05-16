@@ -2,10 +2,18 @@ package com.benkie.hjw.ui
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
+import android.text.style.ForegroundColorSpan
 import android.view.View
+import android.widget.Toast
 import com.alibaba.fastjson.JSONObject
 import com.benkie.hjw.R
 import com.benkie.hjw.net.Http
@@ -33,7 +41,7 @@ class RegisterActivity : BaseActivity() {
             headView.setTitle("忘记密码")
             tv_submit.setText("确认修改");
         }
-
+        xieyi()
     }
 
     fun sumbit(v: View) {
@@ -113,7 +121,7 @@ class RegisterActivity : BaseActivity() {
                     if (type == 1)
                         ToastUtil.showInfo(mActivity, "该手机号已被注册")
                     else
-                        ToastUtil.showInfo(mActivity, "系统错误")
+                        ToastUtil.showInfo(mActivity, "该手机号不存在")
                 }
             }
 
@@ -127,6 +135,11 @@ class RegisterActivity : BaseActivity() {
      * 注册账号
      */
     fun register(phone: String, pwd: String) {
+        if(type==1&&!radio.isChecked){
+            ToastUtil.showInfo(mActivity, "请仔细阅读《还居协议》，并同意勾选")
+            return
+        }
+
         val call: Call<ResponseBody>
         if (type == 1) {
             call = Http.links.register(phone, pwd)
@@ -148,7 +161,7 @@ class RegisterActivity : BaseActivity() {
                     setResult(Activity.RESULT_OK, intent)
                     finish()
                 } else {
-                    ToastUtil.showInfo(mActivity, "系统错误")
+                    ToastUtil.showInfo(mActivity, "系统繁忙，请稍后再试...")
                 }
 
             }
@@ -158,4 +171,24 @@ class RegisterActivity : BaseActivity() {
             }
         })
     }
+
+    fun xieyi(){
+        if (type==1){
+            layout_xieyi.visibility=View.VISIBLE
+            val str =  tv_xieyi2.getText();
+            val spannableString1 = SpannableString(str)
+            spannableString1.setSpan(object : ClickableSpan() {
+                override fun onClick(p0: View?) {
+                    toStartAct(AgreementActivity::class.java);
+                }
+
+            }, str.length -8, str.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+            //spannableString1.setSpan(ForegroundColorSpan(Color.BLUE), str.length - 8, str.length, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE)
+            tv_xieyi2.setText(spannableString1)
+            tv_xieyi2.setMovementMethod(LinkMovementMethod.getInstance())
+        }else{
+            layout_xieyi.visibility=View.INVISIBLE
+        }
+    }
+
 }

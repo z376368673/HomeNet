@@ -68,9 +68,10 @@ public class HomeProductAdapter extends ArrayAdapter<HomeProductBean> {
                 tv_type.setText(getServiceString(services));
             } else {
                 iv_img.setImageResource(R.mipmap.iv_no_img);
+                tv_type.setText("");
             }
             tv_name.setText(item.getName());
-            tv_address.setText(item.getCity());
+            tv_address.setText(item.getCity()+item.getAddress());
             tv_read.setText(item.getReadCount()+"");
             tv_zan.setText(item.getItemPoint()+"");
         }

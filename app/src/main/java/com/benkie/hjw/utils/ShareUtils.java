@@ -50,7 +50,7 @@ public class ShareUtils {
      */
     public static void shareSkills(Activity activity,Handler handler,int id) {
         String title = "我的技术服务";
-        String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/technicist.do?userInfoId=%s&lat=%s&lng=%s", id, Constants.Latitude,Constants.Longitude);
+        String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/otherTechnicist.do?userInfoId=%s&lat=%s&lng=%s", id, Constants.Latitude,Constants.Longitude);
         showSharePanels(activity,  handler,title, "技术服务", link);
     }
 
@@ -64,11 +64,11 @@ public class ShareUtils {
     }
 
     /**
-     * 项目分享
+     * 项目集赞分享
      */
     public static void shareProducts(Activity activity,Handler handler,int id) {
         String title = "我的项目";
-        String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/endDetails.do?itemid=%s",  id);
+        String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/otherEndDetails.do?itemid=%s",  id);
         showSharePanels(activity,  handler,title, "完成项目", link);
     }
 
@@ -196,9 +196,11 @@ public class ShareUtils {
                 if (v.getId()==R.id.wechatCircle){
                     shareAction.setPlatform(SHARE_MEDIA.WEIXIN_CIRCLE);
                     shareAction.share();
+                    handler.sendEmptyMessage(200);
                 }else if (v.getId()==R.id.wechat){
                     shareAction.setPlatform(SHARE_MEDIA.WEIXIN);
                     shareAction.share();
+                    handler.sendEmptyMessage(200);
                 }else if (v.getId()==R.id.qq){
                     shareAction.setPlatform(SHARE_MEDIA.QQ);
                     shareAction.share();
@@ -230,8 +232,8 @@ public class ShareUtils {
         }
         @Override
         public void onError(SHARE_MEDIA share_media, Throwable throwable) {
-            Log.e(">>",throwable.getMessage());
-            Toast.makeText(mContext,"分享失败:"+throwable.getMessage(),Toast.LENGTH_LONG).show();
+            Log.e(">>",throwable.getMessage()+"-->"+share_media.toString());
+            Toast.makeText(mContext,"分享失败",Toast.LENGTH_LONG).show();
             handler.sendEmptyMessage(404);
         }
         @Override

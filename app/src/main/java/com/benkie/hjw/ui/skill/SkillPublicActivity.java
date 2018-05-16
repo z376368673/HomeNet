@@ -3,6 +3,7 @@ package com.benkie.hjw.ui.skill;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.benkie.hjw.bean.SkillBean;
 import com.benkie.hjw.bean.SkillServiceBean;
 import com.benkie.hjw.db.DataHpler;
 import com.benkie.hjw.net.Http;
+import com.benkie.hjw.ui.AgreementActivity;
 import com.benkie.hjw.ui.BaseActivity;
 import com.benkie.hjw.ui.pay.Skill_PayActivity;
 import com.benkie.hjw.utils.ToastUtil;
@@ -64,7 +66,7 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
 
     SkillServiceBean sBean;
     boolean isEdit = false;
-    int status = 0;//是否可以发布技能  1 可以 0 不可以
+    int status = 0;//是否可以发布技能  0 非会员 1 会员, 2 集赞中 ，3 过期会员
     int isData = 0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -122,7 +124,13 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
             public void fabuListener(SkillBean item) {
                 if (status == 1) {
                     fabuSkill(item);
-                    BeseBroadcastReceiver.sendToSkill(SkillPublicActivity.this,1);
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (!isFinishing())
+                            BeseBroadcastReceiver.sendToSkill(SkillPublicActivity.this,1);
+                        }
+                    },1000);
                 }else {
                     //跳转到集赞支付界面，开通会员
                     Intent intent = new Intent(mActivity, Skill_PayActivity.class);
@@ -137,6 +145,7 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
             }
         });
         getData(true);
+
     }
     /**
      * 修改证书
@@ -222,16 +231,15 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
                 int days = jsObj.getIntValue("days");
                 int skillPraise = jsObj.getIntValue("skillPraise");
                 status = jsObj.getIntValue("status");
-                tv_date.setText(String.format(getResources().getString(R.string.member_rest), days));
+                tv_date.setText(String.format(getResources().getString(R.string.member_rest), days>=0?days:0));
                 tv_zan_count.setText(String.format(getResources().getString(R.string.zan_count), count));
                 tv_zan_lack.setText(String.format(getResources().getString(R.string.zan_lack), skillPraise - count));
-                if (days > 15) {
+                if (days > 1) {
                     tv_xufei.setVisibility(View.INVISIBLE);
                 } else {
                     tv_xufei.setVisibility(View.VISIBLE);
                 }
                 if (isData == 1) {
-                    setStatus(status);
                     tv_skill_info.setHint(" ");
                     isEdit = true;
                     JSONArray infos = jsObj.getJSONArray("info");
@@ -243,6 +251,7 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
                         skillAdapter.addAll(skillBeans);
                         skillAdapter.notifyDataSetChanged();
                     }
+                    setStatus(status);
                 } else {
                     tv_skill_info.setHint("(未填写)");
                     isEdit = false;
@@ -271,11 +280,13 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
             //本地保存是否是会员
             ll_open.setVisibility(View.VISIBLE);
             ll_zan.setVisibility(View.GONE);
-        } else {
+        } else if(status == 2){
             ll_open.setVisibility(View.GONE);
             ll_zan.setVisibility(View.VISIBLE);
+        }else {
+            ll_open.setVisibility(View.VISIBLE);
+            ll_zan.setVisibility(View.GONE);
         }
-
     }
 
     /**

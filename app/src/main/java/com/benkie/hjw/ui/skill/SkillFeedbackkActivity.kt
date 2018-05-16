@@ -33,6 +33,7 @@ class SkillFeedbackkActivity : BaseActivity() {
                 val msg = jsObj.getIntValue("msg")
                 if (msg == 1) {
                     ToastUtil.showInfo(mActivity, "提交成功，等待审核")
+                    finish()
                 } else {
                     ToastUtil.showInfo(mActivity, "提交失败,请联系客服")
                 }

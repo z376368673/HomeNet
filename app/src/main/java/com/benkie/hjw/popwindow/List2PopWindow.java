@@ -54,7 +54,7 @@ public class List2PopWindow extends BasePopWindow {
         // 设置SelectPicPopupWindow弹出窗体的宽
         this.setWidth(w);
         // 设置SelectPicPopupWindow弹出窗体的高
-        this.setHeight(LayoutParams.WRAP_CONTENT);
+        this.setHeight(LayoutParams.MATCH_PARENT);
         /** 北京变暗效果 **/
 //        mWindow = context.getWindow();
 //        WindowManager.LayoutParams lp = mWindow.getAttributes();
@@ -67,7 +67,7 @@ public class List2PopWindow extends BasePopWindow {
         // 刷新状态
         this.update();
         // 实例化一个ColorDrawable颜色为半透明
-        ColorDrawable dw = new ColorDrawable(00000000);
+        ColorDrawable dw = new ColorDrawable(0xffffff);
         // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
         this.setBackgroundDrawable(dw);
         //this.setBackgroundDrawable(null);
@@ -183,9 +183,11 @@ public class List2PopWindow extends BasePopWindow {
             textView2.setText(item.getName2());
             textView2.setVisibility(View.GONE);
             textView1.setBackgroundResource(R.color.white);
+            textView1.setTextSize(12);
+            textView2.setTextSize(12);
             if (selectePos == position) {
                 textView1.setBackgroundResource(R.color.white_f4);
-                textView1.setTextColor(ContextCompat.getColor(context, R.color.colorMain));
+                textView1.setTextColor(ContextCompat.getColor(context, R.color.black_66));
                 LogUtils.e("position1--->",position);
             } else {
                 textView1.setBackgroundResource(R.color.white);
@@ -218,13 +220,15 @@ public class List2PopWindow extends BasePopWindow {
             textView1.setText(item.getName());
             textView2.setText(item.getNum()+"");
             textView2.setVisibility(View.INVISIBLE);
+            textView1.setTextSize(16);
+            textView2.setTextSize(16);
             if (selectePos == position) {
                 LogUtils.e("position2--->",position);
                 textView1.setTextColor(ContextCompat.getColor(context, R.color.colorMain));
                 textView2.setTextColor(ContextCompat.getColor(context, R.color.colorMain));
             } else {
-                textView1.setTextColor(ContextCompat.getColor(context, R.color.black_66));
-                textView2.setTextColor(ContextCompat.getColor(context, R.color.black_66));
+                textView1.setTextColor(ContextCompat.getColor(context, R.color.colorMain));
+                textView2.setTextColor(ContextCompat.getColor(context, R.color.colorMain));
             }
             return convertView;
         }

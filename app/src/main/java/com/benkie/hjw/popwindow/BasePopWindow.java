@@ -25,26 +25,19 @@ public class BasePopWindow extends PopupWindow {
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.M) {
             int[] location = new int[2];
             parent.getLocationOnScreen(location);
-            y = (int) (location[1] + parent.getMeasuredHeight())+y ;
+            y = (int) (location[1] + parent.getMeasuredHeight())+y +getStatusBarHeight();
         }
         super.showAtLocation(parent, gravity, x, y);
     }
 
     @Override
     public void showAsDropDown(View anchor,int x,int y) {
-        int y1 = 0;
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.N) {
 
             Rect visibleFrame = new Rect();
             anchor.getGlobalVisibleRect(visibleFrame);
             int height = anchor.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
             setHeight(height);
-
-            int[] location = new int[2];
-            anchor.getLocationOnScreen(location);
-            y1 = (int) (location[1] + anchor.getMeasuredHeight())+getStatusBarHeight()+5;
-            //this.showAtLocation(anchor,Gravity.NO_GRAVITY,0,y1);
-            this.showAsDropDown(anchor,location[0],y,Gravity.CENTER);
         }
         super.showAsDropDown(anchor,x,y);
     }

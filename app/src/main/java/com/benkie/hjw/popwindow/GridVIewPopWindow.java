@@ -44,7 +44,7 @@ public class GridVIewPopWindow extends BasePopWindow implements AdapterView.OnIt
         // 设置SelectPicPopupWindow弹出窗体的宽
         this.setWidth(w);
         // 设置SelectPicPopupWindow弹出窗体的高
-        this.setHeight(LayoutParams.WRAP_CONTENT);
+        this.setHeight(LayoutParams.MATCH_PARENT);
 
         // 设置SelectPicPopupWindow弹出窗体可点击
         this.setFocusable(true);
@@ -52,7 +52,7 @@ public class GridVIewPopWindow extends BasePopWindow implements AdapterView.OnIt
         // 刷新状态
         this.update();
         // 实例化一个ColorDrawable颜色为半透明
-        ColorDrawable dw = new ColorDrawable(33333333);
+        ColorDrawable dw = new ColorDrawable(0xEE333333);
         // 点back键和其他地方使其消失,设置了这个才能触发OnDismisslistener ，设置其他控件变化等操作
         this.setBackgroundDrawable(dw);
         //this.setBackgroundDrawable(null);

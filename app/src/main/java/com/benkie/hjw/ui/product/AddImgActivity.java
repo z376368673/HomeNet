@@ -27,6 +27,7 @@ import com.benkie.hjw.bean.TypeBean;
 import com.benkie.hjw.dialog.BaseDialog;
 import com.benkie.hjw.net.Http;
 import com.benkie.hjw.ui.BaseActivity;
+import com.benkie.hjw.utils.BitmapUtlis;
 import com.benkie.hjw.utils.ToastUtil;
 import com.benkie.hjw.utils.Tools;
 import com.benkie.hjw.view.HeadView;
@@ -36,6 +37,7 @@ import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -65,8 +67,6 @@ public class AddImgActivity extends BaseActivity {
     @BindView(R.id.radio)
     RadioGroup radio;
 
-    @BindView(R.id.radio1)
-    RadioButton radio1;
     @BindView(R.id.radio2)
     RadioButton radio2;
     @BindView(R.id.radio3)
@@ -83,7 +83,7 @@ public class AddImgActivity extends BaseActivity {
 
     int pid = 0;
     Picture picture;
-    int ImgType = 0; //照片类型（0.产品图，1.效果图，2.实景图
+    int ImgType = 2; //照片类型（1.效果图，2.实景图
     String fuwuId = ""; //服务id 例如：1,2,3
     String describe = ""; //描述
     String imgPath = "";
@@ -113,10 +113,7 @@ public class AddImgActivity extends BaseActivity {
             pid = picture.getId();
             tv_del.setVisibility(View.VISIBLE);
             Tools.loadImg(mActivity, iv_img, picture.getPicture());
-            if (picture.getType() == 0) {
-                radio1.setChecked(true);
-                ImgType = 0;
-            } else if (picture.getType() == 1) {
+           if (picture.getType() == 1) {
                 radio2.setChecked(true);
                 ImgType = 1;
             } else {
@@ -127,6 +124,9 @@ public class AddImgActivity extends BaseActivity {
             fuwuId = getServiceId(SList);
             tv_fuwu.setText(getServiceString(SList));
             tv_miaoshu.setText(picture.getDescribes());
+            tv_chose.setVisibility(View.VISIBLE);
+        }else {
+            tv_chose.setVisibility(View.INVISIBLE);
         }
         tv_chose.setOnClickListener(this);
         rl_add.setOnClickListener(this);
@@ -138,9 +138,7 @@ public class AddImgActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 isModify = true;
-                if (i == R.id.radio1) {
-                    ImgType = 0;
-                } else if (i == R.id.radio2) {
+                if (i == R.id.radio2) {
                     ImgType = 1;
                 } else {
                     ImgType = 2;
@@ -269,6 +267,7 @@ public class AddImgActivity extends BaseActivity {
             isModify = true;
             List<Uri> imgs = Matisse.obtainResult(data);
             imgPath = Tools.getRealFilePath(this, imgs.get(0));
+            imgPath = new BitmapUtlis().compressImageByPath(imgPath);
             Glide.with(mActivity)
                     .load(new File(imgPath))
                     .into(iv_img);
@@ -338,7 +337,7 @@ public class AddImgActivity extends BaseActivity {
      */
     private void addItemImg() {
         if (imgPath.equals("")) {
-            ToastUtil.showInfo(mActivity, "您还没填写项目描述！");
+            ToastUtil.showInfo(mActivity, "您还没添加图片！");
             return;
         } else if (fuwuId.equals("")) {
             ToastUtil.showInfo(mActivity, "您还没选择服务类容！");
@@ -365,7 +364,8 @@ public class AddImgActivity extends BaseActivity {
                     setResult(RESULT_OK);
                     finish();
                 } else {
-                    onFail("保存失败");
+                    error = jsObj.getString("errorInfo");
+                    onFail("保存失败"+error);
                 }
             }
 

@@ -49,18 +49,18 @@
             android:layout_marginTop="8dp"
             android:orientation="horizontal">
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:layout_weight="1">
             <TextView
                 android:id="@+id/tv_address"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:drawableLeft="@mipmap/ic_dw"
                 android:drawablePadding="6dp"
                 android:ellipsize="end"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:lines="1"
                 android:text="深圳"
                 android:textColor="@color/black_99"
@@ -70,19 +70,24 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_weight="1">
+                >
             <TextView
                 android:id="@+id/tv_del"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="5dp"
                 android:drawablePadding="6dp"
                 android:ellipsize="end"
                 android:gravity="right"
                 android:lines="1"
                 android:text="取消收藏"
-                android:textColor="@color/black_99"
-                android:textSize="14sp" />
+                android:background="@drawable/shape_button_bg_color_main_circle"
+                android:paddingLeft="7dp"
+                android:paddingRight="7dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
+                android:textColor="@color/white"
+                android:textSize="13sp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

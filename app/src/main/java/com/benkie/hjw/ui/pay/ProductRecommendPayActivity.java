@@ -153,12 +153,12 @@ public class ProductRecommendPayActivity extends BaseActivity {
                     itemPraise = jsObj.getIntValue("itemPraise");//需要总数量
                     isSkillPraise   = jsObj.getIntValue("isSkillPraise");//是否可以集赞
                     int tag = jsObj.getIntValue("tag");//0.未推荐，1.已推荐，2.集赞中
-                    String date = jsObj.getString("date");
+ //                   String date = jsObj.getString("date");
                     double money = jsObj.getDoubleValue("money");
                     String recommendExplain =jsObj.getString("recommendExplain");
                     tv_explain1.setText(recommendExplain);
-                    tv_date.setText(date);
-                    tv_money.setText(money + " 元");
+//                    tv_date.setText("单次");
+                    tv_money.setText(money+"");
                     tv_explain.setText(String.format(getResources().getString(R.string.recomm_explain),itemPraise));
                     if (tag == 2) {
                         tv_share.setText(String.format("已集赞 %d/%d 个,继续分享给好友", itemGather,itemPraise));
@@ -166,11 +166,14 @@ public class ProductRecommendPayActivity extends BaseActivity {
                     } else if (tag == 1) {
                         wx_pay.setVisibility(View.VISIBLE);
                         tv_share.setVisibility(View.VISIBLE);
+                        tv_share.setText(String.format("分享集赞%d个免费发布", itemPraise));
                     } else {
                         tv_share.setVisibility(View.VISIBLE);
+                        tv_share.setText(String.format("分享集赞%d个免费发布", itemPraise));
                     }
                     if (isSkillPraise==1){
                         tv_share.setVisibility(View.GONE);
+                        tv_explain.setVisibility(View.INVISIBLE);
                     }
                 } else if (msg == 2) {
                     onFail("该类型不能发布");

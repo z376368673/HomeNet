@@ -36,6 +36,7 @@ import com.benkie.hjw.utils.ToastUtil;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -70,7 +71,7 @@ public class Home2Fragment extends BaseFragment implements
         View view = inflater.inflate(R.layout.fragment_home2, container, false);
         ButterKnife.bind(this, view);
         initView();
-        getAllType();
+        getAllType(false);
         initBroadcastReceiver();
         return view;
     }
@@ -128,7 +129,6 @@ public class Home2Fragment extends BaseFragment implements
                 break;
         }
     }
-
     /**
      * 全部分类
      */
@@ -181,8 +181,9 @@ public class Home2Fragment extends BaseFragment implements
 
     /**
      * 获取技术分类列表
+     * @param isRefresh 是否刷新所有数据
      */
-    private void getAllType() {
+    private void getAllType(final boolean isRefresh) {
         Call call = Http.links.allSkill();
         Http.http.call(mActivity, call, false, new Http.JsonCallback() {
             @Override
@@ -192,9 +193,14 @@ public class Home2Fragment extends BaseFragment implements
                 if (msg == 1) {
                     categoryList = JSON.parseArray(jsObj.getJSONArray("info").toJSONString(), Category.class);
                     categoryList.add(0, new Category(0, "全部"));
-                    if (categoryList != null&&categoryList.size()>0) {
-                        category = categoryList.get(0);
-                        getData(category.getId());
+                    if (!isRefresh){
+                        if (categoryList != null&&categoryList.size()>0) {
+                            category = categoryList.get(0);
+                            iv_all_category.setText(category.getName());
+                            getData(category.getId());
+                        }
+                    }else {
+
                     }
                 }
             }
@@ -225,6 +231,8 @@ public class Home2Fragment extends BaseFragment implements
                     if (skillBeanList != null&&skillBeanList.size()>0)
                         setSkillData(skillBeanList);
                     else {
+                        skillBeanList = new ArrayList<>();
+                        setSkillData(skillBeanList);
                         onFail("没有更多数据了");
                     }
                 } else {
@@ -272,7 +280,7 @@ public class Home2Fragment extends BaseFragment implements
                 Log.e("hBroadcastReceiver", "errCode = " + code);
                 if (code != null && code.equals("1")) {
                     //当发布项目之后，可能添加了新的服务类型和项目类型，因此要重新获取更新信息
-                    getAllType();
+                    getAllType(false);
                 }
             }
         };

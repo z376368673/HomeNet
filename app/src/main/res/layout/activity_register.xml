@@ -61,9 +61,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
+                android:onClick="registerVerify"
                 android:padding="15dp"
                 android:text="获取验证码"
-                android:onClick="registerVerify"
                 android:textColor="@color/colorMain"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -131,13 +131,36 @@
         android:drawablePadding="15dp"
         android:gravity="center"
         android:onClick="sumbit"
+        android:paddingBottom="12dp"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
         android:paddingTop="12dp"
-        android:paddingBottom="12dp"
         android:text="注册"
         android:textColor="@color/white"
         android:textSize="16sp" />
 
+    <LinearLayout
+        android:id="@+id/layout_xieyi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal">
+
+        <CheckBox
+            android:id="@+id/radio"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/selector_radio"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_xieyi2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="勾选即表示您已阅读，并同意《还居用户协议》"
+            android:textSize="14sp" />
+    </LinearLayout>
 
 </LinearLayout>
