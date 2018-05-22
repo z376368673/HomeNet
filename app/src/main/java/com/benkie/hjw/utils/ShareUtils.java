@@ -40,36 +40,36 @@ public class ShareUtils {
      * 技术服务分享
      */
     public static void shareSkill(Activity activity,Handler handler,int id) {
-        String title = "我的技术服务";
+        String title = "个人技能展示分享";
         String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/technicist.do?userInfoId=%s&lat=%s&lng=%s", id, Constants.Latitude,Constants.Longitude);
-        showSharePanel(activity,  handler,title, "技术服务", link);
+        showSharePanel(activity,  handler,title, "建筑装饰安装施工个人技能展示平台", link);
     }
 
     /**
      * 技术服务集赞分享  没有qq分享
      */
     public static void shareSkills(Activity activity,Handler handler,int id) {
-        String title = "我的技术服务";
+        String title = "个人技能展示分享";
         String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/otherTechnicist.do?userInfoId=%s&lat=%s&lng=%s", id, Constants.Latitude,Constants.Longitude);
-        showSharePanels(activity,  handler,title, "技术服务", link);
+        showSharePanels(activity,  handler,title, "建筑装饰安装施工个人技能展示平台", link);
     }
 
     /**
      * 项目分享
      */
-    public static void shareProduct(Activity activity,Handler handler,int id) {
-        String title = "我的项目";
+    public static void shareProduct(Activity activity,Handler handler,int id,String name) {
+        String title = "个人工程业绩展示分享";
         String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/endDetails.do?itemid=%s",  id);
-        showSharePanel(activity,  handler,title, "完成项目", link);
+        showSharePanel(activity,  handler,title, name, link);
     }
 
     /**
      * 项目集赞分享
      */
-    public static void shareProducts(Activity activity,Handler handler,int id) {
-        String title = "我的项目";
+    public static void shareProducts(Activity activity,Handler handler,int id,String name) {
+        String title = "个人工程业绩展示分享";
         String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/otherEndDetails.do?itemid=%s",  id);
-        showSharePanels(activity,  handler,title, "完成项目", link);
+        showSharePanels(activity,  handler,title, name, link);
     }
 
 
@@ -124,7 +124,7 @@ public class ShareUtils {
             public void onClick(View v) {
                 UMWeb web = new UMWeb(link);
                 web.setTitle(title);
-                web.setDescription("我为还局网代言"+"\n"+String.format(Locale.CHINA,"来自还居网%s分享",content));
+                web.setDescription(String.format(Locale.CHINA,"%s",content));
                 web.setThumb(new UMImage(activity,R.mipmap.ic_huanju));
                 ShareAction shareAction = new ShareAction(activity)
                         .withMedia(web)
@@ -166,7 +166,7 @@ public class ShareUtils {
         }
 
         View view = LayoutInflater.from(activity).inflate(R.layout.dialog_share_bottom_sheet,null);
-        view.findViewById(R.id.qq).setVisibility(View.GONE);
+        view.findViewById(R.id.qq);
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setView(view)
                 .setCancelable(true);
@@ -188,7 +188,8 @@ public class ShareUtils {
             public void onClick(View v) {
                 UMWeb web = new UMWeb(link);
                 web.setTitle(title);
-                web.setDescription("我为还局网代言"+"\n"+String.format(Locale.CHINA,"来自还居网%s分享",content));
+                web.setDescription(String.format(Locale.CHINA,"%s",content));
+                //web.setDescription("我为还局网代言"+"\n"+String.format(Locale.CHINA,"来自还居网%s分享",content));
                 web.setThumb(new UMImage(activity,R.mipmap.ic_huanju));
                 ShareAction shareAction = new ShareAction(activity)
                         .withMedia(web)

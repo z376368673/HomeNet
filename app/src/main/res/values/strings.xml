@@ -5,8 +5,8 @@
     <string name="member_rest">技能展示剩余时间 %d 天</string>
     <string name="zan_count">已集赞 %d 个</string>
     <string name="zan_lack">差 %d 个赞可成为会员</string>
-    <string name="recomm_explain">备注：选择微信支付成功后，所有技能可以发布到首页推荐里，如果用户选择“集赞免费发布”，项目页面将分享给好友，好友打开分享页面点赞，集满 %d 个赞后，项目可免费在推荐里展示，让更多需求者能快速看到我，增加更多合作机会。快来试试吧！</string>
-    <string name="skill_explain">备注：如果用户选择“集赞免费发布”，技能页面将分享给好友，好友打开分享页面点赞，集满 %d 赞将成为还居年费会员，所有技能可免费在平台展示1年，如果集赞不够可继续选择微信支付。</string>
+    <string name="recomm_explain">集赞免费发布操作提示：分享后，好友需“进入分享页面里面点赞，1人只能点赞1次”</string>
+    <string name="skill_explain">集赞免费发布操作提示：分享后，好友需“进入分享页面里面点赞，1人只能点赞1次”</string>
 
     <!--<string name="pay_success_product">您的项目“%s”已成功发布到“%s”分类下,快去查看吧！</string>   -->
     <string name="pay_success_product">已发布到普通展示区域！</string>

@@ -51,13 +51,13 @@ public class SkillDetailsActivity extends BaseActivity implements PullToRefreshB
     HeadView headView;
 
     @BindView(R.id.iv_img)
-    CircleImageView iv_img;//iv_zan
+    CircleImageView iv_img;//
 
-    @BindView(R.id.tv_zan_count)
-    TextView tv_zan_count;
-
-    @BindView(R.id.iv_zan)
-    ImageView iv_zan;//点赞
+//    @BindView(R.id.tv_zan_count)
+//    TextView tv_zan_count;
+//
+//    @BindView(R.id.iv_zan)
+//    ImageView iv_zan;//点赞
 
     @BindView(R.id.iv_collection)
     ImageView iv_collection;//收藏
@@ -86,7 +86,6 @@ public class SkillDetailsActivity extends BaseActivity implements PullToRefreshB
     SkillAdapter skillAdapter;
     int userInfoId = 0;
     int sid = 0;
-    int isPraise = 0; //是否点赞
     int pointNumber = 0; //点赞数量
 
     @Override
@@ -122,12 +121,6 @@ public class SkillDetailsActivity extends BaseActivity implements PullToRefreshB
             skillCollect(flag);
         } else if (v == iv_phone) {
             toPhone();
-        } else if (v == iv_zan) {
-            if (isPraise == 0) {
-                addPoint();
-            } else {
-                delPoint();
-            }
         }
     }
 
@@ -210,9 +203,8 @@ public class SkillDetailsActivity extends BaseActivity implements PullToRefreshB
         iv_phone.setTag(mobile);
         iv_phone.setOnClickListener(this);
 
-        iv_zan.setOnClickListener(this);
+
         pointNumber = bean.getPointNumber();
-        tv_zan_count.setText(pointNumber + "");
         int flag = bean.getFlag();
         if (flag==1)
             iv_collection.setImageResource(R.mipmap.iv_mycollection);
@@ -266,12 +258,6 @@ public class SkillDetailsActivity extends BaseActivity implements PullToRefreshB
             public void onResult(String json, String error) {
                 JSONObject jsObj = JSON.parseObject(json);
                 int msg = jsObj.getIntValue("msg");
-                isPraise = jsObj.getIntValue("isPraise");
-                if (isPraise == 1) {
-                    iv_zan.setImageResource(R.mipmap.ic_zan_p);
-                } else {
-                    iv_zan.setImageResource(R.mipmap.ic_zan_n);
-                }
                 if (msg == 1) {
                     JSONArray infos = jsObj.getJSONArray("info");
                     if (infos.size() == 0) return;
@@ -279,71 +265,6 @@ public class SkillDetailsActivity extends BaseActivity implements PullToRefreshB
                     setViewData(bean);
                 } else {
                     onFail("获取数据失败");
-                }
-            }
-
-            @Override
-            public void onFail(String error) {
-                ToastUtil.showInfo(mActivity, error);
-            }
-        });
-    }
-
-    /**
-     * 点赞
-     */
-    public void addPoint() {
-        if (!DataHpler.islogin()){
-            BaseActivity.toLogin(this,true);
-            return;
-        }
-        Call call = Http.links.addPoint(DataHpler.getUserInfo().getUserid(), sid);
-        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
-            @Override
-            public void onResult(String json, String error) {
-                JSONObject jsObj = JSON.parseObject(json);
-                int msg = jsObj.getIntValue("msg");
-                isPraise = jsObj.getIntValue("isPraise");
-                if (msg == 1) {
-                    ++pointNumber;
-                    tv_zan_count.setText(pointNumber + "");
-                    iv_zan.setImageResource(R.mipmap.ic_zan_p);
-                    isPraise = 1;
-                    onFail("点赞成功");
-                } else {
-                    onFail("点赞失败");
-                }
-            }
-
-            @Override
-            public void onFail(String error) {
-                ToastUtil.showInfo(mActivity, error);
-            }
-        });
-    }
-
-    /**
-     * 取消点赞
-     */
-    public void delPoint() {
-        if (!DataHpler.islogin()){
-            BaseActivity.toLogin(this,true);
-            return;
-        }
-        Call call = Http.links.delPoint(DataHpler.getUserInfo().getUserid(), sid);
-        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
-            @Override
-            public void onResult(String json, String error) {
-                JSONObject jsObj = JSON.parseObject(json);
-                int msg = jsObj.getIntValue("msg");
-                if (msg == 1) {
-                    --pointNumber;
-                    tv_zan_count.setText(pointNumber + "");
-                    iv_zan.setImageResource(R.mipmap.ic_zan_n);
-                    isPraise = 0;
-                    onFail("取消点赞");
-                } else {
-                    onFail("取消失败");
                 }
             }
 

@@ -91,7 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white_f4"
-        android:paddingTop="10dp"
+        android:paddingTop="2dp"
         android:orientation="horizontal">
         <com.handmark.pulltorefresh.library.PullToRefreshGridView
             android:id="@+id/pullRefreshView"

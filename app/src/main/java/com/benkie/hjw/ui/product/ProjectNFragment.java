@@ -210,7 +210,8 @@ public class ProjectNFragment extends BaseFragment implements PullToRefreshBase.
      * 去分享
      */
     private void toShare() {
-        ShareUtils.shareProduct(mActivity,handler,productBean.getItemId());
+        if (productBean!=null)
+        ShareUtils.shareProduct(mActivity,handler,productBean.getItemId(),productBean.getName());
     }
     /**
      * 删除项目

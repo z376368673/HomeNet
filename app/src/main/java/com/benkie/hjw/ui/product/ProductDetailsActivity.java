@@ -96,12 +96,6 @@ public class ProductDetailsActivity extends BaseActivity implements ViewPager.On
     @BindView(R.id.ll_zan)
     LinearLayout ll_zan; //此功能已取消不用 不再显示了，可以删除
 
-    @BindView(R.id.iv_zan)
-    ImageView iv_zan;//点赞
-
-    @BindView(R.id.tv_zan_c)
-    TextView tv_zan_c;//点赞数量
-
     @BindView(R.id.iv_collection)
     ImageView iv_collection;//收藏
 
@@ -133,7 +127,8 @@ public class ProductDetailsActivity extends BaseActivity implements ViewPager.On
     int pid = 0;
     int pos = 0;
     private int pointNumber = 0;
-    private int isPraise ,itemPraise = 0;
+    private int itemPraise = 0;
+    private String name = "项目详情";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +140,7 @@ public class ProductDetailsActivity extends BaseActivity implements ViewPager.On
         headView.setBtImg(R.mipmap.iv_share);
         headView.setBtClickListener(this);
         Bundle bundle = getIntent().getExtras();
-        String name = bundle.getString("Name", "项目名称");
+        name = bundle.getString("Name", "项目名称");
         headView.setTitle(name);
         pid = bundle.getInt("pid");
         FormType = bundle.getInt("FormType");
@@ -181,15 +176,11 @@ public class ProductDetailsActivity extends BaseActivity implements ViewPager.On
     public void onClick(View v) {
         super.onClick(v);
         if (v.getId() == R.id.right_iv) {
-            ShareUtils.shareProduct(this, handler, pid);
+            ShareUtils.shareProduct(this, handler, pid,name);
         } else if (v == iv_collection) {
             int flag = (int) iv_collection.getTag();
             flag = flag == 0 ? 1 : 0;
             itemCollect(flag);
-        } else if (v == iv_zan && isPraise == 0) {
-            addPoint();
-        } else if (v == iv_zan && isPraise == 1) {
-            delPoint();
         } else if (v == iv_phone) {
             toPhone();
         } else if (v == tv_edit) {
@@ -197,72 +188,6 @@ public class ProductDetailsActivity extends BaseActivity implements ViewPager.On
         } else if (v == tv_add) {
             addImg();
         }
-    }
-
-
-    /**
-     * 点赞
-     */
-    public void addPoint() {
-        if (!DataHpler.islogin()){
-            BaseActivity.toLogin(this,true);
-            return;
-        }
-        Call call = Http.links.addItemPoint(DataHpler.getUserInfo().getUserid(), pid);
-        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
-            @Override
-            public void onResult(String json, String error) {
-                JSONObject jsObj = JSON.parseObject(json);
-                int msg = jsObj.getIntValue("msg");
-                isPraise = jsObj.getIntValue("isPraise");
-                if (msg == 1) {
-                    ++pointNumber;
-                    tv_zan_c.setText(pointNumber + "");
-                    iv_zan.setImageResource(R.mipmap.ic_zan_p);
-                    isPraise = 1;
-                    onFail("点赞成功");
-                } else {
-                    onFail("点赞失败");
-                }
-            }
-
-            @Override
-            public void onFail(String error) {
-                ToastUtil.showInfo(mActivity, error);
-            }
-        });
-    }
-
-    /**
-     * 取消点赞
-     */
-    public void delPoint() {
-        if (!DataHpler.islogin()){
-            BaseActivity.toLogin(this,true);
-            return;
-        }
-        Call call = Http.links.delItemPoint(DataHpler.getUserInfo().getUserid(), pid);
-        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
-            @Override
-            public void onResult(String json, String error) {
-                JSONObject jsObj = JSON.parseObject(json);
-                int msg = jsObj.getIntValue("msg");
-                if (msg == 1) {
-                    --pointNumber;
-                    tv_zan_c.setText(pointNumber + "");
-                    iv_zan.setImageResource(R.mipmap.ic_zan_n);
-                    isPraise = 0;
-                    onFail("取消点赞");
-                } else {
-                    onFail("取消失败");
-                }
-            }
-
-            @Override
-            public void onFail(String error) {
-                ToastUtil.showInfo(mActivity, error);
-            }
-        });
     }
 
     private void toPhone() {
@@ -376,7 +301,6 @@ public class ProductDetailsActivity extends BaseActivity implements ViewPager.On
             public void onResult(String json, String error) {
                 JSONObject jsObj = JSON.parseObject(json);
                 int msg = jsObj.getIntValue("msg");
-                isPraise = jsObj.getIntValue("isPraise");
                 itemPraise = jsObj.getIntValue("itemPraise");
                 if (msg == 1) {
                     JSONArray jsArr = jsObj.getJSONArray("info");
@@ -412,15 +336,7 @@ public class ProductDetailsActivity extends BaseActivity implements ViewPager.On
         iv_collection.setOnClickListener(this);
         iv_phone.setTag(bean.getMobile());
         iv_phone.setOnClickListener(this);
-
-        iv_zan.setOnClickListener(this);
         pointNumber = bean.getItemPoint();
-        tv_zan_c.setText(pointNumber + "");
-        if (isPraise == 1) {
-            iv_zan.setImageResource(R.mipmap.ic_zan_p);
-        } else {
-            iv_zan.setImageResource(R.mipmap.ic_zan_n);
-        }
 
         if (flag == 0)
             iv_collection.setImageResource(R.mipmap.iv_mycollection_n);

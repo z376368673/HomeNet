@@ -5,6 +5,7 @@
       <module fileurl="file://$PROJECT_DIR$/HomeNet.iml" filepath="$PROJECT_DIR$/HomeNet.iml" />
       <module fileurl="file://$PROJECT_DIR$/PullToRefresh/PullToRefresh.iml" filepath="$PROJECT_DIR$/PullToRefresh/PullToRefresh.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/citypicker/citypicker.iml" filepath="$PROJECT_DIR$/citypicker/citypicker.iml" />
       <module fileurl="file://E:\Work_shenzhen\HomeNet\PullToRefresh\library.iml" filepath="E:\Work_shenzhen\HomeNet\PullToRefresh\library.iml" />
     </modules>
   </component>

@@ -181,7 +181,7 @@ public class Skill_PayActivity extends BaseActivity {
                     status = jsObj.getIntValue("status");//0.未发布，1.会员，2.集赞中
                     String date = jsObj.getString("date");//0.未发布，1.会员，2.集赞中
                     //备注
-                    tv_explain.setText(String.format(getResources().getString(R.string.skill_explain), skillPraise));
+                    tv_explain.setText(getResources().getString(R.string.skill_explain));
 
                     tv_unit.setText(" 元 /" + Tools.getYMD(year));
                     tv_date.setText(date);
@@ -209,7 +209,7 @@ public class Skill_PayActivity extends BaseActivity {
 
             @Override
             public void onFail(String error) {
-
+                ToastUtil.showInfo(mActivity,error);
             }
         });
     }

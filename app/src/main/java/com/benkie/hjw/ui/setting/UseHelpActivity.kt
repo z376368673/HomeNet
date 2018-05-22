@@ -7,6 +7,9 @@ import com.benkie.hjw.R
 import com.benkie.hjw.net.Http
 import com.benkie.hjw.ui.BaseActivity
 import com.benkie.hjw.utils.Tools
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_use_help.*
 
 
@@ -21,8 +24,8 @@ class UseHelpActivity : BaseActivity() {
         initView()
     }
 
-     fun initView(){
-         getDate()
+    fun initView() {
+        getDate()
     }
 
     /**
@@ -30,18 +33,27 @@ class UseHelpActivity : BaseActivity() {
      */
     fun getDate() {
         val call = Http.links.explain()
-        Http.http.call(mActivity,call, true, object : Http.JsonCallback {
+        Http.http.call(mActivity, call, true, object : Http.JsonCallback {
             override fun onResult(json: String, error: String) {
                 var obj = JSON.parseObject(json);
                 val msg = obj.getIntValue("msg")
-                if (msg==1){
-                   var  arr = obj.getJSONArray("info")
-                    obj =   arr.getJSONObject(0)
+                if (msg == 1) {
+                    var arr = obj.getJSONArray("info")
+                    obj = arr.getJSONObject(0)
                     //val url = "https://b-ssl.duitang.com/uploads/item/201406/12/20140612211118_YYXAC.jpeg"//obj.getString("itemAgreement")
                     val url = obj.getString("itemAgreement")
-                    Tools.loadImg(mActivity,iv_img,url)
+                    //Tools.loadImg(mActivity,iv_img,url)
+//                    Glide.with(mActivity)
+//                            .load(url)
+//                            .error(R.mipmap.iv_defult_img)
+//                            .diskCacheStrategy(DiskCacheStrategy.ALL)
+//                            .into(iv_img)
+                    Picasso.get()
+                            .load(url)
+                            .into(iv_img);
                 }
             }
+
             override fun onFail(error: String) {
 
             }

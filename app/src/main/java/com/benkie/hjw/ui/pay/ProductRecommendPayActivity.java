@@ -54,7 +54,7 @@ public class ProductRecommendPayActivity extends BaseActivity {
     HomeProductBean bean;
     int itemGather = 0;
     int itemPraise=0;
-    String typeName;
+    String name ,typeName;
 
     int isSkillPraise=0;//是否可以集赞
 
@@ -134,7 +134,7 @@ public class ProductRecommendPayActivity extends BaseActivity {
             wxPay.initPay(mActivity);
             wxPay.payStart(bean.getItemId(), WXPay.PAY_PRODUCT_RECOMM);
         } else {
-            ShareUtils.shareProducts(this, handler, bean.getItemId());
+            ShareUtils.shareProducts(this, handler, bean.getItemId(),name);
         }
     }
 
@@ -146,12 +146,12 @@ public class ProductRecommendPayActivity extends BaseActivity {
                 JSONObject jsObj = JSON.parseObject(json);
                 int msg = jsObj.getIntValue("msg");
                 if (msg == 1) {
-                    String name = jsObj.getString("name");
+                    name = jsObj.getString("name");
                     typeName = jsObj.getString("typeName");
                     int userItemId = jsObj.getIntValue("userItemId");//项目id
                     itemGather = jsObj.getIntValue("itemGather");//点赞数量
                     itemPraise = jsObj.getIntValue("itemPraise");//需要总数量
-                    isSkillPraise   = jsObj.getIntValue("isSkillPraise");//是否可以集赞
+                    isSkillPraise   = jsObj.getIntValue("isItemPraise");//是否可以集赞
                     int tag = jsObj.getIntValue("tag");//0.未推荐，1.已推荐，2.集赞中
  //                   String date = jsObj.getString("date");
                     double money = jsObj.getDoubleValue("money");
@@ -159,13 +159,14 @@ public class ProductRecommendPayActivity extends BaseActivity {
                     tv_explain1.setText(recommendExplain);
 //                    tv_date.setText("单次");
                     tv_money.setText(money+"");
-                    tv_explain.setText(String.format(getResources().getString(R.string.recomm_explain),itemPraise));
+                    tv_explain.setText(getResources().getString(R.string.recomm_explain));
                     if (tag == 2) {
                         tv_share.setText(String.format("已集赞 %d/%d 个,继续分享给好友", itemGather,itemPraise));
                         tv_share.setBackgroundResource(R.drawable.shape_button_bg_color_gary);
                     } else if (tag == 1) {
                         wx_pay.setVisibility(View.VISIBLE);
-                        tv_share.setVisibility(View.VISIBLE);
+                        tv_share.setVisibility(View.INVISIBLE);
+                        tv_explain.setVisibility(View.INVISIBLE);
                         tv_share.setText(String.format("分享集赞%d个免费发布", itemPraise));
                     } else {
                         tv_share.setVisibility(View.VISIBLE);
