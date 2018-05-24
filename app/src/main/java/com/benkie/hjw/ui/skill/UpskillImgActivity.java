@@ -165,7 +165,7 @@ public class UpskillImgActivity extends BaseActivity implements AdapterView.OnIt
             }
         } else {
             popWindow.showPopupWindow(headView);
-            popWindow.setCurrentItem(i);
+            popWindow.setCurrentItem(i-1);
 //            Intent intent = new Intent(mActivity, ImgActivity.class);
 //            Bundle bundle = new Bundle();
 //            bundle.putString("Img", picture.getPicture());

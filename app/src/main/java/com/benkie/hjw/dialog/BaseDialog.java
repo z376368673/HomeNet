@@ -177,6 +177,7 @@ public class BaseDialog {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
+                onClickListener.onClick(v);
             }
         });
     }

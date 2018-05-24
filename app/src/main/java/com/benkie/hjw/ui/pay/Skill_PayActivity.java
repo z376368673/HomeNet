@@ -187,23 +187,53 @@ public class Skill_PayActivity extends BaseActivity {
                     tv_date.setText(date);
                     tv_money.setText("￥" + publishMoney);
 
-                    if (status == 0) {
+//                    if (status == 0) {
+//                        tv_share.setVisibility(View.VISIBLE);
+//                        wx_pay.setVisibility(View.VISIBLE);
+//                    } else if (status == 1) {
+//                        tv_share.setVisibility(View.GONE);
+//                        wx_pay.setVisibility(View.VISIBLE);
+//                        tv_explain.setVisibility(View.GONE);
+//                    } else {
+//                        tv_share.setText(String.format("已集赞 %d/%d 个,继续分享给好友", gatherNumber, skillPraise));
+//                        tv_share.setBackgroundResource(R.drawable.shape_button_bg_color_gary);
+//                        wx_pay.setVisibility(View.VISIBLE);
+//                        tv_share.setVisibility(View.VISIBLE);
+//                    }
+//                    if (isSkillPraise==1){
+//                        tv_share.setVisibility(View.GONE);
+//                        tv_explain.setVisibility(View.GONE);
+//                    }
+
+                    if (status==0&&isSkillPraise==0){
+                        // 非会员   允许集赞
                         tv_share.setVisibility(View.VISIBLE);
                         wx_pay.setVisibility(View.VISIBLE);
-                    } else if (status == 1) {
+                        tv_share.setText(String.format("分享集赞%d个开通年会员", skillPraise));
+                    }else if (status==0&&isSkillPraise==1){
+                        // 非会员   不允许集赞
                         tv_share.setVisibility(View.GONE);
-                        wx_pay.setVisibility(View.VISIBLE);
                         tv_explain.setVisibility(View.GONE);
-                    } else {
+                    }else if (status==1&&isSkillPraise==0){
+                        // 会员   允许集赞
+                        tv_share.setVisibility(View.GONE);
+                        tv_explain.setVisibility(View.GONE);
+                    }else if (status==1&&isSkillPraise==1){
+                        // 会员   不允许集赞
+                        tv_share.setVisibility(View.GONE);
+                        tv_explain.setVisibility(View.GONE);
+                    }else if (status==2&&isSkillPraise==0){
+                        // 集赞中  允许集赞
+                        tv_share.setVisibility(View.VISIBLE);
+                        tv_explain.setVisibility(View.VISIBLE);
                         tv_share.setText(String.format("已集赞 %d/%d 个,继续分享给好友", gatherNumber, skillPraise));
                         tv_share.setBackgroundResource(R.drawable.shape_button_bg_color_gary);
-                        wx_pay.setVisibility(View.VISIBLE);
-                        tv_share.setVisibility(View.VISIBLE);
-                    }
-                    if (isSkillPraise==1){
+                    }else if (status==2&&isSkillPraise==1){
+                        // 集赞中  不允许集赞
                         tv_share.setVisibility(View.GONE);
                         tv_explain.setVisibility(View.GONE);
                     }
+
                 }
             }
 

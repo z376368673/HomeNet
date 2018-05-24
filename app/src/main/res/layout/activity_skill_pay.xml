@@ -140,7 +140,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
-            android:text="集赞免费发布"
+            android:text=""
+            android:visibility="gone"
             android:layout_marginTop="15dp"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -152,6 +153,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp"
+        android:visibility="gone"
         android:text="@string/skill_explain"
         android:lineSpacingExtra="5dp"
         android:padding="10dp"

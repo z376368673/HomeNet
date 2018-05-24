@@ -142,7 +142,8 @@
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
             android:paddingTop="10dp"
-            android:text="集赞免费发布"
+            android:text=""
+            android:visibility="invisible"
             android:layout_marginTop="15dp"
             android:textColor="@color/white"
             android:textSize="16sp" />
@@ -154,6 +155,7 @@
         android:layout_height="wrap_content"
         android:textSize="14sp"
         android:lineSpacingExtra="5dp"
+        android:visibility="invisible"
         android:text="@string/recomm_explain"
         android:padding="10dp"
         android:textColor="@color/black_99"/>

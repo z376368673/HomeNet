@@ -136,7 +136,7 @@ public class ImagePopWindow extends PopupWindow implements AdapterView.OnItemCli
             View view = View.inflate(context, R.layout.view_pager_img, null);
             ImageView iv = (ImageView) view.findViewById(R.id.iv_img);
             Picture picture = list.get(position);
-            Tools.loadImg(context, iv, picture.getPicture(), R.mipmap.iv_defult_img);
+            Tools.loadImg(context, iv, picture.getPicture());
             container.addView(view);
             final int p = position;
             iv.setOnClickListener(new View.OnClickListener() {

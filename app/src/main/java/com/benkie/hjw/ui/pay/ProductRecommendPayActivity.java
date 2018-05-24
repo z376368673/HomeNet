@@ -4,10 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -74,7 +76,7 @@ public class ProductRecommendPayActivity extends BaseActivity {
      */
     IntentFilter intentFilter;
     BroadcastReceiver mReceiver;
-
+    boolean isPay = false;
     private void initBroadcastReceiver() {
         intentFilter = new IntentFilter();
         intentFilter.addAction("com.benkie.payresult");
@@ -160,22 +162,53 @@ public class ProductRecommendPayActivity extends BaseActivity {
 //                    tv_date.setText("单次");
                     tv_money.setText(money+"");
                     tv_explain.setText(getResources().getString(R.string.recomm_explain));
-                    if (tag == 2) {
-                        tv_share.setText(String.format("已集赞 %d/%d 个,继续分享给好友", itemGather,itemPraise));
-                        tv_share.setBackgroundResource(R.drawable.shape_button_bg_color_gary);
-                    } else if (tag == 1) {
-                        wx_pay.setVisibility(View.VISIBLE);
-                        tv_share.setVisibility(View.INVISIBLE);
-                        tv_explain.setVisibility(View.INVISIBLE);
-                        tv_share.setText(String.format("分享集赞%d个免费发布", itemPraise));
-                    } else {
+//                    if (tag == 2) {
+//                        tv_share.setText(String.format("已集赞 %d/%d 个,继续分享给好友", itemGather,itemPraise));
+//                        tv_share.setBackgroundResource(R.drawable.shape_button_bg_color_gary);
+//                    } else if (tag == 1) {
+//                        wx_pay.setVisibility(View.VISIBLE);
+//                        tv_share.setVisibility(View.INVISIBLE);
+//                        tv_explain.setVisibility(View.INVISIBLE);
+//                        tv_share.setText(String.format("分享集赞%d个免费发布", itemPraise));
+//                    } else {
+//                        tv_share.setVisibility(View.VISIBLE);
+//                        tv_share.setText(String.format("分享集赞%d个免费发布", itemPraise));
+//                    }
+//                    if (isSkillPraise==1){
+//                        tv_share.setVisibility(View.GONE);
+//                        tv_explain.setVisibility(View.INVISIBLE);
+//                    }
+
+                    //0.未推荐，1.已推荐，2.集赞中
+                    if (tag==0&&isSkillPraise==0){
+                        // 未推荐   允许集赞
                         tv_share.setVisibility(View.VISIBLE);
                         tv_share.setText(String.format("分享集赞%d个免费发布", itemPraise));
-                    }
-                    if (isSkillPraise==1){
+                        tv_explain.setVisibility(View.VISIBLE);
+                    }else if (tag==0&&isSkillPraise==1){
+                        // 未推荐   不允许集赞
                         tv_share.setVisibility(View.GONE);
-                        tv_explain.setVisibility(View.INVISIBLE);
+                        tv_explain.setVisibility(View.GONE);
+                    }else if (tag==1&&isSkillPraise==0){
+                        // .已推荐  允许集赞
+                        tv_share.setVisibility(View.GONE);
+                        tv_explain.setVisibility(View.GONE);
+                    }else if (tag==1&&isSkillPraise==1){
+                        // .已推荐   不允许集赞
+                        tv_share.setVisibility(View.GONE);
+                        tv_explain.setVisibility(View.GONE);
+                    }else if (tag==2&&isSkillPraise==0){
+                        // 集赞中  允许集赞
+                        tv_share.setVisibility(View.VISIBLE);
+                        tv_explain.setVisibility(View.VISIBLE);
+                        tv_share.setText(String.format("已集赞 %d/%d 个,继续分享给好友", itemGather,itemPraise));
+                        tv_share.setBackgroundResource(R.drawable.shape_button_bg_color_gary);
+                    }else if (tag==2&&isSkillPraise==1){
+                        // 集赞中  不允许集赞
+                        tv_share.setVisibility(View.GONE);
+                        tv_explain.setVisibility(View.GONE);
                     }
+
                 } else if (msg == 2) {
                     onFail("该类型不能发布");
                 } else {
