@@ -57,7 +57,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="25dp"
         android:textColor="@color/black_33"
-        android:text="项目名称输入要求"/>
+        android:text="输入要点："/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -66,7 +66,7 @@
         android:layout_marginTop="20dp"
         android:textColor="@color/black_66"
         android:lineSpacingExtra="5dp"
-        android:text="如果在地级市区域内，项目名称不是唯一的，那就在项目名称前添加除地级市外以下的区或镇等行政单位"/>
+        android:text="1：如果发布的是家装平层、家装复式、别墅等家装项目分类，建议项目名称定为小区名称；样板房项目同上。"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -75,33 +75,7 @@
         android:layout_marginTop="20dp"
         android:textColor="@color/black_66"
         android:lineSpacingExtra="5dp"
-        android:text="1、如果是同一地级市区域内有多个相同的项目名称，如连锁酒店、连锁饭店，项目名称定义为：项目名称+某某店。列如：某某酒店朝阳店"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/black_66"
-        android:lineSpacingExtra="5dp"
-        android:text="2、如果是家装，项目名称为小区楼盘名称"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/black_66"
-        android:lineSpacingExtra="5dp"
-        android:text="3、如果是人民医院，那就在医院前面就加地级市以下（不含地级市）区或县+人民医院"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/black_66"
-        android:lineSpacingExtra="5dp"
-        android:text="4、如果是展示自建房项目名称直接为自建房，某某县、区自建房"/>
+        android:text="2：连锁类项目建议项目名称+地名。"/>
+
 
 </LinearLayout>
