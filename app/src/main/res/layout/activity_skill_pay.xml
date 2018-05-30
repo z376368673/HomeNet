@@ -67,7 +67,7 @@
                 android:id="@+id/tv_unit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="元 /1年"
+                android:text=""
                 android:textColor="@color/black_33"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -92,7 +92,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:textColor="@color/black_33"
-                android:text="正在计算...."
+                android:text=""
                 android:textSize="15sp" />
         </LinearLayout>
 

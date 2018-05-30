@@ -160,7 +160,7 @@ public class ProductRecommendPayActivity extends BaseActivity {
                     String recommendExplain =jsObj.getString("recommendExplain");
                     tv_explain1.setText(recommendExplain);
 //                    tv_date.setText("单次");
-                    tv_money.setText(money+"");
+                    tv_money.setText("￥"+money+"");
                     tv_explain.setText(getResources().getString(R.string.recomm_explain));
 //                    if (tag == 2) {
 //                        tv_share.setText(String.format("已集赞 %d/%d 个,继续分享给好友", itemGather,itemPraise));

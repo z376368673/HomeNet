@@ -127,10 +127,10 @@ public class ProductAddressActivity extends BaseActivity implements View.OnClick
     private void showChoiceCity() {
         List<HotCity> hotCities = new ArrayList<>();
         hotCities.add(new HotCity("北京", "北京", "101010100"));
-        hotCities.add(new HotCity("上海", "上海", "101020100"));
         hotCities.add(new HotCity("广州", "广东", "101280101"));
+        hotCities.add(new HotCity("上海", "上海", "101020100"));
         hotCities.add(new HotCity("深圳", "广东", "101280601"));
-        hotCities.add(new HotCity("杭州", "浙江", "101210101"));
+        hotCities.add(new HotCity("海外地区", "海外地区", "101210101"));
         CityPicker.getInstance()
                 .setFragmentManager(getSupportFragmentManager())
                 .enableAnimation(true)

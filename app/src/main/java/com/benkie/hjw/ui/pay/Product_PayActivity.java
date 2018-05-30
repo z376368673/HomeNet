@@ -169,7 +169,7 @@ public class Product_PayActivity extends BaseActivity {
                     tv_range.setText(typeName);
                     tv_unit.setText(unit);
                     tv_date.setText(data);
-                    tv_money.setText(publishMoney + "");
+                    tv_money.setText("￥"+publishMoney + "");
                 } else if (msg == 2) {
                     onFail("该类型不能发布");
                 } else {
