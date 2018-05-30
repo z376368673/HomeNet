@@ -11,6 +11,6 @@
     <!--<string name="pay_success_product">您的项目“%s”已成功发布到“%s”分类下,快去查看吧！</string>   -->
     <string name="pay_success_product">已发布到普通展示区域！</string>
     <string name="pay_success_recommend">已发布到推荐，您可以在首页“推荐”或通过筛选条件“%s”中查找该项目</string>
-    <string name="pay_success_skill">您已经开通了年费会员，可以去技术发布界面发布您的技能了！</string>
+    <string name="pay_success_skill">点击“发布技能”按钮完成发布</string>
 
 </resources>

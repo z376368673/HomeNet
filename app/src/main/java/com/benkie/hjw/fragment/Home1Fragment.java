@@ -113,7 +113,7 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
 
     private void setProductData(List<HomeProductBean> list) {
         if (productAdapter != null) {
-            if (pageIndex==1) {//如果是下拉刷新 则要清除数据 如果不是下拉刷新 则加载新数据
+            if (pageIndex == 1) {//如果是下拉刷新 则要清除数据 如果不是下拉刷新 则加载新数据
                 productAdapter.clear();
             }
             productAdapter.addAll(list);
@@ -170,14 +170,14 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
             case R.id.iv_feiji:
                 if (BaseActivity.islogin(getActivity())) {
                     intent = new Intent(getContext(), ProjectActivity.class);
-                    startActivity(intent);
+                    getActivity().startActivityFromFragment(this, intent, 1001);
                 } else {
                     BaseActivity.toLogin(getActivity());
                 }
                 break;
             case R.id.tv_search:
                 intent = new Intent(getContext(), SearchActivity.class);
-                startActivity(intent);
+                getActivity().startActivityFromFragment(this, intent, 1001);
                 break;
             case R.id.ct_1:
                 showChoiceCity();
@@ -205,13 +205,12 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
 
     private void showChoiceCity() {
         List<HotCity> hotCities = new ArrayList<>();
-        hotCities.add(new HotCity("全部区域", "全部区域", "000000000"));
+        hotCities.add(new HotCity("全国", "全国", "000000000"));
         hotCities.add(new HotCity("北京", "北京", "101010100"));
-        hotCities.add(new HotCity("广州", "广东", "101280101"));
         hotCities.add(new HotCity("上海", "上海", "101020100"));
+        hotCities.add(new HotCity("广州", "广东", "101280101"));
         hotCities.add(new HotCity("深圳", "广东", "101280601"));
-        hotCities.add(new HotCity("海外地区", "海外地区", "101210101"));
-
+        hotCities.add(new HotCity("杭州", "浙江", "101210101"));
         CityPicker.getInstance()
                 .setFragmentManager(getFragmentManager())
                 .enableAnimation(true)
@@ -220,17 +219,17 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
                 .setOnPickListener(new OnPickListener() {
                     @Override
                     public void onPick(int position, City data) {
-                        if (data==null)return;
+                        if (data == null) return;
                         city = data.getName();
                         ct_1.setTitle(city);
-                        if (city.equals("全部区域")){
+                        if (city.equals("全国")) {
                             city = "";
                             ct_1.setTitleColor(false);
-                        }else {
+                        } else {
                             ct_1.setTitleColor(true);
                         }
                         ct_1.setChecked(false);
-                        pageIndex=1;
+                        pageIndex = 1;
                         getAllData();
                     }
 
@@ -314,12 +313,12 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
                             public void onPopWindowCheckedListener(PopBean popBean) {
                                 ct_3.setTitle(popBean.getName());
                                 serviceId = popBean.getId();
-                                if (serviceId==0){
+                                if (serviceId == 0) {
                                     ct_3.setTitleColor(false);
-                                }else {
+                                } else {
                                     ct_3.setTitleColor(true);
                                 }
-                                pageIndex=1;
+                                pageIndex = 1;
                                 getAllData();
                             }
                         });
@@ -350,13 +349,13 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
         int startYear = 2010;
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
-        while (startYear <=year) {
+        while (startYear <= year) {
             if (startYear >= year) startYear = year;
             popBeanList.add(new Category(6, startYear + " 年"));
             startYear++;
         }
         Collections.reverse(popBeanList);
-        popBeanList.add(0,new Category(0, "全部"));
+        popBeanList.add(0, new Category(0, "全部"));
         popWindow.setData(popBeanList);
         popWindow.showPopupWindow(ct_2);
         popWindow.setPopWindowCheckedListener(new ListPopWindow.PopWindowCheckedListener() {
@@ -374,7 +373,7 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
                     endData = "";
                     ct_2.setTitleColor(false);
                 }
-                pageIndex=1;
+                pageIndex = 1;
                 getAllData();
 
             }
@@ -396,15 +395,7 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
             Category category = (Category) adapterView.getAdapter().getItem(i);
             if (category.getId() == -1) return;
             if (i == 0) {
-                ll_search.setVisibility(View.GONE);
-//                serviceId=0;
-//                city = "";
-//                name = "";
-//                starData = "";
-//                endData = "";
-//                ct_1.setTitle("全部区域");
-//                ct_2.setTitle("完工日期");
-//                ct_3.setTitle("服务内容");
+                resetView();
             } else {
                 ll_search.setVisibility(View.VISIBLE);
             }
@@ -414,6 +405,7 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
             getAllData();
         }
     };
+
     @Override
     public void onPullDownToRefresh(PullToRefreshBase refreshView) {
         pageIndex = 1;
@@ -443,37 +435,60 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
     public void setCategoryData(List<Category> categoryLists) {
         List<Category> categoryList = new ArrayList<>();
         categoryList.add(new Category(0, "推荐"));
-//        List<Channel> channels = JSON.parseArray(DataHpler.getLikeType(), Channel.class);
-//        if (channels != null)
-//            for (int i = 0; i < channels.size(); i++) {
-//                Channel channel = channels.get(i);
-//                categoryList.add(new Category(channel.getId(), channel.getTitle()));
-//            }
         categoryList.addAll(categoryLists);
+        //多加一个空的分类 解除一个bug（分类显示不完整 最后一个显示一半 ）
         categoryList.add(new Category(-1, "   "));
         categoryAdapter.clear();
         categoryAdapter.addAll(categoryList);
         categoryAdapter.setCheck(categoryList.get(0));
-        ll_search.setVisibility(View.GONE);
         categoryId = categoryList.get(0).getId();
-        pageIndex=1;
+        pageIndex = 1;
+        resetView();
         getAllData();
+    }
+
+    private void resetView(){
+        //恢复默认数据
+        categoryId = 0;
+        ll_search.setVisibility(View.GONE);
+        serviceId = 0;
+        city = "";
+        name = "";
+        starData = "";
+        endData = "";
+        ct_1.setTitle("全部区域");
+        ct_1.setTitleColor(false);
+        ct_1.setChecked(false);
+        ct_2.setTitle("完工日期");
+        ct_2.setTitleColor(false);
+        ct_2.setChecked(false);
+        ct_3.setTitle("服务内容");
+        ct_3.setTitleColor(false);
+        ct_3.setChecked(false);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) return;
-        if (requestCode == 1002 && data != null) {
+        //奇葩的逻辑
+        if (requestCode == 1001){
+            //点击搜索, 发布项目 返回此界面都有刷新界面 变成选择推荐
             getMyLikes();
         }
+        //正常
+        else if (resultCode != Activity.RESULT_OK) return;
+        else if (requestCode == 1002 && data != null) {
+            getMyLikes();
+        }
+
     }
+
     /**
      * 获取我喜欢的分类
      */
-    private void getMyLikes(){
+    private void getMyLikes() {
         Call call = Http.links.userItemCategory(DataHpler.getUserInfo().getUserid());
-        Http.http.call(mActivity,call, true, new Http.JsonCallback() {
+        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
             @Override
             public void onResult(String json, String error) {
                 JSONObject jsObj = JSON.parseObject(json);
@@ -492,7 +507,6 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
             }
         });
     }
-
 
 
     /**
