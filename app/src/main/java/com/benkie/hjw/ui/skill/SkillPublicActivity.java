@@ -85,11 +85,11 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
         if (tv_xufei == v) {
             Intent intent = new Intent(this, Skill_PayActivity.class);
             intent.putExtra("type",1);
-            startActivity(intent);
+            startActivityForResult(intent,1008);
         } else if (tv_wxpay == v) {
             Intent intent = new Intent(this, Skill_PayActivity.class);
             intent.putExtra("type",0);
-            startActivity(intent);
+            startActivityForResult(intent,1008);
         }
     }
 
@@ -329,7 +329,9 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
         } else if (requestCode == 1001 & resultCode == Activity.RESULT_OK) {
             getData(false);
         }else if (requestCode == 1004 & resultCode == Activity.RESULT_OK) {
-            getData(true);
+            getData(false);
+        }else if (requestCode == 1008 & resultCode == Activity.RESULT_OK) {
+            getData(false);
         }
     }
 

@@ -161,7 +161,7 @@ public class BaseDialog {
         tv_bt.setText(confirm);
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(view)
-                .setCancelable(true);
+                .setCancelable(false);
         final AlertDialog dialog = builder.create();
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.show();

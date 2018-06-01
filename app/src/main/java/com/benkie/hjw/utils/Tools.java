@@ -121,7 +121,7 @@ public class Tools {
                     .error(R.mipmap.iv_defult_img)
                     .into(view);
         } catch (Exception e) {
-
+                e.printStackTrace();
         }
     }
 

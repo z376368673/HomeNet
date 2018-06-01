@@ -205,12 +205,12 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
 
     private void showChoiceCity() {
         List<HotCity> hotCities = new ArrayList<>();
-        hotCities.add(new HotCity("全国", "全国", "000000000"));
+        hotCities.add(new HotCity("全部区域", "全部区域", "000000000"));
         hotCities.add(new HotCity("北京", "北京", "101010100"));
         hotCities.add(new HotCity("上海", "上海", "101020100"));
         hotCities.add(new HotCity("广州", "广东", "101280101"));
         hotCities.add(new HotCity("深圳", "广东", "101280601"));
-        hotCities.add(new HotCity("杭州", "浙江", "101210101"));
+        hotCities.add(new HotCity("海外地区", "海外地区", "101210101"));
         CityPicker.getInstance()
                 .setFragmentManager(getFragmentManager())
                 .enableAnimation(true)
@@ -222,7 +222,7 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
                         if (data == null) return;
                         city = data.getName();
                         ct_1.setTitle(city);
-                        if (city.equals("全国")) {
+                        if (city.equals("全部区域")) {
                             city = "";
                             ct_1.setTitleColor(false);
                         } else {
@@ -402,6 +402,7 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
             horizontalListView.setSelection(i);
             categoryId = category.getId();
             timestamp = String.valueOf(System.currentTimeMillis());
+            pageIndex=0;
             getAllData();
         }
     };

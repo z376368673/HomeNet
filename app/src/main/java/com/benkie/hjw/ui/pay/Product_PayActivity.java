@@ -100,6 +100,7 @@ public class Product_PayActivity extends BaseActivity {
         BaseDialog.showMag(mActivity, "支付成功", info, "知道了", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                setResult(RESULT_OK);
                 finish();
             }
         });

@@ -104,7 +104,6 @@ public class Skill_PayActivity extends BaseActivity {
     }
 
     private void payDialog() {
-        if (status == 0) {
             String info = getResources().getString(R.string.pay_success_skill);
             BaseDialog.showMag(mActivity, "支付成功", info, "知道了", new View.OnClickListener() {
                 @Override
@@ -113,7 +112,6 @@ public class Skill_PayActivity extends BaseActivity {
                     finish();
                 }
             });
-        }
     }
 
     @Override
