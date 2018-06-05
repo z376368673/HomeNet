@@ -234,7 +234,7 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
                 tv_date.setText(String.format(getResources().getString(R.string.member_rest), days>=0?days:0));
                 tv_zan_count.setText(String.format(getResources().getString(R.string.zan_count), count));
                 tv_zan_lack.setText(String.format(getResources().getString(R.string.zan_lack), skillPraise - count));
-                if (days > 1) {
+                if (days >=7) {
                     tv_xufei.setVisibility(View.INVISIBLE);
                 } else {
                     tv_xufei.setVisibility(View.VISIBLE);

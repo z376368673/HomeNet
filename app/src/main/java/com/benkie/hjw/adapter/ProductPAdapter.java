@@ -90,10 +90,10 @@ public class ProductPAdapter extends ArrayAdapter<HomeProductBean> {
             }
             tv_name.setText(item.getName());
 
-            if (item.getMdate() < 1) {
+            if (item.getMdate() < 2) {
                 tv_xufei.setVisibility(View.VISIBLE);
                 tv_date.setText("请及时续费,以免项目下架");
-            }else if (item.getMdate() <2) {
+            }else if (item.getMdate() <=7) {
                 tv_xufei.setVisibility(View.VISIBLE);
                 tv_date.setText("展示剩余天数：" + item.getMdate() + " 天");
             } else {

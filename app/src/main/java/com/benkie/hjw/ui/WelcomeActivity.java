@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
+import android.widget.ImageView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -14,17 +17,22 @@ import com.benkie.hjw.db.DataHpler;
 import com.benkie.hjw.db.ProductSqliteOpenHelper;
 import com.benkie.hjw.net.Http;
 import com.benkie.hjw.utils.ToastUtil;
+import com.benkie.hjw.utils.Tools;
+import com.bumptech.glide.Glide;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.jpush.android.api.JPushInterface;
 import retrofit2.Call;
 
 public class WelcomeActivity extends BaseActivity {
     boolean isFenghao =false;
+    @BindView(R.id.welcomImg)
+    ImageView welcomImg;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,17 +56,40 @@ public class WelcomeActivity extends BaseActivity {
 
     private void getUserInfo() {
         /** 倒计时三秒 **/
-        CountDownTimer timer = new CountDownTimer(2500, 1000) {
+        CountDownTimer timer = new CountDownTimer(4700, 1000) {
 
             @Override
             public void onTick(long millisUntilFinished) {
                 // (millisUntilFinished / 1000) + "秒后可重发";
+                int  d = (int) (millisUntilFinished/1000);
+                Log.e("onTick",d+"");
+                switch (d){
+                    case 3:
+                        Glide.with(mActivity).load(R.mipmap.welcome1)
+                                //.animate(R.anim.animtion)
+                                //.crossFade(1000)
+                                .into(welcomImg);
+                        break;
+                    case 2:
+                        break;
+                    case 1:
+                        Glide.with(mActivity).load(R.mipmap.welcome2)
+                                //.crossFade(1000)
+                                //.animate(R.anim.animtion)
+                                .into(welcomImg);
+                        break;
+                }
             }
 
             @Override
             public void onFinish() {
-                if (!isFenghao)
-                toNext();
+                if (!isFenghao){
+                   // toNext();
+                    Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+
             }
         }.start();
         upDataProduct();

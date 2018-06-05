@@ -115,6 +115,8 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
         if (productAdapter != null) {
             if (pageIndex == 1) {//如果是下拉刷新 则要清除数据 如果不是下拉刷新 则加载新数据
                 productAdapter.clear();
+                productAdapter = new HomeProductAdapter(getActivity());
+                gridView.setAdapter(productAdapter);
             }
             productAdapter.addAll(list);
             productAdapter.notifyDataSetChanged();
@@ -402,7 +404,7 @@ public class Home1Fragment extends BaseFragment implements PullToRefreshBase.OnR
             horizontalListView.setSelection(i);
             categoryId = category.getId();
             timestamp = String.valueOf(System.currentTimeMillis());
-            pageIndex=0;
+            pageIndex=1;
             getAllData();
         }
     };
