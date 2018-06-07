@@ -1,7 +1,10 @@
 package com.benkie.hjw.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.util.Log;
 
 import java.io.BufferedOutputStream;
@@ -137,6 +140,10 @@ public class BitmapUtlis {
 
 
     public String compressImageByPath(String srcPath) {
+        Log.d(getClass().getName(),"压缩前图片路径:"+srcPath);
+        // 取得图片旋转角度
+        int angle = readPictureDegree(srcPath);
+        Log.d(getClass().getName(),"旋转角度:"+angle);
         BitmapFactory.Options newOpts = new BitmapFactory.Options();
         //开始读入图片，此时把options.inJustDecodeBounds 设回true了
         newOpts.inJustDecodeBounds = true;
@@ -157,12 +164,18 @@ public class BitmapUtlis {
         }
         if (be <= 0)
             be = 1;
+        //压缩好比例大小后再进行质量压缩
         newOpts.inSampleSize = be;//设置缩放比例
         //重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
         bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
+        //压缩图片
         bitmap = compressImage(bitmap);
+        // 修复图片被旋转的角度
+        bitmap = rotaingImageView(angle, bitmap);
+        //获取保存路径
         String path = saveFile(bitmap, srcPath);
-        return path;//压缩好比例大小后再进行质量压缩
+
+        return path;
     }
 
     /**
@@ -184,17 +197,80 @@ public class BitmapUtlis {
                 String imgPath = path.substring(0, s);
                 String name = path.substring(s, end);
                 String imgType = path.substring(end, path.length());
-                path = imgPath + name + "_temp" + imgType;
+                path = imgPath + name + "_condensed" + imgType;
             }
             File myCaptureFile = new File(path);
+            if (myCaptureFile.exists()){
+                myCaptureFile.delete();
+            }
             BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
             bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);
             bos.flush();
             bos.close();
+            Log.d(getClass().getName(),"压缩后保存路径:"+path);
+            int angle = readPictureDegree(path);
+            Log.d(getClass().getName(),"回复旋转角度:"+angle);
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.d(getClass().getName(),"压缩后保存路径:"+path);
+        }
+        return path;
+    }
+
+
+
+
+    /**
+     * 读取照片旋转角度
+     *
+     * @param path 照片路径
+     * @return 角度
+     */
+    public static int readPictureDegree(String path) {
+        int degree = 0;
+        try {
+            ExifInterface exifInterface = new ExifInterface(path);
+            int orientation = exifInterface.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL);
+            switch (orientation) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return path;
+        return degree;
+    }
+
+    /**
+     * 旋转图片
+     * @param angle 被旋转角度
+     * @param bitmap 图片对象
+     * @return 旋转后的图片
+     */
+    public static Bitmap rotaingImageView(int angle, Bitmap bitmap) {
+        Bitmap returnBm = null;
+        // 根据旋转角度，生成旋转矩阵
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        try {
+            // 将原始图片按照旋转矩阵进行旋转，并得到新的图片
+            returnBm = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+        } catch (OutOfMemoryError e) {
+        }
+        if (returnBm == null) {
+            returnBm = bitmap;
+        }
+        if (bitmap != returnBm) {
+            bitmap.recycle();
+        }
+        return returnBm;
     }
 
 }
