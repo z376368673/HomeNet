@@ -3,6 +3,8 @@ package com.benkie.hjw.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -12,12 +14,15 @@ import android.widget.ImageView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.benkie.hjw.R;
+import com.benkie.hjw.application.BaseApp;
 import com.benkie.hjw.bean.HomeProductBean;
 import com.benkie.hjw.db.DataHpler;
 import com.benkie.hjw.db.ProductSqliteOpenHelper;
 import com.benkie.hjw.net.Http;
 import com.benkie.hjw.utils.ToastUtil;
 import com.benkie.hjw.utils.Tools;
+import com.benkie.hjw.version.NetUtil;
+import com.benkie.hjw.version.UpdataVersion;
 import com.bumptech.glide.Glide;
 
 import java.util.HashSet;
@@ -38,9 +43,33 @@ public class WelcomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
-        getUserInfo();
+        UpdataVersion updataVersion = new UpdataVersion(this) {
+            @Override
+            public void isUpdateVersion(boolean isUp) {
+                if (!isUp)
+                getUserInfo();
+            }
+        };
+        if (NetUtil.isConnected(this)){
+            UpdataVersion.URL= Http.BASE_URL+"yetdwell/refreshInfo/newInfo.do";
+            updataVersion.getVersion();
+        }else {
+            ToastUtil.showInfo(this,"您尚未连接网络,即将自动退出...");
+            handler.sendEmptyMessageDelayed(1,2000);
+        }
+        //getUserInfo();
     }
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if (msg.what==1){
+                finish();
+            }else if (msg.what==1){
 
+            }
+        }
+    };
     private void toNext() {
         if (DataHpler.getFirstShow("firstIn")) {
             Intent intent = new Intent(this, Welcome2Activity.class);
@@ -51,7 +80,6 @@ public class WelcomeActivity extends BaseActivity {
             startActivity(intent);
             finish();
         }
-
     }
 
     private void getUserInfo() {
@@ -89,10 +117,9 @@ public class WelcomeActivity extends BaseActivity {
                     startActivity(intent);
                     finish();
                 }
-
             }
         }.start();
-        upDataProduct();
+        //upDataProduct();
         upDataUserInfo();
 
     }

@@ -7,6 +7,7 @@ import com.benkie.hjw.dialog.LoadingDialog;
 import com.benkie.hjw.utils.LogUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -95,6 +96,8 @@ public class Http {
 
     }
 
+
+
     public void getHttp(String url, boolean isShow, final JsonCallback jsonCallback) {
         OkHttpClient okHttpClient = new OkHttpClient();
         Request request = new Request.Builder()
@@ -111,6 +114,40 @@ public class Http {
             public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
                 String data = response.body().string();
                 jsonCallback.onResult(data, "");
+            }
+        });
+    }
+
+    public interface ResponseBodyCallback {
+        void onResult(ResponseBody data, String error);
+
+        void onFail(String error);
+
+    }
+
+    public void downFile(final String url, final ResponseBodyCallback jsonCallback) {
+        OkHttpClient okHttpClient = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        okhttp3.Call call = okHttpClient.newCall(request);
+        call.enqueue(new okhttp3.Callback() {
+            @Override
+            public void onFailure(okhttp3.Call call, IOException e) {
+                String msg = e.getMessage() == null ? "获取数据失败" : e.getMessage();
+                LogUtils.e("error", msg);
+                jsonCallback.onFail(msg);
+            }
+
+            @Override
+            public void onResponse(okhttp3.Call call, okhttp3.Response response) throws IOException {
+                   LogUtils.e("url", url);
+                if (response.body() == null) {
+                    jsonCallback.onFail("获取数据失败！" + response.message());
+                } else {
+                    ResponseBody data = response.body();
+                    jsonCallback.onResult(data, "");
+                }
             }
         });
     }

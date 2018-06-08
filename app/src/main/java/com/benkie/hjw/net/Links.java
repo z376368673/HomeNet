@@ -744,4 +744,12 @@ public interface Links {
      */
 
 
+    /**
+     * 版本检查
+     *
+     */
+    @POST("/yetdwell/refreshInfo/newInfo.do")
+    Call<ResponseBody> upDataVersion();
+
+
 }

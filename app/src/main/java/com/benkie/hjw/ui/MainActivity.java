@@ -14,8 +14,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.amap.api.location.AMapLocation;
 import com.benkie.hjw.R;
 import com.benkie.hjw.constants.Constants;
@@ -27,14 +30,19 @@ import com.benkie.hjw.net.Http;
 import com.benkie.hjw.utils.ToastUtil;
 import com.benkie.hjw.view.TabItemVIew;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidkun.com.versionupdatelibrary.entity.VersionUpdateConfig;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.item.NormalItemView;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 public class MainActivity extends BaseActivity implements OnTabItemSelectedListener {
@@ -193,6 +201,9 @@ public class MainActivity extends BaseActivity implements OnTabItemSelectedListe
         super.onDestroy();
         unregisterReceiver(receiver);
     }
+
+
+
 
 
 }
