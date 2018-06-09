@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Work_shenzhen\\HomeNet\\PullToRefresh\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-ko\\values-ko.xml",
+            "outputFile": "E:\\AndroidWork\\HomeNet\\PullToRefresh\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-ko\\values-ko.xml",
             "map": [
                 {
-                    "source": "E:\\Work_shenzhen\\HomeNet\\PullToRefresh\\build\\intermediates\\bundles\\debug\\res\\values-ko\\values-ko.xml",
+                    "source": "E:\\AndroidWork\\HomeNet\\PullToRefresh\\build\\intermediates\\bundles\\debug\\res\\values-ko\\values-ko.xml",
                     "from": {
                         "startLines": "2,3,4",
                         "startColumns": "4,4,4",

@@ -1,2 +1,2 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merger version="3"><dataSet config="main"><source path="E:\Work_shenzhen\HomeNet\PullToRefresh\src\main\assets"/><source path="E:\Work_shenzhen\HomeNet\PullToRefresh\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="E:\Work_shenzhen\HomeNet\PullToRefresh\src\release\assets"/></dataSet></merger>
+<merger version="3"><dataSet config="main"><source path="E:\AndroidWork\HomeNet\PullToRefresh\src\main\assets"/><source path="E:\AndroidWork\HomeNet\PullToRefresh\build\generated\assets\shaders\release"/></dataSet><dataSet config="release"><source path="E:\AndroidWork\HomeNet\PullToRefresh\src\release\assets"/></dataSet></merger>

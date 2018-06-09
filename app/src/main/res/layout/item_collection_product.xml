@@ -69,6 +69,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:orientation="horizontal"
                 >
             <TextView
@@ -85,6 +86,7 @@
                 android:paddingLeft="7dp"
                 android:paddingRight="7dp"
                 android:paddingTop="3dp"
+
                 android:paddingBottom="3dp"
                 android:textColor="@color/white"
                 android:textSize="13sp" />

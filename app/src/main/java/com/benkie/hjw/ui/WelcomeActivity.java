@@ -1,6 +1,7 @@
 package com.benkie.hjw.ui;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -23,6 +24,7 @@ import com.benkie.hjw.utils.ToastUtil;
 import com.benkie.hjw.utils.Tools;
 import com.benkie.hjw.version.NetUtil;
 import com.benkie.hjw.version.UpdataVersion;
+import com.benkie.hjw.version.UpdateManager;
 import com.bumptech.glide.Glide;
 
 import java.util.HashSet;
@@ -43,22 +45,27 @@ public class WelcomeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_welcome);
         ButterKnife.bind(this);
-        UpdataVersion updataVersion = new UpdataVersion(this) {
-            @Override
-            public void isUpdateVersion(boolean isUp) {
-                if (!isUp)
-                getUserInfo();
-            }
-        };
-        if (NetUtil.isConnected(this)){
-            UpdataVersion.URL= Http.BASE_URL+"yetdwell/refreshInfo/newInfo.do";
-            updataVersion.getVersion();
-        }else {
-            ToastUtil.showInfo(this,"您尚未连接网络,即将自动退出...");
-            handler.sendEmptyMessageDelayed(1,2000);
-        }
-        //getUserInfo();
+
+//        UpdataVersion updataVersion = new UpdataVersion(this) {
+//            @Override
+//            public void isUpdateVersion(boolean isUp) {
+//                if (!isUp)
+//                getUserInfo();
+//            }
+//        };
+//        if (NetUtil.isConnected(this)){
+//            UpdataVersion.URL= Http.BASE_URL+"yetdwell/refreshInfo/newInfo.do";
+//            updataVersion.getVersion();
+//        }else {
+//            ToastUtil.showInfo(this,"您尚未连接网络,即将自动退出...");
+//            handler.sendEmptyMessageDelayed(1,2000);
+//        }
+
+       getUserInfo();
     }
+
+
+
     Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {

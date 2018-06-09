@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "E:\\Work_shenzhen\\HomeNet\\PullToRefresh\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
+            "outputFile": "E:\\AndroidWork\\HomeNet\\PullToRefresh\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
-                    "source": "E:\\Work_shenzhen\\HomeNet\\PullToRefresh\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
+                    "source": "E:\\AndroidWork\\HomeNet\\PullToRefresh\\build\\intermediates\\bundles\\debug\\res\\values\\values.xml",
                     "from": {
                         "startLines": "16,17,18,19,20,21,22,23,24,25,26,27,28,29",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4",

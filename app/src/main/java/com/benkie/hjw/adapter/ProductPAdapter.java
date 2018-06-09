@@ -90,14 +90,11 @@ public class ProductPAdapter extends ArrayAdapter<HomeProductBean> {
             }
             tv_name.setText(item.getName());
 
-            if (item.getMdate() < 2) {
-                tv_xufei.setVisibility(View.VISIBLE);
-                tv_date.setText("请及时续费,以免项目下架");
-            }else if (item.getMdate() <=7) {
+           if (item.getMdate() <=7) {
                 tv_xufei.setVisibility(View.VISIBLE);
                 tv_date.setText("展示剩余天数：" + item.getMdate() + " 天");
             } else {
-                tv_xufei.setVisibility(View.INVISIBLE);
+                tv_xufei.setVisibility(View.GONE);
                 tv_date.setText("展示剩余天数：" + item.getMdate() + " 天");
             }
             tv_read.setText(item.getReadCount() + "");

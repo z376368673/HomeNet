@@ -1,33 +1,18 @@
 package com.benkie.hjw.version;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.net.ConnectivityManager;
-import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.benkie.hjw.R;
-import com.benkie.hjw.db.DataHpler;
 import com.benkie.hjw.dialog.BaseDialog;
 import com.benkie.hjw.net.Http;
-import com.benkie.hjw.ui.BaseActivity;
-import com.benkie.hjw.ui.MainActivity;
 import com.benkie.hjw.utils.ToastUtil;
 
-import java.io.IOException;
-
-import androidkun.com.versionupdatelibrary.entity.VersionUpdateConfig;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 /**
@@ -49,10 +34,10 @@ public abstract class UpdataVersion {
             @Override
             public void onResult(String json, String error) {
                 try {
-                JSONObject jsObj = JSON.parseObject(json);
-                String apkUrl = jsObj.getString("apkUrl");
-                String description = jsObj.getString("description");
-                int version = jsObj.getIntValue("version");
+                    JSONObject jsObj = JSON.parseObject(json);
+                    String apkUrl = jsObj.getString("apkUrl");
+                    String description = jsObj.getString("description");
+                    int version = jsObj.getIntValue("version");
                     isUpdata(apkUrl,description,version);
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
@@ -92,14 +77,6 @@ public abstract class UpdataVersion {
 
 
     private void downLoad(String url,String version){
-        VersionUpdateConfig.getInstance()//获取配置实例
-                .setContext(context)//设置上下文
-                .setDownLoadURL(url)//设置文件下载链接
-                .setNewVersion(version)//设置即将下载的APK的版本号,避免重复下载
-                //.setFileSavePath(savePath)//设置文件保存路径（可不设置）
-                .setNotificationIconRes(R.mipmap.ic_huanju)//设置通知图标
-                .setNotificationSmallIconRes(R.mipmap.ic_huanju)//设置通知小图标
-                .setNotificationTitle("还居网")//设置通知标题
-                .startDownLoad();//开始下载
+
     }
 }

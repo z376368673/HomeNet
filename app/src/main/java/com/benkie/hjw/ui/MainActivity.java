@@ -14,7 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -23,26 +23,22 @@ import com.amap.api.location.AMapLocation;
 import com.benkie.hjw.R;
 import com.benkie.hjw.constants.Constants;
 import com.benkie.hjw.fragment.Home1Fragment;
-import com.benkie.hjw.fragment.Home3Fragment;
 import com.benkie.hjw.fragment.Home2Fragment;
+import com.benkie.hjw.fragment.Home3Fragment;
 import com.benkie.hjw.map.LocationUtils;
 import com.benkie.hjw.net.Http;
 import com.benkie.hjw.utils.ToastUtil;
+import com.benkie.hjw.version.UpdateManager;
 import com.benkie.hjw.view.TabItemVIew;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import androidkun.com.versionupdatelibrary.entity.VersionUpdateConfig;
 import me.majiajie.pagerbottomtabstrip.NavigationController;
 import me.majiajie.pagerbottomtabstrip.PageNavigationView;
 import me.majiajie.pagerbottomtabstrip.item.BaseTabItem;
 import me.majiajie.pagerbottomtabstrip.item.NormalItemView;
 import me.majiajie.pagerbottomtabstrip.listener.OnTabItemSelectedListener;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 
 public class MainActivity extends BaseActivity implements OnTabItemSelectedListener {
@@ -92,9 +88,37 @@ public class MainActivity extends BaseActivity implements OnTabItemSelectedListe
         fragmentList.add(zzbsFragment);
         fragmentList.add(technicalsFragment);
         fragmentManager.beginTransaction().add(R.id.frameLayout, homeFragment).commitAllowingStateLoss();
-
+        getVersionCode();
     }
+    private void getVersionCode(){
 
+
+        Call call = Http.links.upDataVersion();
+        Http.http.call(this, call, false, new Http.JsonCallback() {
+            @Override
+            public void onResult(String json, String error) {
+                done(json);
+            }
+            @Override
+            public void onFail(String error) {
+                done("");
+            }
+
+            public void done(String json){
+                if (!TextUtils.isEmpty(json)){
+                    JSONObject jsObj = JSON.parseObject(json);
+                    String apkUrl = jsObj.getString("apkUrl");
+                    String description = jsObj.getString("description");
+                    int version = jsObj.getIntValue("version");
+                    UpdateManager mUpdateManager = new UpdateManager(mActivity,version,1);
+                    mUpdateManager.setApkUrl(apkUrl);
+                    mUpdateManager.setDes(description);
+                    mUpdateManager.checkUpdateInfo();
+                }
+
+            }
+        });
+    }
 
     private BaseTabItem newItem(int drawable, int checkedDrawable, String text) {
         //创建一个Itemwable, int checkedDrawable, String text){
