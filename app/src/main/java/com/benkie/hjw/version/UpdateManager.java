@@ -1,5 +1,6 @@
 package com.benkie.hjw.version;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog.Builder;
 import android.app.Dialog;
@@ -15,6 +16,8 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -75,16 +78,16 @@ public class UpdateManager {
     public void setDes(String des) {
         this.des = des;
     }
-    private String convertSizeToM(long size){
+
+    private String convertSizeToM(long size) {
         String sizeStr = "0M";
-       if (size<1024*1024){
-            sizeStr = size/1024+"K";
-        }else {
-           sizeStr = size/1024/1024+"M";
+        if (size < 1024 * 1024) {
+            sizeStr = size / 1024 + "K";
+        } else {
+            sizeStr = size / 1024 / 1024 + "M";
         }
         return sizeStr;
     }
-
 
 
     private Handler mHandler = new Handler() {
@@ -92,12 +95,12 @@ public class UpdateManager {
             switch (msg.what) {
                 case DOWN_UPDATE:
                     mProgress.setProgress(progress);
-                    if (totalSize==0||progress==0){
+                    if (totalSize == 0 || progress == 0) {
                         tv_progress.setText("正在计算...");
-                    }else {
+                    } else {
                         //String prog = String.format("已下载：%d %", totalSize * 100 / progress);
                         //tv_progress.setText("已下载: "+ convertSizeToM(progress)+"/"+convertSizeToM((int) totalSize));
-                        tv_progress.setText("已下载: "+progress+"/%");
+                        tv_progress.setText("已下载: " + progress + "/%");
                     }
                     break;
                 case DOWN_OVER:
@@ -203,11 +206,14 @@ public class UpdateManager {
                 totalSize = length;
                 InputStream is = conn.getInputStream();
 
-                savePath = Environment.getExternalStorageDirectory() + "/还居/updateapk/";
-                File file = new File(savePath);
+                //savePath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);;
+                File file = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                ;
                 if (!file.exists()) {
-                    file.mkdir();
+                    boolean b = file.mkdir();
+                    Log.e("创建文件:", b + "=>" + file.getPath());
                 }
+                savePath = file.getAbsolutePath();
                 saveFileName = ApkUrl.substring(ApkUrl.lastIndexOf("/"));
                 saveFileName = savePath + saveFileName;
                 File ApkFile = new File(saveFileName);
@@ -256,14 +262,22 @@ public class UpdateManager {
     /**
      * 安装apk
      */
-    private void installApk() {
+    public void installApk() {
         File apkfile = new File(saveFileName);
         if (!apkfile.exists()) {
             return;
         }
         Intent install = new Intent(Intent.ACTION_VIEW);
-        // 调用系统自带安装环境
+        if (Build.VERSION.SDK_INT >= 26) {
+            boolean b = mContext.getPackageManager().canRequestPackageInstalls();
+            if (!b) {
+                Intent intent = new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES);
+                mContext.startActivityForResult(intent, 10012);
+                return;
+            }
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            // 调用系统自带安装环境
             Log.w(TAG, "版本大于 N ，开始使用 fileProvider 进行安装");
             install.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             Uri contentUri = FileProvider.getUriForFile(mContext, "com.benkie.hjw.fileProvider", apkfile);

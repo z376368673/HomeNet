@@ -88,11 +88,9 @@ public class MainActivity extends BaseActivity implements OnTabItemSelectedListe
         fragmentList.add(zzbsFragment);
         fragmentList.add(technicalsFragment);
         fragmentManager.beginTransaction().add(R.id.frameLayout, homeFragment).commitAllowingStateLoss();
-        getVersionCode();
+
     }
     private void getVersionCode(){
-
-
         Call call = Http.links.upDataVersion();
         Http.http.call(this, call, false, new Http.JsonCallback() {
             @Override
@@ -167,7 +165,10 @@ public class MainActivity extends BaseActivity implements OnTabItemSelectedListe
                     || ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
                     || ActivityCompat.checkSelfPermission(this,
-                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                    ) {
 
                 ActivityCompat.requestPermissions(this,
                         new String[]{
@@ -175,7 +176,8 @@ public class MainActivity extends BaseActivity implements OnTabItemSelectedListe
                                 Manifest.permission.ACCESS_FINE_LOCATION,
                                 Manifest.permission.READ_PHONE_STATE,
                                 Manifest.permission.CALL_PHONE,
-                                Manifest.permission.READ_EXTERNAL_STORAGE
+                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                Manifest.permission.WRITE_EXTERNAL_STORAGE
                         }, 1);
             } else {
                 final LocationUtils locationUtils = new LocationUtils(this);
@@ -192,6 +194,7 @@ public class MainActivity extends BaseActivity implements OnTabItemSelectedListe
                         locationUtils.stopLocation();
                     }
                 });
+                getVersionCode();
             }
         }
     }
