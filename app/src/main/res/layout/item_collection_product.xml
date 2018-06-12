@@ -27,6 +27,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="维也纳酒店"
+            android:maxLines="1"
+            android:ellipsize="end"
             android:textColor="@color/black_33"
             android:textSize="15sp"
             android:textStyle="bold" />

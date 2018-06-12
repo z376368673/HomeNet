@@ -163,7 +163,7 @@
                     android:layout_marginTop="10dp"
                     android:text="项目所在地：未填写"
                     android:textColor="@color/black_66"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_date"
@@ -172,7 +172,7 @@
                     android:layout_marginTop="5dp"
                     android:text="完工日期：未填写"
                     android:textColor="@color/black_66"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
                 <LinearLayout
                     android:id="@+id/ll_zan"
@@ -187,7 +187,7 @@
                         android:layout_height="wrap_content"
                         android:text="已集 "
                         android:textColor="@color/black_99"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tv_zan_count"
@@ -195,14 +195,14 @@
                         android:layout_height="wrap_content"
                         android:text="0"
                         android:textColor="@color/gold_ee"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" 个赞,还差 "
                         android:textColor="@color/black_99"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:id="@+id/tv_zan_lack"
@@ -210,14 +210,14 @@
                         android:layout_height="wrap_content"
                         android:text="0"
                         android:textColor="@color/gold_ee"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text=" 个赞可免费发布到推荐"
                         android:textColor="@color/black_99"
-                        android:textSize="14sp" />
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout

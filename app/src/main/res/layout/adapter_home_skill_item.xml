@@ -104,7 +104,7 @@
                     android:maxLines="1"
                     android:text="深圳"
                     android:textColor="@color/black_99"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
                 <TextView
                     android:id="@+id/tv_distance"
@@ -113,7 +113,7 @@
                     android:layout_marginLeft="15dp"
                     android:text="0km"
                     android:textColor="@color/black_99"
-                    android:textSize="15sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
         </LinearLayout>
