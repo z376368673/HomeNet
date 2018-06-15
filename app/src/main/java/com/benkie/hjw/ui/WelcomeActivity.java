@@ -40,7 +40,7 @@ public class WelcomeActivity extends BaseActivity {
     boolean isFenghao =false; //是否被封号
     @BindView(R.id.welcomImg)
     ImageView welcomImg;
-    boolean isValidityToken = false;//token是否有效
+    boolean isValidityToken = true;//token是否有效
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

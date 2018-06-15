@@ -81,7 +81,8 @@ public class Http {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable throwable) {
                 dialog.dismiss();
-                String msg = throwable.getMessage() == null ? "获取数据失败" : throwable.getMessage();
+                String msg = "网络异常，请检查网络";
+                //String msg = throwable.getMessage() == null ? "获取数据失败" : throwable.getMessage();
                 LogUtils.e("error", msg);
                 jsonCallback.onFail(msg);
                 Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();

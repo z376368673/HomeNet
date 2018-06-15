@@ -86,7 +86,6 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
         setContentView(R.layout.activity_search_result);
         ButterKnife.bind(this);
         initView();
-        getAllType();
         getAllData();
     }
 
@@ -133,7 +132,8 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
                 ct_1.setChecked(false);
                 ct_2.setChecked(true);
                 ct_3.setChecked(false);
-                showType();
+                //showType();
+                getAllType();
                 break;
             case R.id.ct_3:
                 ct_1.setChecked(false);
@@ -251,6 +251,7 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
                             ct_2.setChecked(false);
                         }
                     });
+                    popWindowType.showPopupWindow(ct_2);
                 } else {
                     onFail("获取数据失败");
                 }
