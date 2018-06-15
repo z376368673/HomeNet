@@ -163,7 +163,8 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
                 if (msg == 1) {
                     item.setCertificate(certificate);
                     //skillAdapter.notifyDataSetChanged();
-                    BeseBroadcastReceiver.sendToSkill(SkillPublicActivity.this,1);
+                    skillAdapter.notifyDataSetChanged();
+                    //BeseBroadcastReceiver.sendToSkill(SkillPublicActivity.this,1);
                 } else {
                     ToastUtil.showInfo(mActivity, "数据错误");
                 }
@@ -202,7 +203,6 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
                         item.setStatus(0);
                     }
                     skillAdapter.notifyDataSetChanged();
-
                 } else {
                     ToastUtil.showInfo(mActivity, "数据错误");
                 }
@@ -225,6 +225,7 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
         Http.http.call(this, call, iShow, new Http.JsonCallback() {
             @Override
             public void onResult(String json, String error) {
+                pullRefreshView.onRefreshComplete();
                 JSONObject jsObj = JSON.parseObject(json);
                 isData = jsObj.getIntValue("isData");
                 int count = jsObj.getIntValue("count");
@@ -264,6 +265,7 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
             @Override
             public void onFail(String error) {
                 ToastUtil.showInfo(mActivity, error);
+                pullRefreshView.onRefreshComplete();
             }
         });
     }
@@ -349,13 +351,9 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
                 public void onResult(String json, String error) {
                     JSONObject jsObj = JSON.parseObject(json);
                     int msg = jsObj.getIntValue("msg");
-
                     if (msg == 1) {
-//                        skillAdapter.add(skillBean);
-//                        skillAdapter.notifyDataSetChanged();
                         getData(false);
                     }else if (msg==2){
-
                         onFail("此技能已存在,不能重复添加");
                     }else {
                         error = jsObj.getString("error");
@@ -380,7 +378,8 @@ public class SkillPublicActivity extends BaseActivity implements PullToRefreshBa
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase refreshView) {
-        pullRefreshView.onRefreshComplete();
+        getData(false);
+
     }
 
     @Override

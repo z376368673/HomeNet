@@ -42,10 +42,11 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="left"
-                    android:text="专业人员"
+                    android:text=""
+                    android:maxLength="8"
                     android:textColor="@color/black_33"
                     android:textSize="17.0sp"
-                    android:textStyle="bold" />
+                    />
 
                 <TextView
                     android:id="@+id/tv_type"
@@ -53,10 +54,10 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:gravity="left"
-                    android:text="(个人)"
+                    android:text=""
                     android:textColor="@color/black_33"
                     android:textSize="16.0sp"
-                    android:textStyle="bold" />
+                    />
 
                 <View
                     android:layout_width="0dp"

@@ -142,7 +142,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="15dp"
-                android:text="选择服务类容"
+                android:text="选择服务内容"
                 android:textColor="@drawable/selector_text_color_black_33"
                 android:textSize="15sp" />
 

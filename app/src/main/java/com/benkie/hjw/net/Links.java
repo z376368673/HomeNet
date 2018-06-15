@@ -525,6 +525,8 @@ public interface Links {
      */
     @POST("/yetdwell/user/skillCollection.do")
     Call<ResponseBody> skillCollection(@Query("userInfoId") int userInfoId, @Query("timestamp") String timestamp);
+    @POST("/yetdwell/user/skillCollection.do")
+    Call<ResponseBody> skillCollection(@Query("userInfoId") int userInfoId, @Query("pageIndex") int pageIndex);
 
 
     /**

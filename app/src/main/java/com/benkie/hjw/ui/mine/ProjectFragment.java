@@ -71,7 +71,7 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
         fragment = this;
         initView();
         getCollectionType();
-       // getCategoryList();
+        // getCategoryList();
         return view;
     }
 
@@ -79,7 +79,8 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
     public void onClick(View view) {
         super.onClick(view);
     }
-    private  List<Category> getAlltype(){
+
+    private List<Category> getAlltype() {
         List<Category> categoryList = new ArrayList<>();
         categoryList.addAll(cList);
         return categoryList;
@@ -96,20 +97,15 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
         gridView.setOnItemClickListener(this);
         gridView.setOnItemClickListener(this);
         gridView.setPadding(0, 0, 00, 0);
-        adapter = new CollectionProductAdapter(mActivity) {
-            @Override
-            public void delCollection(CollectProductBean item) {
-                delColle(item);
-            }
-        };
+        adapter = new CollectionProductAdapter(mActivity);
         gridView.setAdapter(adapter);
         categoryAdapter = new CategoryAdapter(mActivity);
-        horizontalListView.setOnItemClickListener(horItemClickListener);
         horizontalListView.setAdapter(categoryAdapter);
+        horizontalListView.setOnItemClickListener(horItemClickListener);
         horizontalListView.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-               Category category = (Category) adapterView.getAdapter().getItem(i);
+                Category category = (Category) adapterView.getAdapter().getItem(i);
                 categoryAdapter.setCheck(category);
                 geteItemCollection(category.getId());
             }
@@ -121,32 +117,39 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
         });
 
     }
+
     public void getCategoryList() {
-        List<Category> categoryList =getAlltype();
+        List<Category> categoryList = getAlltype();
+        categoryAdapter = new CategoryAdapter(mActivity);
         categoryAdapter.clear();
         categoryAdapter.addAll(categoryList);
+        horizontalListView.setAdapter(categoryAdapter);
+
         category = categoryList.get(0);
         categoryAdapter.setCheck(category);
         geteItemCollection(category.getId());
     }
+
     /**
      * 导航菜单点击
      */
     AdapterView.OnItemClickListener horItemClickListener = new AdapterView.OnItemClickListener() {
         @Override
         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            Category category = (Category) adapterView.getAdapter().getItem(i);
+            category = (Category) adapterView.getAdapter().getItem(i);
             horizontalListView.setSelection(i);
-            geteItemCollection( category.getId());
+            pageIndex = 1;
+            geteItemCollection(category.getId());
         }
     };
+
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         productBean = (CollectProductBean) adapterView.getAdapter().getItem(i);
         Intent intent = new Intent(mActivity, ProductDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("pid", productBean.getUid());
-        bundle.putString("Name",productBean.getName());
+        bundle.putString("Name", productBean.getName());
         bundle.putInt("FormType", 0);
         intent.putExtras(bundle);
         getActivity().startActivity(intent);
@@ -154,13 +157,17 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase refreshView) {
-        if (category!=null)
+        pageIndex = 1;
+        if (category != null)
             geteItemCollection(category.getId());
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase refreshView) {
-        pullRefreshView.onRefreshComplete();
+        pageIndex++;
+        if (category != null)
+            geteItemCollection(category.getId());
+
     }
 
     /**
@@ -169,7 +176,7 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
      * @param productBean
      */
     private void delColle(final CollectProductBean productBean) {
-        Call call = Http.links.itemCollect(DataHpler.getUserInfo().getUserid(),productBean.getUid(),0);
+        Call call = Http.links.itemCollect(DataHpler.getUserInfo().getUserid(), productBean.getUid(), 0);
         Http.http.call(mActivity, call, true, new Http.JsonCallback() {
             @Override
             public void onResult(String json, String error) {
@@ -193,7 +200,7 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
     /**
      * 收藏项目分类
      */
-    private void getCollectionType(){
+    private void getCollectionType() {
         Call call = Http.links.itemCollectionType(DataHpler.getUserInfo().getUserid());
         Http.http.call(mActivity, call, true, new Http.JsonCallback() {
             @Override
@@ -202,13 +209,14 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
                 int msg = jsObj.getIntValue("msg");
                 if (msg == 1) {
                     List<Category> beanList = JSON.parseArray(jsObj.getString("type"), Category.class);
-                    if (beanList != null&&beanList.size()>0) {
+                    if (beanList != null && beanList.size() > 0) {
+
                         pullRefreshView.setVisibility(View.VISIBLE);
                         horizontalListView.setVisibility(View.VISIBLE);
                         iv_no.setVisibility(View.GONE);
-                        cList =beanList;
+                        cList = beanList;
                         getCategoryList();
-                    }else {
+                    } else {
                         pullRefreshView.setVisibility(View.GONE);
                         horizontalListView.setVisibility(View.GONE);
                         iv_no.setVisibility(View.VISIBLE);
@@ -227,9 +235,21 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
         });
     }
 
+    public void setDataAdapter(List<CollectProductBean> beanLis) {
+        if (adapter != null) {
+            if (pageIndex == 1) {
+                adapter.clear();
+                adapter = new CollectionProductAdapter(getContext());
+                gridView.setAdapter(adapter);
+            }
+            adapter.addAll(beanLis);
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     private void geteItemCollection(int categoryId) {
         Call call = Http.links.myItemCollection(DataHpler.getUserInfo().getUserid(),
-                categoryId,pageIndex);
+                categoryId, pageIndex);
         Http.http.call(mActivity, call, true, new Http.JsonCallback() {
             @Override
             public void onResult(String json, String error) {
@@ -237,16 +257,20 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
                 int msg = jsObj.getIntValue("msg");
                 if (msg == 1) {
                     List<CollectProductBean> beanList = JSON.parseArray(jsObj.getString("item"), CollectProductBean.class);
-                    if (beanList != null&&beanList.size()>0) {
-                        pullRefreshView.setVisibility(View.VISIBLE);
-                        iv_no.setVisibility(View.GONE);
-                        adapter.clear();
-                        adapter.addAll(beanList);
-                        adapter.notifyDataSetChanged();
-                    }else {
-                        pullRefreshView.setVisibility(View.GONE);
-                        iv_no.setVisibility(View.VISIBLE);
+                    if (beanList == null || beanList.size() == 0) {
+                        if (pageIndex == 1) {
+                            pullRefreshView.setVisibility(View.GONE);
+                            iv_no.setVisibility(View.VISIBLE);
+                            return;
+                        }
+                        beanList = new ArrayList<>();
+                        onFail("没有更多数据了");
+                        return;
                     }
+                    pullRefreshView.setVisibility(View.VISIBLE);
+                    iv_no.setVisibility(View.GONE);
+                    setDataAdapter(beanList);
+
                 } else {
                     onFail("获取数据失败");
                 }
@@ -260,11 +284,13 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
             }
         });
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        if (category!=null)
-            geteItemCollection(category.getId());
+        getCollectionType();
+//        if (category!=null)
+//            geteItemCollection(category.getId());
     }
 
     @Override

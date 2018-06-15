@@ -271,7 +271,7 @@ public class ProjectNFragment extends BaseFragment implements PullToRefreshBase.
     @Override
     public void onResume() {
         super.onResume();
-        geteData(false);
+        geteData(true);
     }
 
     /**

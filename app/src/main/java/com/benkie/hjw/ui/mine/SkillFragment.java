@@ -52,6 +52,8 @@ public class SkillFragment extends BaseFragment implements PullToRefreshBase.OnR
     ListView listView;
     CollectinoSkillAdapter adapter;
     Fragment fragment;
+    int pageIndex = 1;
+    //String timestamp = System.currentTimeMillis() + "";
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -87,23 +89,27 @@ public class SkillFragment extends BaseFragment implements PullToRefreshBase.OnR
         HomeSkillBean homeSkillBean = (HomeSkillBean) adapterView.getAdapter().getItem(i);
         Intent intent = new Intent(getActivity(), SkillDetailsActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putInt("sid",homeSkillBean.getId());
+        bundle.putInt("sid", homeSkillBean.getId());
         intent.putExtras(bundle);
         startActivity(intent);
     }
 
     @Override
     public void onPullDownToRefresh(PullToRefreshBase refreshView) {
+        //timestamp = System.currentTimeMillis() + "";
+        pageIndex=1;
         geteData();
     }
 
     @Override
     public void onPullUpToRefresh(PullToRefreshBase refreshView) {
-        pullRefreshView.onRefreshComplete();
+        pageIndex++;
+        geteData();
+
     }
 
     private void geteData() {
-        Call call = Http.links.skillCollection(DataHpler.getUserInfo().getUserid(), System.currentTimeMillis() + "");
+        Call call = Http.links.skillCollection(DataHpler.getUserInfo().getUserid(), pageIndex);
         Http.http.call(mActivity, call, true, new Http.JsonCallback() {
             @Override
             public void onResult(String json, String error) {
@@ -111,14 +117,19 @@ public class SkillFragment extends BaseFragment implements PullToRefreshBase.OnR
                 int msg = jsObj.getIntValue("msg");
                 if (msg == 1) {
                     List<HomeSkillBean> skillBeanList = JSON.parseArray(jsObj.getString("skill"), HomeSkillBean.class);
-                    if (skillBeanList != null&&skillBeanList.size()>0) {
+                    if (skillBeanList != null && skillBeanList.size() > 0) {
                         pullRefreshView.setVisibility(View.VISIBLE);
                         iv_no.setVisibility(View.GONE);
                         setSkillData(skillBeanList);
                     } else {
-                        pullRefreshView.setVisibility(View.GONE);
-                        iv_no.setVisibility(View.VISIBLE);
+                        if (pageIndex == 1) {
+                            pullRefreshView.setVisibility(View.GONE);
+                            iv_no.setVisibility(View.VISIBLE);
+                        } else {
+                            onFail("没有更多数据了");
+                        }
                     }
+
                 } else {
                     onFail("获取数据失败");
                 }
@@ -137,11 +148,15 @@ public class SkillFragment extends BaseFragment implements PullToRefreshBase.OnR
      * 添加技术服务数据
      */
     private void setSkillData(List<HomeSkillBean> skillList) {
-        if (adapter != null) {
-            adapter.clear();
-            adapter.addAll(skillList);
-            adapter.notifyDataSetChanged();
+        if (adapter==null){
+            adapter= new CollectinoSkillAdapter(getActivity());
+            listView.setAdapter(adapter);
         }
+        if (pageIndex == 1) {
+            adapter.clear();
+        }
+        adapter.addAll(skillList);
+        adapter.notifyDataSetChanged();
     }
 
     @Override

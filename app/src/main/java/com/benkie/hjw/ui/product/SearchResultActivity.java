@@ -74,8 +74,8 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
 
     private int categoryId = 0;
     private int serviceId = 0;
-    private String city ="";
-    private String name ="";
+    private String city = "";
+    private String name = "";
     private String starData = "";
     private String endData = "";
     private String timestamp = String.valueOf(System.currentTimeMillis());
@@ -143,6 +143,7 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
                 break;
         }
     }
+
     private void showChoiceCity() {
         List<HotCity> hotCities = new ArrayList<>();
         hotCities.add(new HotCity("全部区域", "全部区域", "000000000"));
@@ -154,18 +155,18 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
         CityPicker.getInstance()
                 .setFragmentManager(getSupportFragmentManager())
                 .enableAnimation(true)
-                .setLocatedCity(new LocatedCity( Constants.city, Constants.province,""))
+                .setLocatedCity(new LocatedCity(Constants.city, Constants.province, ""))
                 .setHotCities(hotCities)
                 .setOnPickListener(new OnPickListener() {
                     @Override
                     public void onPick(int position, City data) {
-                        if (data==null)return;
+                        if (data == null) return;
                         city = data.getName();
                         ct_1.setTitle(city);
-                        if (city.equals("全部区域")){
+                        if (city.equals("全部区域")) {
                             ct_1.setTitleColor(false);
-                            city="";
-                        }else {
+                            city = "";
+                        } else {
                             ct_1.setTitleColor(true);
                         }
                         ct_1.setChecked(false);
@@ -174,7 +175,7 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
 
                     @Override
                     public void onLocate() {
-                        Log.e("onLocate","onLocate");
+                        Log.e("onLocate", "onLocate");
                     }
                 })
                 .show();
@@ -189,8 +190,9 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
      * 选择项目分类
      */
     GridVIewPopWindow popWindowType;
+
     private void showType() {
-        if (popWindowType!=null)
+        if (popWindowType != null)
             popWindowType.showPopupWindow(ct_2);
     }
 
@@ -206,7 +208,7 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        HomeProductBean productBean  = (HomeProductBean) adapterView.getAdapter().getItem(i);
+        HomeProductBean productBean = (HomeProductBean) adapterView.getAdapter().getItem(i);
         Intent intent = new Intent(mActivity, ProductDetailsActivity.class);
         Bundle bundle = new Bundle();
         bundle.putInt("pid", productBean.getItemId());
@@ -215,17 +217,18 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
     //获取类别
     private void getAllType() {
-        Call call = Http.links.searchItemType(name,city);
-        Http.http.call(mActivity,call, true, new Http.JsonCallback() {
+        Call call = Http.links.searchItemType(name, city);
+        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
             @Override
             public void onResult(String json, String error) {
                 JSONObject jsObj = JSON.parseObject(json);
                 int msg = jsObj.getIntValue("msg");
                 if (msg == 1) {
                     List<Category> otherList = JSON.parseArray(jsObj.getString("data"), Category.class);
-                    otherList.add(0,new Category(0,"全部"));
+                    otherList.add(0, new Category(0, "全部"));
                     popWindowType = new GridVIewPopWindow(mActivity);
                     popWindowType.setGravity(Gravity.CENTER);
                     popWindowType.setData(otherList);
@@ -233,9 +236,9 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
                         @Override
                         public void onPopWindowCheckedListener(PopBean popBean) {
                             ct_2.setTitle(popBean.getName());
-                            if (popBean.getId()==0){
+                            if (popBean.getId() == 0) {
                                 ct_2.setTitleColor(false);
-                            }else {
+                            } else {
                                 ct_2.setTitleColor(true);
                             }
                             categoryId = popBean.getId();
@@ -259,19 +262,20 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
             }
         });
     }
+
     /**
      * 获取服务类型
      */
     private void getAllServiceList() {
-        Call call = Http.links.allserviceList(categoryId,city,name);
-        Http.http.call(mActivity,call, true, new Http.JsonCallback() {
+        Call call = Http.links.allserviceList(categoryId, city, name);
+        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
             @Override
             public void onResult(String json, String error) {
                 JSONObject jsObj = JSON.parseObject(json);
                 int msg = jsObj.getIntValue("msg");
                 if (msg == 1) {
-                    List<TypeBean>  beanList = JSON.parseArray(jsObj.getString("data"), TypeBean.class);
-                    if (beanList != null){
+                    List<TypeBean> beanList = JSON.parseArray(jsObj.getString("data"), TypeBean.class);
+                    if (beanList != null) {
 
                         /*** 添加全部选项 ***/
                         TypeBean typeBean = new TypeBean(0, "全部");
@@ -293,17 +297,17 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
                             public void onPopWindowCheckedListener(PopBean popBean) {
                                 ct_3.setTitle(popBean.getName());
                                 serviceId = popBean.getId();
-                                if (serviceId==0){
+                                if (serviceId == 0) {
                                     ct_3.setTitleColor(false);
-                                }else {
+                                } else {
                                     ct_3.setTitleColor(true);
                                 }
                                 getAllData();
                             }
                         });
                         popWindowService.showPopupWindow(ct_3);
-                    }else  onFail("暂无数据");
-                }else {
+                    } else onFail("暂无数据");
+                } else {
                     onFail("获取数据失败");
                 }
             }
@@ -319,18 +323,18 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
      * 获取所有得完成项目
      */
     private void getAllData() {
-        Call call = Http.links.searchAllItemList(categoryId,city,name,starData,endData,serviceId,timestamp);
-        Http.http.call(mActivity,call, true, new Http.JsonCallback() {
+        Call call = Http.links.searchAllItemList(categoryId, city, name, starData, endData, serviceId, timestamp);
+        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
             @Override
             public void onResult(String json, String error) {
                 JSONObject jsObj = JSON.parseObject(json);
                 int msg = jsObj.getIntValue("msg");
                 if (msg == 1) {
                     List<HomeProductBean> beanList = JSON.parseArray(jsObj.getString("data"), HomeProductBean.class);
-                    if (beanList != null){
+                    if (beanList != null) {
                         setProductData(beanList);
-                    }else  onFail("暂无数据");
-                }else {
+                    } else onFail("暂无数据");
+                } else {
                     onFail("获取数据失败");
                 }
             }
@@ -343,10 +347,9 @@ public class SearchResultActivity extends BaseActivity implements PullToRefreshB
     }
 
     private void setProductData(List<HomeProductBean> list) {
-        if (productAdapter != null) {
-            productAdapter.clear();
-            productAdapter.addAll(list);
-            productAdapter.notifyDataSetChanged();
-        }
+        productAdapter = new HomeProductAdapter(this);
+        gridView.setAdapter(productAdapter);
+        productAdapter.addAll(list);
+        productAdapter.notifyDataSetChanged();
     }
 }

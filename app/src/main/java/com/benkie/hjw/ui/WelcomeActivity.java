@@ -37,9 +37,10 @@ import cn.jpush.android.api.JPushInterface;
 import retrofit2.Call;
 
 public class WelcomeActivity extends BaseActivity {
-    boolean isFenghao =false;
+    boolean isFenghao =false; //是否被封号
     @BindView(R.id.welcomImg)
     ImageView welcomImg;
+    boolean isValidityToken = false;//token是否有效
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,8 +119,11 @@ public class WelcomeActivity extends BaseActivity {
 
             @Override
             public void onFinish() {
-                if (!isFenghao){
-                   // toNext();
+                if (isFenghao||!isValidityToken){
+                    DataHpler.exit();
+                    BaseActivity.toLogin(mActivity);
+                    finish();
+                }else {
                     Intent intent = new Intent(WelcomeActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -142,15 +146,15 @@ public class WelcomeActivity extends BaseActivity {
                 public void onResult(String json, String error) {
                     JSONObject jsObj = JSON.parseObject(json);
                     int msg = jsObj.getIntValue("msg");
-                    if (msg == 1) {
+                    if (msg==1){
+                        isValidityToken =true;
                         DataHpler.setUserInfo(json);
                         setTagAndAlias();
-                    } else if (msg == 2){
+                    }else if (msg == 2){
+                        isValidityToken =false;
                         isFenghao = true;
-                        DataHpler.exit();
-                        BaseActivity.toLogin(mActivity);
-                        finish();
-                        // onFail("获取会员信息失败");
+                    }else {
+                        isValidityToken =false;
                     }
                 }
 

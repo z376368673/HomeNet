@@ -21,7 +21,7 @@ import java.util.List;
  * Created by 37636 on 2018/1/23.
  */
 
-public abstract class CollectionProductAdapter extends ArrayAdapter<CollectProductBean> {
+public  class CollectionProductAdapter extends ArrayAdapter<CollectProductBean> {
     static Context context;
 
     public CollectionProductAdapter(@NonNull Context context) {
@@ -65,14 +65,7 @@ public abstract class CollectionProductAdapter extends ArrayAdapter<CollectProdu
             tv_type.setText(item.getServeName());
             tv_name.setText(item.getName());
             tv_address.setText(item.getCity()+item.getAddress());
-            tv_del.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    delCollection(item);
-                }
-            });
         }
     }
-   public abstract void  delCollection(CollectProductBean item);
 
 }

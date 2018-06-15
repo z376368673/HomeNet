@@ -34,10 +34,11 @@
                 android:id="@+id/tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="name"
+                android:text=""
+                android:maxLength="8"
                 android:textColor="@color/black_33"
                 android:textSize="16sp"
-                android:textStyle="bold" />
+                />
 
             <TextView
                 android:id="@+id/tv_distance"
@@ -127,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:paddingBottom="5dp"
-                android:text="服务人数服务人数服务人数"
+                android:text=""
                 android:textColor="@color/black_33"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -151,7 +152,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:paddingBottom="5dp"
-                android:text="个人"
+                android:text=""
                 android:textColor="@color/black_33"
                 android:textSize="14sp" />
         </LinearLayout>

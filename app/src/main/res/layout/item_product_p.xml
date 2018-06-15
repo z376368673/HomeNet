@@ -64,7 +64,7 @@
                 android:maxLines="1"
                 android:textColor="@color/black_33"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                />
 
             <TextView
                 android:id="@+id/tv_xufei"
@@ -79,7 +79,7 @@
                 android:text="续费"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                android:textStyle="bold" />
+                 />
         </LinearLayout>
 
         <TextView

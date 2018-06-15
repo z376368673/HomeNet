@@ -35,10 +35,12 @@ import retrofit2.Call;
 
 public class SkillEidtAdapter extends ArrayAdapter<SkillBean> {
     static Context context;
+
     public SkillEidtAdapter(@NonNull Context context) {
         super(context, 0);
         this.context = context;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -88,19 +90,38 @@ public class SkillEidtAdapter extends ArrayAdapter<SkillBean> {
                     notifyDataSetChanged();
                 }
             });
-            if (item.getCertificate() == 1)
+            if (item.getCertificate() == 1) {
                 radio2.setChecked(true);
-            else radio1.setChecked(true);
+                radio1.setChecked(false);
+            } else {
+                radio1.setChecked(true);
+                radio2.setChecked(false);
+            }
             tv_name.setText(item.getName());
-
-            radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            radio1.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                    if (skillActionLintener != null)
+                public void onClick(View view) {
+                    if (skillActionLintener != null){
                         skillActionLintener.checkedChange(item);
-
+                    }
                 }
             });
+            radio2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (skillActionLintener != null){
+                        skillActionLintener.checkedChange(item);
+                    }
+                }
+            });
+//            radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//                @Override
+//                public void onCheckedChanged(RadioGroup radioGroup, int i) {
+//                    Log.e("onCheckedChanged","i = "+i);
+//                    if (skillActionLintener != null)
+//                        skillActionLintener.checkedChange(item);
+//                }
+//            });
             iv_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -214,7 +235,9 @@ public class SkillEidtAdapter extends ArrayAdapter<SkillBean> {
     public interface SkillActionLintener {
 
         void imgOnclickListener(SkillBean item);
-        void  fabuListener(SkillBean item);
-        void  checkedChange(SkillBean item);
+
+        void fabuListener(SkillBean item);
+
+        void checkedChange(SkillBean item);
     }
 }

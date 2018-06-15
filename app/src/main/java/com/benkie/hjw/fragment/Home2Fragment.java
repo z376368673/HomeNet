@@ -81,7 +81,11 @@ public class Home2Fragment extends BaseFragment implements
      */
     private void setSkillData(List<HomeSkillBean> skillList) {
         if (homeSkillAdapter != null) {
-            homeSkillAdapter.clear();
+            if (pageIndex==1){
+                homeSkillAdapter.clear();
+                homeSkillAdapter = new HomeSkillAdapter(getActivity());
+                listView.setAdapter(homeSkillAdapter);
+            }
             homeSkillAdapter.addAll(skillList);
             homeSkillAdapter.notifyDataSetChanged();
         }
@@ -238,7 +242,6 @@ public class Home2Fragment extends BaseFragment implements
                 } else {
                     onFail("获取数据失败");
                 }
-
             }
 
             @Override
