@@ -3,8 +3,11 @@ package com.benkie.hjw.popwindow;
 import android.app.Activity;
 import android.app.Application;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.PopupWindow;
 
 import com.benkie.hjw.application.BaseApp;
@@ -15,8 +18,13 @@ import com.benkie.hjw.application.BaseApp;
 
 public class BasePopWindow extends PopupWindow {
     Activity activity;
+    int heigth,width;
    public BasePopWindow(Activity activity){
        this.activity = activity;
+       //1、通过WindowManager获取
+       DisplayMetrics dm = new DisplayMetrics();
+       heigth = dm.heightPixels;
+       width = dm.widthPixels;
    }
 
 
@@ -33,13 +41,27 @@ public class BasePopWindow extends PopupWindow {
     @Override
     public void showAsDropDown(View anchor,int x,int y) {
         if (android.os.Build.VERSION.SDK_INT > android.os.Build.VERSION_CODES.N) {
-
+//            int[] location = new int[2];
+//            anchor.getLocationOnScreen(location);
+//            Log.e("showPopupWindow", "location[0]: "+location[0] );
+//            Log.e("showPopupWindow", "location[1]: "+location[1] );
+//            y = (int) (location[1] + anchor.getMeasuredHeight())+y +getStatusBarHeight();
+//            heigth = heigth-y;
+//            //this.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+//            this.setHeight(heigth);
             Rect visibleFrame = new Rect();
             anchor.getGlobalVisibleRect(visibleFrame);
             int height = anchor.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
             setHeight(height);
+            super.showAsDropDown(anchor, x, y);
+        }else {
+            Rect visibleFrame = new Rect();
+            anchor.getGlobalVisibleRect(visibleFrame);
+            int height = anchor.getResources().getDisplayMetrics().heightPixels - visibleFrame.bottom;
+            setHeight(height);
+            super.showAsDropDown(anchor,x,y);
         }
-        super.showAsDropDown(anchor,x,y);
+
     }
 
     private int getStatusBarHeight() {

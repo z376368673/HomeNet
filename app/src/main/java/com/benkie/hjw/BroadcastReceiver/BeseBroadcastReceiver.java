@@ -32,5 +32,16 @@ public class BeseBroadcastReceiver {
         activity.sendBroadcast(intent);
     }
 
+    /**
+     * 取消收藏
+     * @param activity
+     * @param code
+     */
+    public static  void sendCollection(Activity activity,int code){
+        Intent intent = new Intent();
+        intent.setAction("com.benkie.collection");
+        intent.putExtra("errCode", String.valueOf(code));
+        activity.sendBroadcast(intent);
+    }
 
 }

@@ -1,6 +1,9 @@
 package com.benkie.hjw.ui.mine;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -72,6 +75,7 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
         initView();
         getCollectionType();
         // getCategoryList();
+        initBroadcastReceiver();
         return view;
     }
 
@@ -288,7 +292,7 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
     @Override
     public void onResume() {
         super.onResume();
-        getCollectionType();
+        //getCollectionType();
 //        if (category!=null)
 //            geteItemCollection(category.getId());
     }
@@ -306,4 +310,33 @@ public class ProjectFragment extends BaseFragment implements PullToRefreshBase.O
 //        }
     }
 
+
+    /**
+     * 初始化广播
+     */
+    IntentFilter intentFilter;
+    BroadcastReceiver mReceiver;
+
+    private void initBroadcastReceiver() {
+        intentFilter = new IntentFilter();
+        intentFilter.addAction("com.benkie.collection");
+        mReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                String code = intent.getStringExtra("errCode");
+                if (code != null && code.equals("0")) {
+                    if (category != null)
+                        geteItemCollection(category.getId());
+                }
+            }
+        };
+        getContext().registerReceiver(mReceiver, intentFilter);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mReceiver != null)
+            getContext().unregisterReceiver(mReceiver);
+    }
 }

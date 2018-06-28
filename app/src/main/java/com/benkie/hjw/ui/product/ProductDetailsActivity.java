@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.amap.api.location.AMapLocation;
+import com.benkie.hjw.BroadcastReceiver.BeseBroadcastReceiver;
 import com.benkie.hjw.R;
 import com.benkie.hjw.adapter.ChannelAdapter;
 import com.benkie.hjw.application.BaseApp;
@@ -251,6 +252,7 @@ public class ProductDetailsActivity extends BaseActivity implements ViewPager.On
                         onFail("取消收藏");
                         iv_collection.setImageResource(R.mipmap.iv_mycollection_n);
                     }
+                    BeseBroadcastReceiver.sendCollection(mActivity,0);
                 } else {
                     onFail("提交失败");
                 }

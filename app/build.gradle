@@ -9,8 +9,8 @@ android {
         applicationId "com.benkie.hjw"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode  1
-        versionName "1.0"
+        versionCode  4
+        versionName "1.0.4"
     }
     signingConfigs {
         debug {

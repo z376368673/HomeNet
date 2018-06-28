@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

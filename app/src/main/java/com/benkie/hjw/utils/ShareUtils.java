@@ -77,9 +77,9 @@ public class ShareUtils {
      * 好友分享
      */
     public static void shareRecomment(Activity activity, Handler handler,int id) {
-        String title = "好友分享";
+        String title = "邀请您加入建筑装饰工程";
         String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/recommend.do?",  id);
-        showSharePanel(activity, handler,title, "好友分享", link);
+        showSharePanel(activity, handler,title, "个人业绩展示平台;\n个人服务技能展示平台", link);
     }
 
 
