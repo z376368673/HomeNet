@@ -5,11 +5,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.benkie.hjw.R;
 import com.benkie.hjw.ui.BaseActivity;
 import com.benkie.hjw.utils.ShareUtils;
 import com.benkie.hjw.view.HeadView;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -17,6 +19,9 @@ import butterknife.ButterKnife;
 public class RecommendActivity extends BaseActivity {
     @BindView(R.id.headView)
     HeadView headView;
+
+    @BindView(R.id.iv_img)
+    ImageView iv_img;
 
 
     @Override
@@ -28,6 +33,11 @@ public class RecommendActivity extends BaseActivity {
         headView.setBtBack(this);
         headView.setBtImg(R.mipmap.iv_share);
         headView.setBtClickListener(this);
+
+        Picasso.get()
+                .load("http://www.3huanju.com/yetdwell/images/tj.png")
+                .into(iv_img);
+
     }
 
     @Override

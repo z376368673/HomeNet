@@ -2,6 +2,8 @@ package com.benkie.hjw.ui.setting;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -17,6 +19,11 @@ import com.benkie.hjw.utils.ToastUtil;
 import com.benkie.hjw.utils.Tools;
 import com.benkie.hjw.view.CircleImageView;
 import com.benkie.hjw.view.HeadView;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -44,6 +51,8 @@ public class ModifyAccountActivity extends BaseActivity {
         headView.setBtBack(this);
         initView();
         initData();
+
+
     }
 
     @Override

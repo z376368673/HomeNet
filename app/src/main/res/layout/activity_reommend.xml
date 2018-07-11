@@ -12,11 +12,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/iv_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:minHeight="300dp"
             android:minWidth="300dp"
-            android:src="@mipmap/iv_recomment" />
+             />
     </ScrollView>
 </LinearLayout>
