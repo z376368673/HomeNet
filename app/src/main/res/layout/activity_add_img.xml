@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginVertical="10dp"
-            android:text="提示：①限单张图片上传,描述与编辑;②一个项目最多只能上传3张图片,支持图片格式的png和jpg;③图片大小限制为2M内,大于2M将会做压缩处理,处理后的图片清晰度将会有所下降！"
+            android:text="提示：①限单张图片上传,描述与编辑;②一个项目最多只能上传5张图片,支持图片格式的png和jpg;③图片大小限制为2M内,大于2M将会做压缩处理,处理后的图片清晰度将会有所下降！"
             android:gravity="left|top"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

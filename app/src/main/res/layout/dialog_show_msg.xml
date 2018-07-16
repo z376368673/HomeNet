@@ -43,7 +43,9 @@
             android:layout_margin="15dp"
             android:drawablePadding="8dp"
             android:lineSpacingExtra="8dp"
-            android:text="内容内容内容内容内容内容内容内容内容内容内容内容内容内容"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text=""
             android:textColor="@color/black_66"
             android:textSize="16sp" />
 

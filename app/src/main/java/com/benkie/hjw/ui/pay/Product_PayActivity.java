@@ -63,6 +63,7 @@ public class Product_PayActivity extends BaseActivity {
         headView.setBtBack(this);
         initBroadcastReceiver();
         initView();
+
     }
 
     /**

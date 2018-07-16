@@ -101,7 +101,7 @@ public class ProductRecommendPayActivity extends BaseActivity {
         registerReceiver(mReceiver, intentFilter);
     }
     private void payDialog(){
-        String info = String.format(getResources().getString(R.string.pay_success_recommend),typeName);
+        String info = getResources().getString(R.string.pay_success_recommend);
         BaseDialog.showMag(mActivity, "支付成功", info, "知道了", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
