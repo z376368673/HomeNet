@@ -9,8 +9,8 @@ android {
         applicationId "com.benkie.hjw"
         minSdkVersion 16
         targetSdkVersion 26
-        versionCode  6
-        versionName "1.0.6"
+        versionCode  8
+        versionName "1.0.8"
     }
     signingConfigs {
         debug {
@@ -75,6 +75,7 @@ dependencies {
     implementation 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    compile 'com.just.agentweb:agentweb:4.0.2' // (必选)
     //选择城市
    // implementation 'com.zaaach:citypicker:2.0.1'
     compile project(path: ':citypicker')

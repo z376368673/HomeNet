@@ -15,6 +15,7 @@ import com.benkie.hjw.ui.setting.FeedbackActivity;
 import com.benkie.hjw.ui.setting.ModifyAccountActivity;
 import com.benkie.hjw.ui.setting.ModifyPasswordActivity;
 import com.benkie.hjw.ui.setting.UseHelpActivity;
+import com.benkie.hjw.ui.setting.UserHelp_WebActivity;
 import com.benkie.hjw.utils.CacheUtil;
 import com.benkie.hjw.utils.ToastUtil;
 import com.benkie.hjw.view.HeadView;
@@ -67,7 +68,7 @@ public class SettingActivity extends BaseActivity {
      * @param view
      */
     public void useHelp(View view){
-        Intent intent = new Intent(this, UseHelpActivity.class);
+        Intent intent = new Intent(this, UserHelp_WebActivity.class);
         startActivity(intent);
     }
 

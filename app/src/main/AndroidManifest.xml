@@ -209,6 +209,7 @@
         <activity android:name=".ui.setting.FeedbackActivity" />
         <activity android:name=".ui.setting.AboutOurActivity" />
         <activity android:name=".ui.setting.UseHelpActivity" />
+        <activity android:name=".ui.setting.UserHelp_WebActivity" />
         <activity android:name=".ui.product.AddImgActivity" />
         <activity android:name=".ui.product.ServiceActivity" />
         <activity android:name=".ui.product.AddProjectActivity" />

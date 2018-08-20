@@ -27,7 +27,7 @@ public class Http {
     //public static String BASE_URL = "http://121.46.4.23:8080";
     //public static String BASE_URL = "http://121.201.44.233";
     public static String BASE_URL = "http://www.3huanju.com";
-    // public static String BASE_URL = "http://192.168.1.14:8080";
+    // public static String BASE_URL = "http://192.168.1.7:8080";
     public static Http http;
     static Context context;
     private LoadingDialog dialog;

@@ -40,36 +40,36 @@ public class ShareUtils {
      * 技术服务分享
      */
     public static void shareSkill(Activity activity,Handler handler,int id) {
-        String title = "个人技能展示分享";
+        String title = "个人技能展示平台";
         String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/technicist.do?userInfoId=%s&lat=%s&lng=%s", id, Constants.Latitude,Constants.Longitude);
-        showSharePanel(activity,  handler,title, "建筑装饰安装施工个人技能展示平台", link);
+        showSharePanel(activity,  handler,title, "与施工方,建材商,设计师的完工作品在同一个平台展示,让需方主动找到你", link);
     }
 
     /**
      * 技术服务集赞分享  没有qq分享
      */
     public static void shareSkills(Activity activity,Handler handler,int id) {
-        String title = "个人技能展示分享";
+        String title = "个人技能展示平台";
         String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/otherTechnicist.do?userInfoId=%s&lat=%s&lng=%s", id, Constants.Latitude,Constants.Longitude);
-        showSharePanels(activity,  handler,title, "建筑装饰安装施工个人技能展示平台", link);
+        showSharePanels(activity,  handler,title, "与施工方,建材商,设计师的完工作品在同一个平台展示,让需方主动找到你", link);
     }
 
     /**
      * 项目分享
      */
     public static void shareProduct(Activity activity,Handler handler,int id,String name) {
-        String title = "个人工程业绩展示分享";
+        String title = "个人工程业绩展示平台";
         String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/endDetails.do?itemid=%s",  id);
-        showSharePanel(activity,  handler,title, name, link);
+        showSharePanel(activity,  handler,title, name+"：展示实力，推荐产品", link);
     }
 
     /**
      * 项目集赞分享
      */
     public static void shareProducts(Activity activity,Handler handler,int id,String name) {
-        String title = "个人工程业绩展示分享";
+        String title = "个人工程业绩展示平台";
         String link = String.format(Locale.CHINA, Http.BASE_URL+"/yetdwell/sharing/otherEndDetails.do?itemid=%s",  id);
-        showSharePanels(activity,  handler,title, name, link);
+        showSharePanels(activity,  handler,title, name+"：展示实力，推荐产品", link);
     }
 
 

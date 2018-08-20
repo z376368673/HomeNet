@@ -153,8 +153,8 @@ public class BitmapUtlis {
         int w = newOpts.outWidth;
         int h = newOpts.outHeight;
         //现在主流手机比较多是800*480分辨率，所以高和宽我们设置为
-        float hh = 800f;//这里设置高度为800f
-        float ww = 480f;//这里设置宽度为480f
+        float hh = 1920;//1920这里设置高度为1280f
+        float ww = 1080;//1080这里设置宽度为720f
         //缩放比。由于是固定比例缩放，只用高或者宽其中一个数据进行计算即可
         int be = 1;//be=1表示不缩放
         if (w > h && w > ww) {//如果宽度大的话根据宽度固定大小缩放
@@ -168,8 +168,10 @@ public class BitmapUtlis {
         newOpts.inSampleSize = be;//设置缩放比例
         //重新读入图片，注意此时已经把options.inJustDecodeBounds 设回false了
         bitmap = BitmapFactory.decodeFile(srcPath, newOpts);
-        //压缩图片
-        bitmap = compressImage(bitmap);
+
+        //压缩图片 质量压缩发 效率低，图片质量差
+        //bitmap = compressImage(bitmap);
+
         // 修复图片被旋转的角度
         bitmap = rotaingImageView(angle, bitmap);
         //获取保存路径
