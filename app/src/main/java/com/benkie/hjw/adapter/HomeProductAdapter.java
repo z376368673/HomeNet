@@ -71,7 +71,7 @@ public class HomeProductAdapter extends ArrayAdapter<HomeProductBean> {
                 tv_type.setText("");
             }
             tv_name.setText(item.getName());
-            tv_address.setText(item.getCity()+item.getAddress());
+            tv_address.setText(item.getCity());
             tv_read.setText(item.getReadCount()+"");
             tv_zan.setText(item.getItemPoint()+"");
         }

@@ -22,9 +22,12 @@ import com.benkie.hjw.bean.Picture;
 import com.benkie.hjw.bean.PopBean;
 import com.benkie.hjw.utils.Tools;
 import com.benkie.hjw.view.MutipleTouchViewPager;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import uk.co.senab.photoview.PhotoView;
 
 public class ImagePopWindow extends PopupWindow implements AdapterView.OnItemClickListener {
     private MutipleTouchViewPager conentView;
@@ -134,9 +137,10 @@ public class ImagePopWindow extends PopupWindow implements AdapterView.OnItemCli
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view = View.inflate(context, R.layout.view_pager_img, null);
-            ImageView iv = (ImageView) view.findViewById(R.id.iv_img);
+            PhotoView iv =  view.findViewById(R.id.iv_img);
             Picture picture = list.get(position);
-            Tools.loadImg(context, iv, picture.getPicture());
+            Picasso.get().load(picture.getPicture()).into(iv);
+            //Tools.loadImg(context, iv, picture.getPicture());
             container.addView(view);
             final int p = position;
             iv.setOnClickListener(new View.OnClickListener() {

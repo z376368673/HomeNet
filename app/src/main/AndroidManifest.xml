@@ -191,7 +191,6 @@
         <activity android:name=".ui.mine.RecommendActivity" />
         <activity android:name=".ui.mine.CollectActivity" />
         <activity android:name=".ui.mine.ComplaintActivity" />
-        <activity android:name=".ui.skill.UpDataSkillImgActivity" />
         <activity android:name=".ui.skill.UpskillImgActivity" />
         <activity android:name=".ui.skill.MyIntroduceActivity" />
         <activity android:name=".ui.skill.SkillFeedbackkActivity" />

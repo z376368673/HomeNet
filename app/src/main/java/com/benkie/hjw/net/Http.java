@@ -1,17 +1,26 @@
 package com.benkie.hjw.net;
 
 import android.content.Context;
+import android.os.Handler;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.benkie.hjw.dialog.LoadingDialog;
 import com.benkie.hjw.utils.LogUtils;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
+import okhttp3.internal.Util;
+import okio.BufferedSink;
+import okio.Okio;
+import okio.Source;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -90,13 +99,13 @@ public class Http {
         });
     }
 
+
     public interface JsonCallback {
         void onResult(String json, String error);
 
         void onFail(String error);
 
     }
-
 
 
     public void getHttp(String url, boolean isShow, final JsonCallback jsonCallback) {
@@ -151,5 +160,58 @@ public class Http {
                 }
             }
         });
+    }
+    public static class FileProgressRequestBody extends RequestBody {
+
+        File file;
+        public static final int SEGMENT_SIZE = 10*1024; // okio.Segment.SIZE
+        protected ProgressListener listener;
+        Handler handler;
+        long contentLength;
+        public  FileProgressRequestBody(File file, ProgressListener listener){
+                this.file =  file;
+                this.listener = listener;
+            Log.e("TAG", "FileProgressRequestBody ");
+        }
+        public  FileProgressRequestBody(File file, Handler handler){
+            this.file =  file;
+            this.handler = handler;
+        }
+        @Override
+        public long contentLength() {
+            contentLength = file.length();
+            Log.e("TAG", "contentLength = " +contentLength);
+            return contentLength;
+        }
+        @Override
+        public MediaType contentType() {
+            Log.e("TAG", "contentType");
+            return MediaType.parse("application/octet-stream");
+        }
+
+        @Override
+        public void writeTo(BufferedSink sink) throws IOException {
+
+            Source source = null;
+            try {
+                source = Okio.source(file);
+                long total = 0;
+                long read;
+                read = source.read(sink.buffer(), SEGMENT_SIZE);
+                while (read!= -1) {
+                    total += read;
+                    sink.flush();
+                    this.listener.transferred(contentLength,total);
+                    Log.d("writeTo", contentLength+" , "+read);
+                }
+            } finally {
+                Util.closeQuietly(source);
+            }
+
+        }
+
+    }
+    public interface ProgressListener {
+        void transferred(long total, long size );
     }
 }

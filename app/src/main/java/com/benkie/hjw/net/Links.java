@@ -539,6 +539,7 @@ public interface Links {
     @POST("/yetdwell/item/addItemImg.do")
     Call<ResponseBody> addItemImg(@Part List<MultipartBody.Part> parts);
 
+
     /**
      * 编辑项目图片
      *
@@ -752,6 +753,14 @@ public interface Links {
      */
     @POST("/yetdwell/refreshInfo/newInfo.do")
     Call<ResponseBody> upDataVersion();
+
+
+    /**
+     * 版本检查
+     *
+     */
+    @POST("/yetdwell/item/getToken.do")
+    Call<ResponseBody> getQiNiuToken();
 
 
 }

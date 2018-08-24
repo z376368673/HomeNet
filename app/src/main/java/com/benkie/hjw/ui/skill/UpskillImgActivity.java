@@ -215,7 +215,6 @@ public class UpskillImgActivity extends BaseActivity implements AdapterView.OnIt
             imgs = Matisse.obtainResult(data);
             BitmapUtlis bitmapUtlis = new BitmapUtlis();
             for (int i = 0; i < imgs.size(); i++) {
-
                 String imgPath = Tools.getRealFilePath(this, imgs.get(i));
                 imgPath = bitmapUtlis.compressImageByPath(imgPath);
                 Picture picture = new Picture();

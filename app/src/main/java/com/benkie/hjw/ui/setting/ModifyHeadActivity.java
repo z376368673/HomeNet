@@ -98,6 +98,12 @@ public class ModifyHeadActivity extends BaseActivity {
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("token", String.valueOf(DataHpler.getToken()))
                 .addFormDataPart("imgPath",file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+//        builder.addPart(new Http.FileProgressRequestBody(file, new Http.ProgressListener() {
+//            @Override
+//            public void transferred(long total,long size) {
+//                Log.e("TAG", "transferred: "+size);
+//            }
+//        }));
         List<MultipartBody.Part> parts = builder.build().parts();
         Call call = Http.links.updataUserImg(parts);
         Http.http.call(mActivity,call, true, new Http.JsonCallback() {

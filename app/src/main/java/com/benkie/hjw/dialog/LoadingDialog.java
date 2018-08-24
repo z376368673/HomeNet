@@ -28,6 +28,7 @@ public class LoadingDialog extends Dialog implements View.OnClickListener ,Dialo
 
     private ImageView iv_loading;
     private AVLoadingIndicatorView avi;
+    public TextView progress;
     Context context;
     public LoadingDialog(@NonNull Context context) {
         super(context);
@@ -47,16 +48,23 @@ public class LoadingDialog extends Dialog implements View.OnClickListener ,Dialo
         setContentView(R.layout.dialog_loading);
         Window window = getWindow();
         window.setBackgroundDrawableResource(R.color.transparent);
-        iv_loading = findViewById(R.id.iv_loading);
-        Animation operatingAnim = AnimationUtils.loadAnimation(context, R.anim.rotate_animtion);
-        LinearInterpolator lin = new LinearInterpolator();
-        operatingAnim.setInterpolator(lin);
-        iv_loading.startAnimation(operatingAnim);
+//        iv_loading = findViewById(R.id.iv_loading);
+//        Animation operatingAnim = AnimationUtils.loadAnimation(context, R.anim.rotate_animtion);
+//        LinearInterpolator lin = new LinearInterpolator();
+//        operatingAnim.setInterpolator(lin);
+//        iv_loading.startAnimation(operatingAnim);
         setOnDismissListener(this);
         setCanceledOnTouchOutside(false);
+        progress = findViewById(R.id.progress);
         avi = findViewById(R.id.avi);
         avi.show();
+    }
 
+    public void setProgress(double p) {
+        if (progress==null)return;
+        progress.setVisibility(View.VISIBLE);
+        int po = (int) p;
+        progress.setText(po+"%");
     }
 
     @Override

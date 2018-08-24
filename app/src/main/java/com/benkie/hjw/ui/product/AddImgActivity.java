@@ -6,6 +6,8 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -20,11 +22,15 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.benkie.hjw.R;
 import com.benkie.hjw.bean.Picture;
+import com.benkie.hjw.bean.SkillDetailsBean;
 import com.benkie.hjw.bean.TypeBean;
+import com.benkie.hjw.db.DataHpler;
 import com.benkie.hjw.dialog.BaseDialog;
+import com.benkie.hjw.dialog.LoadingDialog;
 import com.benkie.hjw.net.Http;
 import com.benkie.hjw.ui.BaseActivity;
 import com.benkie.hjw.utils.BitmapUtlis;
@@ -32,13 +38,23 @@ import com.benkie.hjw.utils.ToastUtil;
 import com.benkie.hjw.utils.Tools;
 import com.benkie.hjw.view.HeadView;
 import com.bumptech.glide.Glide;
+import com.qiniu.android.common.FixedZone;
+import com.qiniu.android.common.Zone;
+import com.qiniu.android.http.ResponseInfo;
+import com.qiniu.android.storage.Configuration;
+import com.qiniu.android.storage.UpCompletionHandler;
+import com.qiniu.android.storage.UpProgressHandler;
+import com.qiniu.android.storage.UploadManager;
+import com.qiniu.android.storage.UploadOptions;
 import com.zhihu.matisse.Matisse;
 import com.zhihu.matisse.MimeType;
 import com.zhihu.matisse.engine.impl.GlideEngine;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,6 +114,7 @@ public class AddImgActivity extends BaseActivity {
         headView.setTitle("添加项目图片");
         headView.setBtBack(this);
         initView();
+        getQiNiuToken();
     }
 
     private void initView() {
@@ -171,9 +188,20 @@ public class AddImgActivity extends BaseActivity {
             startActivityForResult(intent, 1002);
         } else if (tv_save == v) {
             if (isEdit) {
-                upItemImg();
+                if (!TextUtils.isEmpty(imgPath)) {
+                    uploadImg2QiNiu(new File(imgPath));
+                }else {
+                    upItemImg("");
+                }
             } else {
-                addItemImg();
+                if (imgPath.equals("")) {
+                    ToastUtil.showInfo(mActivity, "您还没添加图片！");
+                    return;
+                } else if (fuwuId.equals("")) {
+                    ToastUtil.showInfo(mActivity, "您还没选择服务类容！");
+                    return;
+                }
+                uploadImg2QiNiu(new File(imgPath));
             }
 
         } else if (tv_del == v) {
@@ -267,7 +295,7 @@ public class AddImgActivity extends BaseActivity {
             isModify = true;
             List<Uri> imgs = Matisse.obtainResult(data);
             imgPath = Tools.getRealFilePath(this, imgs.get(0));
-            imgPath = new BitmapUtlis().compressImageByPath(imgPath);
+            //imgPath = new BitmapUtlis().compressImageByPath(imgPath);
             Glide.with(mActivity)
                     .load(new File(imgPath))
                     .into(iv_img);
@@ -294,20 +322,20 @@ public class AddImgActivity extends BaseActivity {
         }
     }
 
-    private void upItemImg() {
+    private void upItemImg(String fileName) {
         if (picture == null) return;
         File file = new File(imgPath);
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM);
+
         builder.addFormDataPart("itemId", String.valueOf(pid));
         builder.addFormDataPart("itemImgId", String.valueOf(picture.getId()));
         builder.addFormDataPart("type", String.valueOf(ImgType));
         builder.addFormDataPart("describe", String.valueOf(describe));
         if (!fuwuId.equals(""))
             builder.addFormDataPart("twoserviceids", String.valueOf(fuwuId));
-        if (!TextUtils.isEmpty(imgPath)) {
-            builder.addFormDataPart("imgPath", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-        }
+        builder.addFormDataPart("picture", String.valueOf(fileName));
+            //builder.addFormDataPart("imgPath", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
         List<MultipartBody.Part> parts = builder.build().parts();
 
         Call call = Http.links.updateItemImg(parts);
@@ -335,15 +363,7 @@ public class AddImgActivity extends BaseActivity {
     /**
      * 添加图片
      */
-    private void addItemImg() {
-        if (imgPath.equals("")) {
-            ToastUtil.showInfo(mActivity, "您还没添加图片！");
-            return;
-        } else if (fuwuId.equals("")) {
-            ToastUtil.showInfo(mActivity, "您还没选择服务类容！");
-            return;
-        }
-
+    private void addItemImg(String fileName) {
         File file = new File(imgPath);
         MultipartBody.Builder builder = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -351,7 +371,15 @@ public class AddImgActivity extends BaseActivity {
                 .addFormDataPart("type", String.valueOf(ImgType))
                 .addFormDataPart("describe", String.valueOf(describe))
                 .addFormDataPart("twoserviceids", String.valueOf(fuwuId))
-                .addFormDataPart("imgPath", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+                .addFormDataPart("picture", String.valueOf(fileName));
+
+                //.addFormDataPart("imgPath", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+//        builder.addPart(new Http.FileProgressRequestBody(file, new Http.ProgressListener() {
+//            @Override
+//            public void transferred(long total,long size) {
+//                Log.e("TAG", "transferred: "+size);
+//            }
+//        }));
         List<MultipartBody.Part> parts = builder.build().parts();
         Call call = Http.links.addItemImg(parts);
         Http.http.call(mActivity, call, true, new Http.JsonCallback() {
@@ -374,6 +402,67 @@ public class AddImgActivity extends BaseActivity {
                 ToastUtil.showInfo(mActivity, error);
             }
         });
+    }
+
+    private  String qiNiuToken;
+    public void getQiNiuToken() {
+        Call call = Http.links.getQiNiuToken();
+        Http.http.call(mActivity, call, true, new Http.JsonCallback() {
+            @Override
+            public void onResult(String json, String error) {
+                JSONObject jsObj = JSON.parseObject(json);
+                qiNiuToken = jsObj.getString("upToken");
+            }
+
+            @Override
+            public void onFail(String error) {
+                ToastUtil.showInfo(mActivity, error);
+            }
+        });
+    }
+
+    Configuration config = new Configuration.Builder()
+                .zone(FixedZone.zone2)
+                .build();
+    LoadingDialog dialog ;
+    private void uploadImg2QiNiu(File file) {
+
+        dialog = new LoadingDialog(this);
+        if (!dialog.isShowing()) dialog.show();
+        UploadManager uploadManager = new UploadManager(config);
+        // 设置图片名字
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        String key = "ico_" + sdf.format(new Date());
+        String picPath = file.getAbsolutePath().toString();
+        final String imgType = picPath.substring(picPath.lastIndexOf("."));
+        Log.i("uploadImg2QiNiu", "picPath: " + picPath);
+        //Auth.create(AccessKey, SecretKey).uploadToken("zhongshan-avatar")，这句就是生成token
+        uploadManager.put(picPath, key, qiNiuToken, new UpCompletionHandler() {
+            @Override
+            public void complete(String key, ResponseInfo info, org.json.JSONObject response) {
+                dialog.dismiss();
+                // info.error中包含了错误信息，可打印调试
+                Log.i("uploadImg2QiNiu", "ResponseInfo==" + info);
+                Log.i("uploadImg2QiNiu", "response==" + response.toString());
+                // 上传成功后将key值上传到自己的服务器
+                if (info.isOK()) {
+                    Log.i("uploadImg2QiNiu", "complete: " + key+imgType);
+                    if (isEdit) {
+                        upItemImg(key);
+                    } else {
+                       addItemImg(key);
+                    }
+                }
+                //uploadpictoQianMo(headpicPath, picPath);
+            }
+
+        }, new UploadOptions(null, null, false,
+                new UpProgressHandler(){
+                    public void progress(String key, double percent){
+                        dialog.setProgress(percent*100);
+                        Log.i("uploadImg2QiNiu", key + ": " + percent);
+                    }
+                }, null));
     }
 
     @Override

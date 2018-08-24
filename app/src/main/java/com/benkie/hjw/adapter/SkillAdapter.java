@@ -13,8 +13,6 @@ import android.widget.TextView;
 import com.benkie.hjw.R;
 import com.benkie.hjw.bean.Picture;
 import com.benkie.hjw.bean.SkillBean;
-import com.benkie.hjw.dialog.BaseDialog;
-import com.benkie.hjw.ui.skill.UpDataSkillImgActivity;
 import com.benkie.hjw.ui.skill.UpskillImgActivity;
 import com.benkie.hjw.utils.ToastUtil;
 import com.benkie.hjw.utils.Tools;
