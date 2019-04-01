@@ -56,7 +56,7 @@
                     android:drawableTop="@mipmap/iv_project"
                     android:gravity="center"
                     android:padding="15dp"
-                    android:text="发布完结项目"
+                    android:text="发布工程展示"
                     android:textSize="15sp" />
 
                 <View

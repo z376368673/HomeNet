@@ -4,10 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.benkie.hjw"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 26
         versionCode  8
         versionName "1.0.8"
@@ -66,8 +65,8 @@ configurations.all {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    compile project(path: ':PullToRefresh')
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
+    implementation project(path: ':PullToRefresh')
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:v1.8.5'
     implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -75,10 +74,10 @@ dependencies {
     implementation 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
     implementation 'com.jakewharton:butterknife:8.8.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
-    compile 'com.just.agentweb:agentweb:4.0.2' // (必选)
+    implementation 'com.just.agentweb:agentweb:4.0.2' // (必选)
     //选择城市
-   // implementation 'com.zaaach:citypicker:2.0.1'
-    compile project(path: ':citypicker')
+    // implementation 'com.zaaach:citypicker:2.0.1'
+    implementation project(path: ':citypicker')
     //tab
     implementation 'me.majiajie:pager-bottom-tab-strip:2.2.5'
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
@@ -97,7 +96,7 @@ dependencies {
     //动画
     implementation 'com.wang.avi:library:2.1.3'
     //版本更新工具
-    compile 'com.qiniu:qiniu-android-sdk:7.3.+'
+    implementation 'com.qiniu:qiniu-android-sdk:7.3.+'
 
 }
 repositories {

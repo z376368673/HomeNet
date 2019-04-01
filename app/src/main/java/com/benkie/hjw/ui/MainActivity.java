@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity implements OnTabItemSelectedListe
         new NormalItemView(this);
         registerReceiver(receiver, new IntentFilter("refreshFragment"));
         NavigationController navigationController = tabStrip.custom()
-                .addItem(newItem(R.mipmap.home_1_n, R.mipmap.home_1_p, "完结项目"))
+                .addItem(newItem(R.mipmap.home_1_n, R.mipmap.home_1_p, "工程展示"))
                 .addItem(newItem(R.mipmap.home_2_n, R.mipmap.home_2_p, "技术服务"))
                 .addItem(newItem(R.mipmap.home_3_n, R.mipmap.home_3_p, "我的"))
                 .build();

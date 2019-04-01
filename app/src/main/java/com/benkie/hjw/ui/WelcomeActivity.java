@@ -62,6 +62,8 @@ public class WelcomeActivity extends BaseActivity {
 //            handler.sendEmptyMessageDelayed(1,2000);
 //        }
 
+
+
        getUserInfo();
     }
 
